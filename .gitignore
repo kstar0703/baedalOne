@@ -1,0 +1,6 @@
+*.project
+*.prefs
+*.classpath
+*.class
+javaWorkspace/Prj01/.gitignore
+javaWorkspace/.gitignore
