@@ -4,3 +4,4 @@
 *.class
 javaWorkspace/Prj01/.gitignore
 javaWorkspace/.gitignore
+lib/*.jar
