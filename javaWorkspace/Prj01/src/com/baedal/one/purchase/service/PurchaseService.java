@@ -2,40 +2,25 @@ package com.baedal.one.purchase.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
-import com.baedal.one.purchase.dao.PurchaseDao;
-import com.baedal.one.purchase.vo.CartVo;
+import com.baedal.one.purchase.dto.CartListDto;
 import com.kh.app.jdbc.JDBCTemplate;
 
 public class PurchaseService {
-
-	private final PurchaseDao purchaseDao;
 	
-	public PurchaseService() {
-		purchaseDao = new PurchaseDao();
-	}
 	
-	public /*Menu<List>*/ void printMenu(/*매장 번호*/) throws Exception {
-		//Connection
-		Connection conn = JDBCTemplate.getConnection();
-		 /* List<Menu> menuList =*/ purchaseDao.printMenu(/*매장 번호*/, conn);
-		
-		//close
-		 JDBCTemplate.close(conn);
-		//return menuList;
-	}
-	public CartVo getMyCart(/*회원번호*/) throws Exception {
+	/**
+	 * 장바구니 물품 가져오기
+	 * @param memberNo
+	 * @return
+	 * @throws Exception
+	 */
+	public List<CartListDto> getCartList(String memberNo) throws Exception {
 		Connection conn = JDBCTemplate.getConnection();
 		
-		purchaseDao.getMyCart(/*회원 번호*/, conn);
-		JDBCTemplate.close(conn);
+		
 		return null;
 	}
-	
-	public int deleteCartList(/*회원번호*/) throws Exception {
-		//Connection
-		Connection conn = JDBCTemplate.getConnection();
-		JDBCTemplate.close(conn);
-		return 0;
-	}
+
 }

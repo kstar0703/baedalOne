@@ -1,4 +1,4 @@
-package com.baedal.one.purchase.vo;
+package com.baedal.one.cart.vo;
 
 //일단 setter 만들어두고 안쓰는 메서드 삭제하기 
 public class CartListVo {
@@ -7,6 +7,12 @@ public class CartListVo {
 	private String cartNo;
 	private String menuNo;
 	private String quantity;
+	
+	public CartListVo(String cartNo, String menuNo, String quantity) {
+		this.cartNo = cartNo;
+		this.menuNo = menuNo;
+		this.quantity = quantity;
+	}
 	
 	public CartListVo(String cartListNo, String cartNo, String menuNo, String quantity) {
 		this.cartListNo = cartListNo;
