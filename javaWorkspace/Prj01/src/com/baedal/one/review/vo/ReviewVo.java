@@ -5,51 +5,25 @@ public class ReviewVo {
 	public ReviewVo() {
 		
 	}
-	
-	public ReviewVo(String reviewNo, String storeNo, String orderNo, String content, String writeDate,
-			String deleteYn) {
+
+	public ReviewVo(String nickName, String writeDate, String content, String menuName, String storeNo,
+			String orderNo) {
 		super();
-		this.reviewNo = reviewNo;
-		this.storeNo = storeNo;
-		this.orderNo = orderNo;
-		this.content = content;
+		this.nickName = nickName;
 		this.writeDate = writeDate;
-		this.deleteYn = deleteYn;
-		this.title = title;
+		this.content = content;
+		this.menuName = menuName;
+		StoreNo = storeNo;
+		this.orderNo = orderNo;
 	}
 
-	private String title;
-	private String reviewNo;
-	private String storeNo;
-	private String orderNo;
-	private String content;
-	private String writeDate;
-	private String deleteYn;
+	String nickName;
+	String writeDate;
+	String content;
+	String menuName;
+	String StoreNo;
+	String orderNo;
 	
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getReviewNo() {
-		return reviewNo;
-	}
-
-	public void setReviewNo(String reviewNo) {
-		this.reviewNo = reviewNo;
-	}
-
-	public String getStoreNo() {
-		return storeNo;
-	}
-
-	public void setStoreNo(String storeNo) {
-		this.storeNo = storeNo;
-	}
-
 	public String getOrderNo() {
 		return orderNo;
 	}
@@ -58,12 +32,20 @@ public class ReviewVo {
 		this.orderNo = orderNo;
 	}
 
-	public String getContent() {
-		return content;
+	public String getStoreNo() {
+		return StoreNo;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setStoreNo(String reviewNo) {
+		StoreNo = reviewNo;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 
 	public String getWriteDate() {
@@ -74,18 +56,26 @@ public class ReviewVo {
 		this.writeDate = writeDate;
 	}
 
-	public String getDeleteYn() {
-		return deleteYn;
+	public String getContent() {
+		return content;
 	}
 
-	public void setDeleteYn(String deleteYn) {
-		this.deleteYn = deleteYn;
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getMenuName() {
+		return menuName;
+	}
+
+	public void setMenuName(String menuName) {
+		this.menuName = menuName;
 	}
 
 	@Override
 	public String toString() {
-		return "ReviewVo [reviewNo=" + reviewNo + ", storeNo=" + storeNo + ", orderNo=" + orderNo + ", content="
-				+ content + ", writeDate=" + writeDate + ", deleteYn=" + deleteYn + "]";
+		return "ReviewVo [nickName=" + nickName + ", writeDate=" + writeDate + ", content=" + content + ", menuName="
+				+ menuName + ", StoreNo=" + StoreNo + ", orderNo=" + orderNo + "]";
 	}
-	
+
 }
