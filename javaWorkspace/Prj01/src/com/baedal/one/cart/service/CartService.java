@@ -45,9 +45,7 @@ public class CartService {
 	/**
 	 * 기존 장바구니 삭제
 	 * @param cartNo 장바구니 번호
-	 * @return finalResult  0 = 장바구니 리스트 삭제 실패 
-	 * 							  1 = 장바구니 리스트 삭제 성공, 장바구니의 storeNo 변경 실패
-	 * 							  2 = 정상 성공
+	 * @return result
 	 * @throws Exception
 	 */
 	public int deleteCartList(String cartNo) throws Exception {
@@ -89,6 +87,19 @@ public class CartService {
 		Connection conn = JDBCTemplate.getConnection();
 		
 		int result = cartDao.addMenu(newCartList, conn);
+		
+		if(result == 1) JDBCTemplate.commit(conn);
+		else JDBCTemplate.rollback(conn);
+		
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	public int updateStoreNo(String cartNo, String storeNo) throws Exception {
+		//Connection
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = cartDao.updateStoreNo(cartNo, storeNo, conn);
 		
 		if(result == 1) JDBCTemplate.commit(conn);
 		else JDBCTemplate.rollback(conn);

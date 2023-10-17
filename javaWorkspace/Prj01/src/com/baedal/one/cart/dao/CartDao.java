@@ -48,7 +48,7 @@ public class CartDao {
 	 * @throws Exception
 	 */
 	public CartVo getMyCart(String memberNo, Connection conn) throws Exception {
-		query = "SELECT A.* FROM CART A LEFT OUTER JOIN ORDERS B ON A.CART_NO = B.CART_NO WHERE A.USER_NO = ? AND B.ORDER_NO IS NULL";
+		query = "SELECT A.CART_NO, A.USER_NO, NVL(A.STORE_NO, 0) STORE_NO FROM CART A LEFT OUTER JOIN ORDERS B ON A.CART_NO = B.CART_NO WHERE A.USER_NO = ? AND B.ORDER_NO IS NULL";
 
 		PreparedStatement pstmt = conn.prepareStatement(query);
 		pstmt.setString(1, memberNo);
@@ -120,6 +120,18 @@ public class CartDao {
 		
 		int result = pstmt.executeUpdate();
 		
+		JDBCTemplate.close(pstmt);
+		return result;
+	}
+
+
+	public int updateStoreNo(String cartNo, String storeNo, Connection conn) throws Exception{
+		query = "UPDATE CART SET STORE_NO = ? WHERE CART_NO = ?";
+		PreparedStatement pstmt = conn.prepareStatement(query);
+		pstmt.setString(1, storeNo);
+		pstmt.setString(2, cartNo);
+		
+		int result = pstmt.executeUpdate();
 		JDBCTemplate.close(pstmt);
 		return result;
 	}

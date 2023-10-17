@@ -1,5 +1,6 @@
 package com.baedal.one.cart.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.baedal.one.Main;
@@ -52,17 +53,11 @@ public class CartController {
 	 * @param memberNo 일반 사용자 번호
 	 */
 	public void selectMenu(String storeNo) {
-		
-		//메뉴 리스트
-		List<MenuInfoDto> menuInfoList = null;
-		//내 장바구니
-		CartVo myCart= null;
-		//담을 메뉴 번호
-		String menuNum = "";
-		//기존에 담겨있는 장바구니가 삭제되었는 지 체크하는 변수
-		boolean isDeleted = false;
-		//수량
-		String quantity = "";
+		List<MenuInfoDto> menuInfoList = null;	//메뉴 리스트
+		CartVo myCart= null;	//내 장바구니
+		String menuNum = ""; //담을 메뉴 번호
+		boolean isDeleted = false;	//기존에 담겨있는 장바구니가 삭제되었는 지 체크하는 변수
+		String quantity = "";	//수량
 		int result = 0;
 		
 		try {
@@ -70,7 +65,7 @@ public class CartController {
 				myCart = cartService.getMyCart(TestMain.memberNo);
 				if(myCart == null) throw new NullPointerException("장바구니를 새로 생성합니다");
 			} catch (NullPointerException e) {
-				myCart = createNewCart(storeNo);
+				myCart = createNewCart(null);
 			}
 			System.out.println("myCart.getCartNo() = "+myCart.getCartNo());
 			menuInfoList = cartService.getMenuInfo(storeNo);
@@ -91,25 +86,39 @@ public class CartController {
 			} while(Integer.parseInt(menuNum)-1 >= menuInfoList.size());
 			
 //			 다른 매장의 메뉴를 담을 경우
-			if (!storeNo.equals(myCart.getStoreNo())) {
-				isDeleted = deleteCartList(myCart.getCartNo());			
-			}
-			//같은 매장의 메뉴를 담을 경우
-			else if(storeNo.equals(myCart.getStoreNo())) {
-				System.out.print("메뉴 수량을 입력하세요: ");
-				quantity = Main.SC.nextLine();
-				
-				CartListVo newCartList = new CartListVo(myCart.getCartNo(), menuInfoList.get(Integer.parseInt(menuNum)-1).getMenuNo(), quantity);
-				result = cartService.addMenu(newCartList);
+			if (!storeNo.equals(myCart.getStoreNo()) && !myCart.getStoreNo().equals("0")) {
+				isDeleted = deleteCartList(myCart.getCartNo());
+				myCart = createNewCart(null);
 			}
 			
-			if(isDeleted) {
-				myCart = createNewCart(storeNo);
+			//같은 매장의 메뉴를 담을 경우 or 새로 담는 경우
+			else if(storeNo.equals(myCart.getStoreNo()) || myCart.getStoreNo().equals("0")) {
 				System.out.print("메뉴 수량을 입력하세요: ");
 				quantity = Main.SC.nextLine();
+				if(myCart.getStoreNo().equals("0")) {
+					cartService.updateStoreNo(myCart.getCartNo(), storeNo);
+				}
 				
-				CartListVo newCartList = new CartListVo(myCart.getCartNo(), menuInfoList.get(Integer.parseInt(menuNum)-1).getMenuNo(), quantity);
-				result = cartService.addMenu(newCartList);
+				int currentHour = LocalDateTime.now().getHour();
+				if(currentHour >= Integer.parseInt(menuInfoList.get(Integer.parseInt(menuNum)-1).getOpenTime())
+						 && currentHour < Integer.parseInt(menuInfoList.get(Integer.parseInt(menuNum)-1).getCloseTime())) {
+					CartListVo newCartList = new CartListVo(myCart.getCartNo(), menuInfoList.get(Integer.parseInt(menuNum)-1).getMenuNo(), quantity);
+					result = cartService.addMenu(newCartList);					
+				}
+			}
+			//삭제 후 새로 담는 경우
+			if(isDeleted) {
+				System.out.print("메뉴 수량을 입력하세요: ");
+				quantity = Main.SC.nextLine();
+				if(myCart.getStoreNo().equals("0")) {
+					cartService.updateStoreNo(myCart.getCartNo(), storeNo);
+				}
+				int currentHour = LocalDateTime.now().getHour();
+				if(currentHour >= Integer.parseInt(menuInfoList.get(Integer.parseInt(menuNum)-1).getOpenTime())
+						 && currentHour < Integer.parseInt(menuInfoList.get(Integer.parseInt(menuNum)-1).getCloseTime())) {
+					CartListVo newCartList = new CartListVo(myCart.getCartNo(), menuInfoList.get(Integer.parseInt(menuNum)-1).getMenuNo(), quantity);
+					result = cartService.addMenu(newCartList);					
+				}
 			}
 			
 			if(result == 1) 
@@ -121,7 +130,12 @@ public class CartController {
 		} 
 	}
 	
-	
+	/**
+	 * 신규 장바구니 생성 기능
+	 * @param storeNo
+	 * @return
+	 * @throws Exception
+	 */
 	public CartVo createNewCart(String storeNo) throws Exception {
 		CartVo newCart = new CartVo(TestMain.memberNo, storeNo);
 		CartVo findCart = null;
