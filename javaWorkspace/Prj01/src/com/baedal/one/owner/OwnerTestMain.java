@@ -9,9 +9,8 @@ public class OwnerTestMain {
 	
 	public static void main(String[] args) {
 		OwnerController ow = new OwnerController();
-		while(true) {
-		ow.selectMenu();
-		}
+		ow.join();
+	    loginOwner =ow.login();
 		
 	}
 

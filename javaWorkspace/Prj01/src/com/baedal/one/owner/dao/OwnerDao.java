@@ -29,9 +29,7 @@ public class OwnerDao {
 	
 	
 	}
-	
-	
-	// 점주 로그인 
+
 	public OwnerVo login(Connection conn, OwnerVo vo) throws Exception {
 		
 	
@@ -45,8 +43,6 @@ public class OwnerDao {
 	
 	OwnerVo ownerLogin = null;
 	
-	
-	//
 	if(rs.next()) {
 		String ownerNO = rs.getString("OWNER_NO");
 		String ownerId = rs.getString("OWNER_ID");
@@ -57,7 +53,6 @@ public class OwnerDao {
 		ownerLogin = new OwnerVo();
 		
 	}
-	return ownerLogin;
 	
 	
 	
