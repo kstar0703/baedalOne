@@ -1,4 +1,4 @@
-package com.baedal.one.purchase.vo;
+package com.baedal.one.cart.vo;
 
 public class OrdersVo {
 

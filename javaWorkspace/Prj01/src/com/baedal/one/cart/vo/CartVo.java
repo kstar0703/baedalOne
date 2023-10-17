@@ -1,4 +1,4 @@
-package com.baedal.one.purchase.vo;
+package com.baedal.one.cart.vo;
 
 public class CartVo {
 
@@ -7,8 +7,12 @@ public class CartVo {
 	private String storeNo;
 	
 	public CartVo(String cartNo, String userNo, String storeNo) {
-		super();
 		this.cartNo = cartNo;
+		this.userNo = userNo;
+		this.storeNo = storeNo;
+	}
+	
+	public CartVo(String userNo, String storeNo) {
 		this.userNo = userNo;
 		this.storeNo = storeNo;
 	}
