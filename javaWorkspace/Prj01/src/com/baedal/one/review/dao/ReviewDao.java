@@ -40,8 +40,8 @@ public class ReviewDao {
 
 			// pstmt
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, orderNo);
-			pstmt.setString(2, storeNo);
+//			pstmt.setString(1, orderNo);
+			pstmt.setString(1, storeNo);
 			// rs
 			ResultSet rs = pstmt.executeQuery();
 

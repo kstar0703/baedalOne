@@ -61,7 +61,8 @@ public class ReviewController {
 				ArrayList<ReviewVo> dbVo = service.readReview(vo);
 				
 				// 결과집합
-				
+				System.out.println();
+
 				System.out.println();
 
 				System.out.println(dbVo.get(0).getNickName());
