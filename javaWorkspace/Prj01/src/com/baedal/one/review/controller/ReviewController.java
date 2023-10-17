@@ -29,7 +29,6 @@ public class ReviewController {
 			
 			vo.setStoreNo("1");
 			vo.setOrderNo("2");
-			vo.setTitle(title);
 			vo.setContent(content);
 			
 			// 서비스 호출
@@ -48,27 +47,47 @@ public class ReviewController {
 		
 	}
 	
-	public void readReview() {
+	public void readReview(String orderNo,String storeNo) {
 		try {
 			System.out.println("===== 리뷰 조회 =====");
+
+				//데이터 입력 받기
+				
+				ReviewVo vo = new ReviewVo();
+				vo.setOrderNo(orderNo);
+				vo.setStoreNo(storeNo);
 			
-			//데이터 입력 받기
-			ReviewVo vo = new ReviewVo();
-			vo.setStoreNo("1");
-			
-			// 서비스 호출
-			ArrayList<ReviewVo> dbVo = service.readReview(vo);
-			
-			// 결과집합
-			if(dbVo != null) {
-				for(ReviewVo printVo: dbVo) {
-					System.out.println(printVo.getTitle());
+				// 서비스 호출
+				ArrayList<ReviewVo> dbVo = service.readReview(vo);
+				
+				// 결과집합
+				
+				System.out.println();
+
+				System.out.println(dbVo.get(0).getNickName());
+
+				System.out.println(dbVo.get(0).getWriteDate());
+
+				System.out.println(dbVo.get(0).getContent());
+
+				System.out.print(dbVo.get(0).getMenuName());
+				
+				for(int i = 1; i < dbVo.size(); i++) {
+
+					System.out.print(" + ");
+
+					System.out.print(dbVo.get(i).getMenuName());
+
+					}
+				
+				if(dbVo != null) {
+					System.out.println();
+					System.out.println("===== 리뷰 =====");
 				}
-			}else {
-				throw new Exception();
-			}
-		}catch (Exception e) {
 			
+		}catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("리뷰 조회 실패...");
 		}
 		
 		
