@@ -30,14 +30,14 @@ public class CartController {
 		do {
 			System.out.println("원하는 작업을 선택하세요");
 			System.out.println("1. 메뉴 한 개 장바구니에 담기");
-			System.out.println("2. 결제하러 이동하기");
+			System.out.println("2. 내 장바구니 조회하기");
 			System.out.println("3. 뒤로 가기");
 			
 			 
 			 input = Main.SC.nextLine(); 
 			 switch(input) { 
 			 case "1": selectMenu(storeNo); break; 
-			 case "2": purchaseController.pay(); break; 
+			 case "2": purchaseController.printMyCart(); break; 
 			 case "3": return;
 			 default: System.out.println("다시 입력하세요."); break; 
 			 }
@@ -53,6 +53,7 @@ public class CartController {
 	 * @param memberNo 일반 사용자 번호
 	 */
 	public void selectMenu(String storeNo) {
+		
 		List<MenuInfoDto> menuInfoList = null;	//메뉴 리스트
 		CartVo myCart= null;	//내 장바구니
 		String menuNum = ""; //담을 메뉴 번호
@@ -67,6 +68,7 @@ public class CartController {
 			} catch (NullPointerException e) {
 				myCart = createNewCart(null);
 			}
+			
 			System.out.println("myCart.getCartNo() = "+myCart.getCartNo());
 			menuInfoList = cartService.getMenuInfo(storeNo);
 			
@@ -100,12 +102,16 @@ public class CartController {
 				}
 				
 				int currentHour = LocalDateTime.now().getHour();
+				//운영시간일때만 장바구니에 담을 수 있게 조건 설정하기
 				if(currentHour >= Integer.parseInt(menuInfoList.get(Integer.parseInt(menuNum)-1).getOpenTime())
 						 && currentHour < Integer.parseInt(menuInfoList.get(Integer.parseInt(menuNum)-1).getCloseTime())) {
 					CartListVo newCartList = new CartListVo(myCart.getCartNo(), menuInfoList.get(Integer.parseInt(menuNum)-1).getMenuNo(), quantity);
 					result = cartService.addMenu(newCartList);					
+				} else {
+					System.out.println("운영시간이 아닙니다");
 				}
 			}
+			
 			//삭제 후 새로 담는 경우
 			if(isDeleted) {
 				System.out.print("메뉴 수량을 입력하세요: ");
@@ -114,10 +120,13 @@ public class CartController {
 					cartService.updateStoreNo(myCart.getCartNo(), storeNo);
 				}
 				int currentHour = LocalDateTime.now().getHour();
+				//운영시간일때만 장바구니에 담을 수 있게 조건 설정하기
 				if(currentHour >= Integer.parseInt(menuInfoList.get(Integer.parseInt(menuNum)-1).getOpenTime())
 						 && currentHour < Integer.parseInt(menuInfoList.get(Integer.parseInt(menuNum)-1).getCloseTime())) {
 					CartListVo newCartList = new CartListVo(myCart.getCartNo(), menuInfoList.get(Integer.parseInt(menuNum)-1).getMenuNo(), quantity);
 					result = cartService.addMenu(newCartList);					
+				} else {
+					System.out.println("운영시간이 아닙니다");
 				}
 			}
 			

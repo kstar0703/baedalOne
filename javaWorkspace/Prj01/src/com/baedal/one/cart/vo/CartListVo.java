@@ -8,7 +8,7 @@ public class CartListVo {
 	private String menuNo;
 	private String quantity;
 	
-	public CartListVo( String cartNo, String menuNo, String quantity) {
+	public CartListVo(String cartNo, String menuNo, String quantity) {
 		this.cartNo = cartNo;
 		this.menuNo = menuNo;
 		this.quantity = quantity;
