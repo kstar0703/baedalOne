@@ -68,11 +68,21 @@ public class PayController {
 			
 			//데이터
 			List<PayVo> voList = service.payList(USERNO);
+			//결과
+			for (PayVo vo1 : voList) {
+				System.out.print(vo1.getSource());
+				System.out.print(" / ");
+				System.out.print(vo1.getPay());
+				System.out.print(" / ");
+				System.out.print(vo1.getPayDate());
+				System.out.print(" / ");
+				System.out.println(vo1.getBalance());
+
+			}
 		} catch (Exception e) {
 			System.out.println("입출금 내역 불러오기 실패");
 			e.printStackTrace();
 		}
-		
 		
 	}
 	
