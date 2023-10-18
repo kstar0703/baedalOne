@@ -36,4 +36,19 @@ public class PayService {
 		return voList;
 	}
 
+	public int chargePay(String userno, String afterMoney) throws SQLException {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = dao.chargePay(conn,userno, afterMoney);
+		
+		if(result == 1) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
 }

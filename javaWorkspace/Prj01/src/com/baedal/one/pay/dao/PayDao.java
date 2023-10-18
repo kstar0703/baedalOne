@@ -3,11 +3,14 @@ package com.baedal.one.pay.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.baedal.one.pay.vo.PayVo;
 import com.kh.app.jdbc.JDBCTemplate;
+
+import oracle.sql.converter.JdbcCharacterConverters;
 
 public class PayDao {
 
@@ -52,6 +55,16 @@ public class PayDao {
 		JDBCTemplate.close(rs);
 		JDBCTemplate.close(pstmt);
 		return voList;
+	}
+
+	public int chargePay(Connection conn, String userno, String afterMoney) throws SQLException {
+		String sql = "UPDATE MEMBER SET MONEY = ? WHERE NO = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, afterMoney);
+		pstmt.setString(2, userno);
+		int result = pstmt.executeUpdate();
+		JDBCTemplate.close(pstmt);
+		return result;
 	}
 
 }
