@@ -21,6 +21,21 @@ public class PayVo {
 		this.payDate = payDate;
 		this.balance = balance;
 	}
+	
+	public PayVo(String userNo, String source, String pay, String payDate, String balance) {
+		this.userNo = userNo;
+		this.source = source;
+		this.pay = pay;
+		this.payDate = payDate;
+		this.balance = balance;
+	}
+	
+	public PayVo(String userNo, String source, String pay, String payDate) {
+		this.userNo = userNo;
+		this.source = source;
+		this.pay = pay;
+		this.payDate = payDate;
+	}
 	@Override
 	public String toString() {
 		return "PayVo [payNo=" + payNo + ", userNo=" + userNo + ", source=" + source + ", pay=" + pay + ", payDate="

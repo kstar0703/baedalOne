@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.baedal.one.cart.dto.CheckQuantityDto;
 import com.baedal.one.cart.dto.MenuInfoDto;
 import com.baedal.one.cart.vo.CartListVo;
 import com.baedal.one.cart.vo.CartVo;
@@ -116,7 +117,7 @@ public class CartDao {
 		PreparedStatement pstmt = conn.prepareStatement(query);
 		pstmt.setString(1, newCartList.getCartNo());
 		pstmt.setString(2, newCartList.getMenuNo());
-		pstmt.setString(3, newCartList.getQuantity());
+		pstmt.setInt(3, newCartList.getQuantity());
 		
 		int result = pstmt.executeUpdate();
 		
@@ -130,6 +131,47 @@ public class CartDao {
 		PreparedStatement pstmt = conn.prepareStatement(query);
 		pstmt.setString(1, storeNo);
 		pstmt.setString(2, cartNo);
+		
+		int result = pstmt.executeUpdate();
+		JDBCTemplate.close(pstmt);
+		
+		return result;
+	}
+
+	public CheckQuantityDto getCartList(CartListVo newCartList, Connection conn) throws Exception {
+		query = "SELECT  COUNT(MENU_NO) COUNT, SUM(QUANTITY) QUANTITY FROM CART_LIST WHERE CART_NO = ? AND MENU_NO = ?";
+		
+		PreparedStatement pstmt = conn.prepareStatement(query);
+		pstmt.setString(1, newCartList.getCartNo());
+		pstmt.setString(2, newCartList.getMenuNo());
+		ResultSet rs = pstmt.executeQuery();
+		CheckQuantityDto dto = null;
+		
+		if(rs.next()) {
+			int count = rs.getInt("COUNT");
+			int quantity = rs.getInt("QUANTITY");
+			
+			dto = new CheckQuantityDto(count, quantity);
+		}
+		JDBCTemplate.close(rs);
+		JDBCTemplate.close(pstmt);
+		return dto;
+	}
+
+
+	/**
+	 * 수량 추가하기
+	 * @param newCartList
+	 * @param conn
+	 * @return
+	 * @throws Exception 
+	 */
+	public int updateQuantity(CartListVo newCartList, Connection conn) throws Exception {
+		query = "UPDATE CART_LIST SET QUANTITY = ? WHERE CART_NO = ? AND MENU_NO = ?";
+		PreparedStatement pstmt = conn.prepareStatement(query);
+		pstmt.setInt(1, newCartList.getQuantity());
+		pstmt.setString(2, newCartList.getCartNo());
+		pstmt.setString(3, newCartList.getMenuNo());
 		
 		int result = pstmt.executeUpdate();
 		JDBCTemplate.close(pstmt);

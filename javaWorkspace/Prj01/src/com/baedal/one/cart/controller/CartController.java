@@ -14,11 +14,11 @@ import com.baedal.one.orders.controller.OrderController;
 public class CartController {
 
 	private final CartService cartService;
-	private final OrderController purchaseController; 
+	private final OrderController orderController; 
 	
 	public CartController() {
 		cartService = new CartService();
-		purchaseController = new OrderController();
+		orderController = new OrderController();
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class CartController {
 			 input = Main.SC.nextLine(); 
 			 switch(input) { 
 			 case "1": selectMenu(storeNo); break; 
-			 case "2": purchaseController.printMyCart(); break; 
+			 case "2": orderController.printMyCartList(); break; 
 			 case "3": return;
 			 default: System.out.println("다시 입력하세요."); break; 
 			 }
@@ -49,6 +49,7 @@ public class CartController {
 	 * 고려해야 될 사항
 	 * 장바구니를 새로 생성하는가?
 	 * 기존 장바구니에 물품이 있는데 다른 매장의 메뉴를 골랐는가? - V
+	 * 매장이 영업중인가?
 	 * @param storeNo 매장 번호
 	 * @param memberNo 일반 사용자 번호
 	 */
@@ -75,10 +76,9 @@ public class CartController {
 			do {
 				System.out.println("메뉴를 선택하세요");
 				System.out.println("----------------------");
-				for(MenuInfoDto m : menuInfoList) {
-					System.out.println(m);
+				for(int length = 0; length < menuInfoList.size(); length++) {
+					System.out.println((length+1)+". "+menuInfoList.get(length));
 				}
-				
 				System.out.print("선택할 메뉴 번호: ");
 				menuNum = Main.SC.nextLine();
 				 
@@ -101,11 +101,12 @@ public class CartController {
 					cartService.updateStoreNo(myCart.getCartNo(), storeNo);
 				}
 				
-				int currentHour = LocalDateTime.now().getHour();
 				//운영시간일때만 장바구니에 담을 수 있게 조건 설정하기
+				int currentHour = LocalDateTime.now().getHour();
 				if(currentHour >= Integer.parseInt(menuInfoList.get(Integer.parseInt(menuNum)-1).getOpenTime())
 						 && currentHour < Integer.parseInt(menuInfoList.get(Integer.parseInt(menuNum)-1).getCloseTime())) {
-					CartListVo newCartList = new CartListVo(myCart.getCartNo(), menuInfoList.get(Integer.parseInt(menuNum)-1).getMenuNo(), quantity);
+					
+					CartListVo newCartList = new CartListVo(myCart.getCartNo(), menuInfoList.get(Integer.parseInt(menuNum)-1).getMenuNo(), Integer.parseInt(quantity));
 					result = cartService.addMenu(newCartList);					
 				} else {
 					System.out.println("운영시간이 아닙니다");
@@ -116,14 +117,17 @@ public class CartController {
 			if(isDeleted) {
 				System.out.print("메뉴 수량을 입력하세요: ");
 				quantity = Main.SC.nextLine();
+				
 				if(myCart.getStoreNo().equals("0")) {
 					cartService.updateStoreNo(myCart.getCartNo(), storeNo);
 				}
-				int currentHour = LocalDateTime.now().getHour();
+				
 				//운영시간일때만 장바구니에 담을 수 있게 조건 설정하기
+				int currentHour = LocalDateTime.now().getHour();
 				if(currentHour >= Integer.parseInt(menuInfoList.get(Integer.parseInt(menuNum)-1).getOpenTime())
 						 && currentHour < Integer.parseInt(menuInfoList.get(Integer.parseInt(menuNum)-1).getCloseTime())) {
-					CartListVo newCartList = new CartListVo(myCart.getCartNo(), menuInfoList.get(Integer.parseInt(menuNum)-1).getMenuNo(), quantity);
+					
+					CartListVo newCartList = new CartListVo(myCart.getCartNo(), menuInfoList.get(Integer.parseInt(menuNum)-1).getMenuNo(), Integer.parseInt(quantity));
 					result = cartService.addMenu(newCartList);					
 				} else {
 					System.out.println("운영시간이 아닙니다");
@@ -133,8 +137,9 @@ public class CartController {
 			if(result == 1) 
 				System.out.println("장바구니 담기 성공");
 			else 
-				System.out.println("장바구니 담기 실패");
+				throw new Exception();
 		} catch (Exception e) {
+			System.out.println("장바구니 담기 실패");
 			e.printStackTrace();
 		} 
 	}
@@ -167,9 +172,9 @@ public class CartController {
 		do {
 			System.out.println("다른 매장의 메뉴를 담으면 기존의 담아두었던 메뉴는 모두 삭제됩니다.");
 			System.out.println("담으시겠습니까? (y/n)");
-			answer = Main.SC.nextLine();
+			answer = Main.SC.nextLine().toLowerCase();
 			switch (answer) {
-			case "y", "Y":
+			case "y":
 				try {
 					result = cartService.deleteCartList(cartNo);
 					if(result == 1) {
@@ -182,14 +187,14 @@ public class CartController {
 					e.printStackTrace();
 				}
 				break;
-			case "n", "N":
+			case "n":
 				System.out.println("뒤로 이동합니다");
 				return isDelete;
 			default:
 				System.out.println("다시 입력하세요");
 				break;
 			}
-		} while (!answer.equals("y") || !answer.equals("Y"));
+		} while (!answer.equals("y"));
 		return isDelete;
 	}
 }

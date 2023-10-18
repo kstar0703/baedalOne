@@ -7,13 +7,16 @@ package com.baedal.one.orders.dto;
 public class CartListDto {
 
 	private String cartListNo;
+	private String cartNo;
 	private String storeName;
 	private String menuName;
 	private int price;
 	private int quantity;
 	private int subTotal;
 	
+	
 	public CartListDto(String cartListNo, String storeName, String menuName, int price, int quantity, int subTotal) {
+		super();
 		this.cartListNo = cartListNo;
 		this.storeName = storeName;
 		this.menuName = menuName;
@@ -22,12 +25,32 @@ public class CartListDto {
 		this.subTotal = subTotal;
 	}
 
+	public CartListDto(String cartListNo, String cartNo, String storeName, String menuName, int price, int quantity,
+			int subTotal) {
+		super();
+		this.cartListNo = cartListNo;
+		this.cartNo = cartNo;
+		this.storeName = storeName;
+		this.menuName = menuName;
+		this.price = price;
+		this.quantity = quantity;
+		this.subTotal = subTotal;
+	}
+	
 	public String getCartListNo() {
 		return cartListNo;
 	}
 
 	public void setCartListNo(String cartListNo) {
 		this.cartListNo = cartListNo;
+	}
+
+	public String getCartNo() {
+		return cartNo;
+	}
+
+	public void setCartNo(String cartNo) {
+		this.cartNo = cartNo;
 	}
 
 	public String getStoreName() {
@@ -61,7 +84,7 @@ public class CartListDto {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-
+	
 	public int getSubTotal() {
 		return subTotal;
 	}
@@ -72,8 +95,8 @@ public class CartListDto {
 
 	@Override
 	public String toString() {
-		return "CartListDto [cartListNo=" + cartListNo + ", storeName=" + storeName + ", menuName=" + menuName
-				+ ", price=" + price + ", quantity=" + quantity + ", subTotal=" + subTotal + "]";
+		return " [매장 이름 = " + storeName + ", 메뉴 이름 = " + menuName + ", 가격 = " + price + ", 수량 = "
+				+ quantity + ", 소계= " + subTotal + "]";
 	}
 
 }

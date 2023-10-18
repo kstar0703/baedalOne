@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.baedal.one.cart.dao.CartDao;
+import com.baedal.one.cart.dto.CheckQuantityDto;
 import com.baedal.one.cart.dto.MenuInfoDto;
 import com.baedal.one.cart.vo.CartListVo;
 import com.baedal.one.cart.vo.CartVo;
@@ -81,13 +82,27 @@ public class CartService {
 		return result;
 	}
 
+	/**
+	 * 장바구니에 메뉴 추가
+	 * @param newCartList
+	 * @return
+	 * @throws Exception
+	 */
 	public int addMenu(CartListVo newCartList) throws Exception {
 		
 		//Connection
 		Connection conn = JDBCTemplate.getConnection();
 		
-		int result = cartDao.addMenu(newCartList, conn);
-		
+		//이미 장바구니에 같은 품목이 들어가 있는 지
+		CheckQuantityDto resultDto = cartDao.getCartList(newCartList, conn);
+		int result = 0;
+		if(resultDto.getCount()==0) {
+			result = cartDao.addMenu(newCartList, conn);
+		} else {
+			newCartList = new CartListVo(newCartList.getCartNo(), newCartList.getMenuNo(), newCartList.getQuantity()+resultDto.getQuantity());
+			result = cartDao.updateQuantity(newCartList, conn);
+		}
+				
 		if(result == 1) JDBCTemplate.commit(conn);
 		else JDBCTemplate.rollback(conn);
 		
@@ -95,6 +110,13 @@ public class CartService {
 		return result;
 	}
 
+	/**
+	 * 기존에 담은 장바구니 품목 수량 갱신
+	 * @param cartNo
+	 * @param storeNo
+	 * @return
+	 * @throws Exception
+	 */
 	public int updateStoreNo(String cartNo, String storeNo) throws Exception {
 		//Connection
 		Connection conn = JDBCTemplate.getConnection();
