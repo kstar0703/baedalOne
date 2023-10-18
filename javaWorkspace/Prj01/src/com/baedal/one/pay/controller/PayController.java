@@ -81,17 +81,25 @@ public class PayController {
 	private void chargePay() {
 		try {
 			System.out.println();
+			//현재 금액 보여주고 nowMoney에 현재 금액 저장
 			int nowMoney = findBalance();
 
+			//충전 금액 입력 받기
 			System.out.println("충전 할 금액을 입력하세요 : ");
 			String chargeAmount = sc.nextLine();
+			
 			// 문자열 -> 정수형으로 변환
-			int intChargeAmount = 0;
-
-			intChargeAmount = Integer.parseInt(chargeAmount);
+			int intChargeAmount = Integer.parseInt(chargeAmount);
+			
+			// 충전 후 금액 구하고 DB에 넣기 쉽게 문자열로 변환
 			String afterMoney = Integer.toString(nowMoney + intChargeAmount);
+
+			//pay테이블 추가
+			
+			//MEMBER테이블 MONEY컬럼을 충전 후 금액으로 수정 
 			int result = service.chargePay(USERNO,afterMoney);
 			
+			//MEMBER테이블 MONEY컬럼 수정 성공시 if 문 실행
 			if(result == 1) {
 				System.out.println("충전이 완료 되었습니다.");
 				findBalance();
