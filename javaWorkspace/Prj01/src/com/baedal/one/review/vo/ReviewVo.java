@@ -7,29 +7,29 @@ public class ReviewVo {
 	}
 
 	public ReviewVo(String nickName, String writeDate, String content, String menuName, String storeNo,
-			String orderNo) {
+			String totalQuantity) {
 		super();
-		this.nickName = nickName;
+		this.writerName = nickName;
 		this.writeDate = writeDate;
 		this.content = content;
 		this.menuName = menuName;
 		StoreNo = storeNo;
-		this.orderNo = orderNo;
+		this.totalQuantity = totalQuantity;
 	}
 
-	String nickName;
+	String writerName;
 	String writeDate;
 	String content;
 	String menuName;
 	String StoreNo;
-	String orderNo;
+	String totalQuantity;
 	
-	public String getOrderNo() {
-		return orderNo;
+	public String getTotalQuantity() {
+		return totalQuantity;
 	}
 
-	public void setOrderNo(String orderNo) {
-		this.orderNo = orderNo;
+	public void setTotalQuantity(String orderNo) {
+		this.totalQuantity = orderNo;
 	}
 
 	public String getStoreNo() {
@@ -41,11 +41,11 @@ public class ReviewVo {
 	}
 
 	public String getNickName() {
-		return nickName;
+		return writerName;
 	}
 
 	public void setNickName(String nickName) {
-		this.nickName = nickName;
+		this.writerName = nickName;
 	}
 
 	public String getWriteDate() {
@@ -74,8 +74,10 @@ public class ReviewVo {
 
 	@Override
 	public String toString() {
-		return "ReviewVo [nickName=" + nickName + ", writeDate=" + writeDate + ", content=" + content + ", menuName="
-				+ menuName + ", StoreNo=" + StoreNo + ", orderNo=" + orderNo + "]";
+		return "ReviewVo [writerName=" + writerName + ", writeDate=" + writeDate + ", content=" + content
+				+ ", menuName=" + menuName + ", StoreNo=" + StoreNo + ", totalQuantity=" + totalQuantity + "]";
 	}
+
+	
 
 }

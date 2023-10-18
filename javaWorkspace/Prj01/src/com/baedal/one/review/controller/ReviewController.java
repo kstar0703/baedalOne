@@ -1,6 +1,7 @@
 package com.baedal.one.review.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import com.baedal.one.review.service.ReviewService;
@@ -20,15 +21,12 @@ public class ReviewController {
 		try {
 			// 데이터 입력받기 
 			System.out.println("\n===== 리뷰 작성 =====");
-			System.out.print("\n제목을 입력하세요: ");
-			String title = sc.nextLine();
 			System.out.print("\n내용을 입력하세요: ");
 			String content = sc.nextLine();
 			
 			ReviewVo vo = new ReviewVo();
 			
 			vo.setStoreNo("1");
-			vo.setOrderNo("2");
 			vo.setContent(content);
 			
 			// 서비스 호출
@@ -47,43 +45,37 @@ public class ReviewController {
 		
 	}
 	
-	public void readReview(String orderNo,String storeNo) {
+	public void readReview(String storeNo) {
 		try {
 			System.out.println("===== 리뷰 조회 =====");
 
 				//데이터 입력 받기
 				
 				ReviewVo vo = new ReviewVo();
-				vo.setOrderNo(orderNo);
 				vo.setStoreNo(storeNo);
 			
 				// 서비스 호출
-				ArrayList<ReviewVo> dbVo = service.readReview(vo);
+				List<ReviewVo> voList = service.readReview(vo);
 				
 				// 결과집합
+				if(voList == null) {
+					throw new Exception();
+				}
 				
-				System.out.println();
+				for(ReviewVo readVo : voList) {
 
-				System.out.println(dbVo.get(0).getNickName());
-
-				System.out.println(dbVo.get(0).getWriteDate());
-
-				System.out.println(dbVo.get(0).getContent());
-
-				System.out.print(dbVo.get(0).getMenuName());
-				
-				for(int i = 1; i < dbVo.size(); i++) {
-
-					System.out.print(" + ");
-
-					System.out.print(dbVo.get(i).getMenuName());
+					System.out.println();
+					System.out.println("--------------------------");
+					System.out.println("닉네임: "+readVo.getNickName());
+					System.out.println("작성일: "+readVo.getWriteDate());
+					System.out.println("내용: "+readVo.getContent());
+					System.out.print("주문메뉴: "+readVo.getMenuName());
+					System.out.print(" 외 "+readVo.getTotalQuantity()+"개");
+					System.out.println("\n--------------------------");
+					
 
 					}
 				
-				if(dbVo != null) {
-					System.out.println();
-					System.out.println("===== 리뷰 =====");
-				}
 			
 		}catch (Exception e) {
 			e.printStackTrace();
