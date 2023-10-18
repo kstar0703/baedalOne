@@ -6,15 +6,17 @@ public class ReviewVo {
 		
 	}
 
-	public ReviewVo(String nickName, String writeDate, String content, String menuName, String storeNo,
-			String totalQuantity) {
+	public ReviewVo(String writerName, String writeDate, String content, String menuName, String storeNo,
+			int lastOrderNo, int allorderNo, String userNo) {
 		super();
-		this.writerName = nickName;
+		this.writerName = writerName;
 		this.writeDate = writeDate;
 		this.content = content;
 		this.menuName = menuName;
 		StoreNo = storeNo;
-		this.totalQuantity = totalQuantity;
+		this.lastOrderNo = lastOrderNo;
+		this.allorderNo = allorderNo;
+		this.userNo = userNo;
 	}
 
 	String writerName;
@@ -22,14 +24,16 @@ public class ReviewVo {
 	String content;
 	String menuName;
 	String StoreNo;
-	String totalQuantity;
-	
-	public String getTotalQuantity() {
-		return totalQuantity;
+	int lastOrderNo;
+	int allorderNo;
+	String userNo;
+
+	public String getUserNo() {
+		return userNo;
 	}
 
-	public void setTotalQuantity(String orderNo) {
-		this.totalQuantity = orderNo;
+	public void setUserNo(String userNo) {
+		this.userNo = userNo;
 	}
 
 	public String getStoreNo() {
@@ -38,14 +42,6 @@ public class ReviewVo {
 
 	public void setStoreNo(String reviewNo) {
 		StoreNo = reviewNo;
-	}
-
-	public String getNickName() {
-		return writerName;
-	}
-
-	public void setNickName(String nickName) {
-		this.writerName = nickName;
 	}
 
 	public String getWriteDate() {
@@ -72,12 +68,35 @@ public class ReviewVo {
 		this.menuName = menuName;
 	}
 
+	public String getWriterName() {
+		return writerName;
+	}
+
+	public void setWriterName(String writerName) {
+		this.writerName = writerName;
+	}
+
+	public int getLastOrderNo() {
+		return lastOrderNo;
+	}
+
+	public void setLastOrderNo(int lastOrderNo) {
+		this.lastOrderNo = lastOrderNo;
+	}
+
+	public int getAllorderNo() {
+		return allorderNo;
+	}
+
+	public void setAllorderNo(int allorderNo) {
+		this.allorderNo = allorderNo;
+	}
+
 	@Override
 	public String toString() {
 		return "ReviewVo [writerName=" + writerName + ", writeDate=" + writeDate + ", content=" + content
-				+ ", menuName=" + menuName + ", StoreNo=" + StoreNo + ", totalQuantity=" + totalQuantity + "]";
+				+ ", menuName=" + menuName + ", StoreNo=" + StoreNo + ", lastOrderNo=" + lastOrderNo + ", allorderNo="
+				+ allorderNo + ", userNo=" + userNo + "]";
 	}
-
-	
 
 }
