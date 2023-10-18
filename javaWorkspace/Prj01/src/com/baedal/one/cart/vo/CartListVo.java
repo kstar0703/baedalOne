@@ -6,20 +6,21 @@ public class CartListVo {
 	private String cartListNo;
 	private String cartNo;
 	private String menuNo;
-	private String quantity;
+	private int  quantity;
 	
-	public CartListVo(String cartNo, String menuNo, String quantity) {
+	public CartListVo(String cartNo, String menuNo, int quantity) {
 		this.cartNo = cartNo;
 		this.menuNo = menuNo;
 		this.quantity = quantity;
 	}
 	
-	public CartListVo(String cartListNo, String cartNo, String menuNo, String quantity) {
+	public CartListVo(String cartListNo, String cartNo, String menuNo, int quantity) {
 		this.cartListNo = cartListNo;
 		this.cartNo = cartNo;
 		this.menuNo = menuNo;
 		this.quantity = quantity;
 	}
+
 
 	public String getCartListNo() {
 		return cartListNo;
@@ -46,11 +47,11 @@ public class CartListVo {
 		this.menuNo = menuNo;
 	}
 
-	public String getQuantity() {
+	public int getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(String quantity) {
+	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
 

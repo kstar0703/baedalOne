@@ -76,8 +76,7 @@ public class MenuInfoDto {
 
 	@Override
 	public String toString() {
-		return "MenuInfoDto [menuNo=" + menuNo + ", storeName=" + storeName + ", menuName=" + menuName + ", price="
-				+ price + ", openTime=" + openTime + ", closeTime=" + closeTime + "]";
+		return " [메뉴 이름 = " + menuName + ", 가격 = " + price + "]";
 	}
 	
 }
