@@ -17,27 +17,31 @@ public class MemberController {
 		ms = new MemberService();
 	}
 
+	//사용자 회원가입/로그인/뒤로 가기 중 선택하기
 	public void selectMember() {
 		
+		String num;
 		do {
 			System.out.println("1.회원가입");
 			System.out.println("2.로그인");
-			System.out.println("3.뒤로 가기");
+			System.out.println("3.회원정보수정");
+			System.out.println("4.회원탈퇴");
+			System.out.println("5.뒤로 가기");
 			
-			String num = sc.nextLine();
+			num = sc.nextLine();
 			switch(num) {
 			case "1" : join();break;
 			case "2" : login();break;
-			case "3" : back();break;
+			case "3" : infoModify();break;
+			case "4" : quit();break;
+			case "5" : back();break;
 			default : System.out.println("그런 매뉴 없음");
 			}
 			
-		}while(num == "3");
+		}while(num.equals(5));
 		
 	}//selectMember
-	
 
-	//회원가입
 	public void join() {
 		System.out.println("-----회원가입-----");
 		
@@ -49,54 +53,50 @@ public class MemberController {
 		System.out.println("닉네임:");
 		String nickName = sc.nextLine();
 		System.out.println("회원주소:");
-		String nickName = sc.nextLine();
+		String address = sc.nextLine();
 		System.out.println("전화번호:");
-		String nickName = sc.nextLine();
+		String phone = sc.nextLine();
 		System.out.println("결제 비밀번호:");
-		String nickName = sc.nextLine();
+		String amountPwd = sc.nextLine();
 		
 		MemberVo vo = new MemberVo();
 		vo.setId(id);
 		vo.setPwd(pwd);
 		vo.setNickName(nickName);
-		vo.setNickName(nickName);
-		vo.setNickName(nickName);
-		vo.setNickName(nickName);
-		vo.setNickName(nickName);
-		vo.setNickName(nickName);
+		vo.setNickName(address);
+		vo.setNickName(phone);
+		vo.setNickName(amountPwd);
 		
 		//서비스
 		try {
-			int result = 
-			
-		}catch(Exception e) {
-			
-		}
+			int result = ms.
 		
-	
-	
 	//로그인
 	public void login() {
-		// TODO Auto-generated method stub
+		System.out.println("-----로그인-----");
+
+	}
+			
+	//회원정보수정
+	public void infoModify() {
 		
 	}
 	
+	//회원탈퇴
+	public void quit() {
+		
+	}
+			
 	//뒤로 가기
 	public void back() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("-----뒤로 가기-----");
 	}
 		
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+
+			
+	}
 	
 	
 }//class
