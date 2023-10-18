@@ -12,6 +12,7 @@ public class PayController {
 
 	private final PayService service;
 	private static final String USERNO = "1"; // 임시 사용자 넘버
+	private static final String OWNERNO = "2"; // 임시 사용자 넘버
 
 	Scanner sc = new Scanner(System.in);
 
@@ -38,7 +39,7 @@ public class PayController {
 		}
 	}
 
-	// 잔액 구하기
+	// 비밀번호 구하기
 	private int findBalance() {
 		int nowMoney = 0;
 		try {
@@ -49,6 +50,8 @@ public class PayController {
 			// 잔액을 불러와서 저장
 			nowMoney = service.findBalance(vo);
 
+			
+					
 			if (nowMoney < 0) {
 				throw new Exception();
 			}
@@ -65,7 +68,7 @@ public class PayController {
 		int nowMoney = findBalance();
 		System.out.print("페이를 충전 하시겠습니까? (1. 충전하기 /2. 뒤로가기)");
 		String chargeYn = sc.nextLine();
-
+				
 		switch (chargeYn) {
 		case "1":
 			chargePay();

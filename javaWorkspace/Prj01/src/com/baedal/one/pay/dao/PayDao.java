@@ -32,7 +32,7 @@ public class PayDao {
 	}
 
 	public List<PayVo> payList(Connection conn, String userno) throws Exception {
-		String sql = "SELECT SOURCE, PAY, PAY_DATE, BALANCE FROM PAY WHERE USER_NO =?";
+		String sql = "SELECT SOURCE, PAY, PAY_DATE, BALANCE FROM PAY WHERE USER_NO =? ORDER BY PAY_DATE";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, userno);
 		
