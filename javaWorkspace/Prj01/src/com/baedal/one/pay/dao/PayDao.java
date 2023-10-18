@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.baedal.one.pay.vo.PayVo;
 import com.kh.app.jdbc.JDBCTemplate;
@@ -58,11 +59,26 @@ public class PayDao {
 	}
 
 	public int chargePay(Connection conn, String userno, String afterMoney) throws SQLException {
-		String sql = "UPDATE MEMBER SET MONEY = ? WHERE NO = ?";
+		String sql = "UPDATE MEMBER SET MONEY = ? WHERE MEMBER_NO = ?";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, afterMoney);
 		pstmt.setString(2, userno);
 		int result = pstmt.executeUpdate();
+		
+		JDBCTemplate.close(pstmt);
+		
+		return result;
+	}
+
+	public int chargePay(Connection conn, String userno, PayVo vo) throws SQLException {
+		String sql = " INSERT INTO PAY(PAY_NO,USER_NO,PAY,PAY_DATE,BALANCE) VALUES (SEQ_PAY.NEXTVAL,?, ?, SYSDATE, ?)";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, vo.getUserNo());
+		pstmt.setString(2, vo.getPay());
+		pstmt.setString(3, vo.getBalance());
+		
+		int result = pstmt.executeUpdate();
+		
 		JDBCTemplate.close(pstmt);
 		return result;
 	}
