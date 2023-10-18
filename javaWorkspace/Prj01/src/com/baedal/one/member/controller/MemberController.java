@@ -26,7 +26,8 @@ public class MemberController {
 			System.out.println("2.로그인");
 			System.out.println("3.회원정보수정");
 			System.out.println("4.회원탈퇴");
-			System.out.println("5.뒤로 가기");
+			System.out.println("5.로그아웃");
+			System.out.println("6.뒤로 가기");
 			
 			num = sc.nextLine();
 			switch(num) {
@@ -34,11 +35,12 @@ public class MemberController {
 			case "2" : login();break;
 			case "3" : infoModify();break;
 			case "4" : quit();break;
-			case "5" : back();break;
+			case "5" : logout();break;
+			case "6" : back();break;
 			default : System.out.println("그런 매뉴 없음");
 			}
 			
-		}while(num.equals(5));
+		}while(num.equals(6));
 		
 	}//selectMember
 
@@ -63,17 +65,58 @@ public class MemberController {
 		vo.setId(id);
 		vo.setPwd(pwd);
 		vo.setNickName(nickName);
-		vo.setNickName(address);
-		vo.setNickName(phone);
-		vo.setNickName(amountPwd);
+		vo.setAddress(address);
+		vo.setPhone(phone);
+		vo.setAmountPwd(amountPwd);
 		
 		//서비스
 		try {
-			int result = ms.
+			int result = ms.join(vo);
+			
+			//결과
+			if(result == 1) {
+				System.out.println("회원가입 성공");
+			}else {
+				throw new Exception();
+			}
+		}catch(Exception e) {
+			System.out.println("회원가입 실패");
+			e.printStackTrace();
+		}
+	
+	}//join
 		
 	//로그인
 	public void login() {
 		System.out.println("-----로그인-----");
+		
+		//데이터 준비
+		System.out.println("아이디:");
+		String id = sc.nextLine();
+		System.out.println("비밀번호:");
+		String pwd = sc.nextLine();
+		
+		MemberVo vo = new MemberVo();
+		vo.setId(id);
+		vo.setPwd(pwd);
+		
+		//서비스
+		MemberVo dbVo;
+		try {
+			dbVo = ms.login(vo);
+			
+			//결과
+			if(dbVo !== null) {
+				System.out.println("로그인 성공");
+				System.out.println("로그인 유저 정보:");
+				
+			}else {
+				throw new Exception();
+			}
+		}catch(Exception e) {
+			System.out.println("로그인 실패");
+			e.printStackTrace();
+		}
 
 	}
 			
@@ -86,16 +129,16 @@ public class MemberController {
 	public void quit() {
 		
 	}
+	
+	//로그아웃
+	public void logout() {
+		
+	}
 			
 	//뒤로 가기
 	public void back() {
 		System.out.println("-----뒤로 가기-----");
-	}
-		
-		
-	}
 
-			
 	}
 	
 	

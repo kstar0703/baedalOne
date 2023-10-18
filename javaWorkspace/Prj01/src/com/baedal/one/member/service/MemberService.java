@@ -1,5 +1,10 @@
 package com.baedal.one.member.service;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import com.baedal.one.member.dao.MemberDao;
+import com.baedal.one.member.vo.MemberVo;
 import com.kh.app.jdbc.JDBCTemplate;
 
 public class MemberService {
@@ -12,7 +17,9 @@ public class MemberService {
 		dao = new MemberDao();
 	}
 	
-	public int join(MemberVo vo) {
+	//회원가입
+	public int join(MemberVo vo) throws Exception {
+		
 		//conn
 		Connection conn = JDBCTemplate.getConnection();
 		
@@ -24,8 +31,20 @@ public class MemberService {
 			JDBCTemplate.commit(conn);
 		}else {
 			JDBCTemplate.rollback(conn);
-			
 		}
+		
+		//close
+		JDBCTemplate.rollback(conn);
+		
+		return result;
 	}
+	
+	
+	//로그인
+	public int login(MemberVo vo) {
+		return 0;
+		
+	}
+			
 
 }
