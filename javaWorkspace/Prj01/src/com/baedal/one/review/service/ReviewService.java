@@ -2,6 +2,7 @@ package com.baedal.one.review.service;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.baedal.one.review.dao.ReviewDao;
 import com.baedal.one.review.vo.ReviewVo;
@@ -36,13 +37,13 @@ public class ReviewService {
 		return result;
 	}
 
-	public ArrayList<ReviewVo> readReview(ReviewVo vo) throws Exception {
+	public List<ReviewVo> readReview(ReviewVo vo) throws Exception {
 		
 		// 디비연결
 		Connection conn = JDBCTemplate.getConnection();
 		
 		// dao
-		ArrayList<ReviewVo> dbVo = dao.readReview(conn,vo);
+		List<ReviewVo> dbVo = dao.readReview(conn,vo);
 		
 		// 결과집합
 		if(dbVo != null) {
