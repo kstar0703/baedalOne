@@ -31,6 +31,7 @@ public class MemberVo {
 	private String updateDate;
 	private String money;
 	private String amountPwd;
+	
 	public String getId() {
 		return id;
 	}

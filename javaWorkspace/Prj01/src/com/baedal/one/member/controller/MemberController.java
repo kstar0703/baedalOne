@@ -17,27 +17,33 @@ public class MemberController {
 		ms = new MemberService();
 	}
 
+	//사용자 회원가입/로그인/뒤로 가기 중 선택하기
 	public void selectMember() {
 		
+		String num;
 		do {
 			System.out.println("1.회원가입");
 			System.out.println("2.로그인");
-			System.out.println("3.뒤로 가기");
+			System.out.println("3.회원정보수정");
+			System.out.println("4.회원탈퇴");
+			System.out.println("5.로그아웃");
+			System.out.println("6.뒤로 가기");
 			
-			String num = sc.nextLine();
+			num = sc.nextLine();
 			switch(num) {
 			case "1" : join();break;
 			case "2" : login();break;
-			case "3" : back();break;
+			case "3" : infoModify();break;
+			case "4" : quit();break;
+			case "5" : logout();break;
+			case "6" : back();break;
 			default : System.out.println("그런 매뉴 없음");
 			}
 			
-		}while(num == "3");
+		}while(num.equals(6));
 		
 	}//selectMember
-	
 
-	//회원가입
 	public void join() {
 		System.out.println("-----회원가입-----");
 		
@@ -49,54 +55,91 @@ public class MemberController {
 		System.out.println("닉네임:");
 		String nickName = sc.nextLine();
 		System.out.println("회원주소:");
-		String nickName = sc.nextLine();
+		String address = sc.nextLine();
 		System.out.println("전화번호:");
-		String nickName = sc.nextLine();
+		String phone = sc.nextLine();
 		System.out.println("결제 비밀번호:");
-		String nickName = sc.nextLine();
+		String amountPwd = sc.nextLine();
 		
 		MemberVo vo = new MemberVo();
 		vo.setId(id);
 		vo.setPwd(pwd);
 		vo.setNickName(nickName);
-		vo.setNickName(nickName);
-		vo.setNickName(nickName);
-		vo.setNickName(nickName);
-		vo.setNickName(nickName);
-		vo.setNickName(nickName);
+		vo.setAddress(address);
+		vo.setPhone(phone);
+		vo.setAmountPwd(amountPwd);
 		
 		//서비스
 		try {
-			int result = 
+			int result = ms.join(vo);
 			
+			//결과
+			if(result == 1) {
+				System.out.println("회원가입 성공");
+			}else {
+				throw new Exception();
+			}
 		}catch(Exception e) {
-			
+			System.out.println("회원가입 실패");
+			e.printStackTrace();
 		}
+	
+	}//join
 		
-	
-	
 	//로그인
 	public void login() {
-		// TODO Auto-generated method stub
+		System.out.println("-----로그인-----");
+		
+		//데이터 준비
+		System.out.println("아이디:");
+		String id = sc.nextLine();
+		System.out.println("비밀번호:");
+		String pwd = sc.nextLine();
+		
+		MemberVo vo = new MemberVo();
+		vo.setId(id);
+		vo.setPwd(pwd);
+		
+		//서비스
+		MemberVo dbVo;
+		try {
+			dbVo = ms.login(vo);
+			
+			//결과
+			if(dbVo !== null) {
+				System.out.println("로그인 성공");
+				System.out.println("로그인 유저 정보:");
+				
+			}else {
+				throw new Exception();
+			}
+		}catch(Exception e) {
+			System.out.println("로그인 실패");
+			e.printStackTrace();
+		}
+
+	}
+			
+	//회원정보수정
+	public void infoModify() {
 		
 	}
 	
+	//회원탈퇴
+	public void quit() {
+		
+	}
+	
+	//로그아웃
+	public void logout() {
+		
+	}
+			
 	//뒤로 가기
 	public void back() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("-----뒤로 가기-----");
+
 	}
-		
-		
-	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }//class
