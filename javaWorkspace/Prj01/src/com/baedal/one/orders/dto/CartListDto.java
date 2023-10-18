@@ -1,4 +1,4 @@
-package com.baedal.one.purchase.dto;
+package com.baedal.one.orders.dto;
 
 /**
  * 장바구니 조회 Dto

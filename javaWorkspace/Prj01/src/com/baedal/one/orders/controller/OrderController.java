@@ -1,17 +1,17 @@
-package com.baedal.one.purchase.controller;
+package com.baedal.one.orders.controller;
 
 import java.util.List;
 
 import com.baedal.one.cart.TestMain;
-import com.baedal.one.purchase.dto.CartListDto;
-import com.baedal.one.purchase.service.PurchaseService;
+import com.baedal.one.orders.dto.CartListDto;
+import com.baedal.one.orders.service.OrderService;
 
-public class PurchaseController {
+public class OrderController {
 
-	private final PurchaseService purchaseService;
+	private final OrderService purchaseService;
 	
-	public PurchaseController() {
-		purchaseService = new PurchaseService();
+	public OrderController() {
+		purchaseService = new OrderService();
 	}
 	
 	/**
