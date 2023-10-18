@@ -9,16 +9,16 @@ import com.baedal.one.cart.dto.MenuInfoDto;
 import com.baedal.one.cart.service.CartService;
 import com.baedal.one.cart.vo.CartListVo;
 import com.baedal.one.cart.vo.CartVo;
-import com.baedal.one.purchase.controller.PurchaseController;
+import com.baedal.one.orders.controller.OrderController;
 
 public class CartController {
 
 	private final CartService cartService;
-	private final PurchaseController purchaseController; 
+	private final OrderController purchaseController; 
 	
 	public CartController() {
 		cartService = new CartService();
-		purchaseController = new PurchaseController();
+		purchaseController = new OrderController();
 	}
 
 	/**

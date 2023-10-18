@@ -1,13 +1,13 @@
-package com.baedal.one.purchase.service;
+package com.baedal.one.orders.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.baedal.one.purchase.dto.CartListDto;
+import com.baedal.one.orders.dto.CartListDto;
 import com.kh.app.jdbc.JDBCTemplate;
 
-public class PurchaseService {
+public class OrderService {
 	
 	
 	/**
