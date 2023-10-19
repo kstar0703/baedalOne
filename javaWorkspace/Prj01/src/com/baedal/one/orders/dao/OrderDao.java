@@ -23,11 +23,13 @@ public class OrderDao {
 	 * @throws Exception 
 	 */
 	public List<CartListDto> getCartList(String memberNo, Connection conn) throws Exception {
-		query = "SELECT A.CART_LIST_NO, A.CART_NO, B.STORE_NAME , A.MENU_NAME , A.PRICE , SUM(A.QUANTITY) QUANTITY , SUM(A.PRICE*A.QUANTITY) SUBTOTAL "
-				+ "FROM ( SELECT C.CART_LIST_NO, C.CART_NO, C.QUANTITY, M.MENU_NAME, M.PRICE FROM CART_LIST C INNER JOIN MENU M ON C.MENU_NO = M.MENU_NO ) A "
-				+ "INNER JOIN ( SELECT C.CART_NO, C.USER_NO, S.STORE_NAME FROM CART C INNER JOIN STORE S ON C.STORE_NO = S.STORE_NO ) B ON A.CART_NO = B.CART_NO "
-				+ "LEFT OUTER JOIN ORDERS O ON B.CART_NO = O.CART_NO WHERE O.ORDER_NO IS NULL AND B.USER_NO = ? "
-				+ "GROUP BY A.CART_LIST_NO, A.CART_NO, B.STORE_NAME, A.MENU_NAME, A.PRICE";
+		query = "SELECT A.CART_LIST_NO , A.CART_NO , B.STORE_NAME , B.OPENTIME , B.CLOSETIME , A.MENU_NAME , A.PRICE , SUM(A.QUANTITY) QUANTITY , SUM(A.PRICE*A.QUANTITY) SUBTOTAL "
+				+ "FROM ( SELECT C.CART_LIST_NO , C.CART_NO , C.QUANTITY , M.MENU_NAME , M.PRICE FROM CART_LIST C INNER JOIN MENU M ON C.MENU_NO = M.MENU_NO ) A "
+				+ "INNER JOIN ( SELECT C.CART_NO , C.USER_NO , S.STORE_NAME , TO_NUMBER(SUBSTR(S.OPENTIME, 1, 2)) OPENTIME , TO_NUMBER(SUBSTR(S.CLOSETIME, 1, 2)) CLOSETIME FROM CART C INNER JOIN STORE S ON C.STORE_NO = S.STORE_NO ) B "
+				+ "ON A.CART_NO = B.CART_NO LEFT OUTER JOIN ORDERS O "
+				+ "ON B.CART_NO = O.CART_NO "
+				+ "WHERE O.ORDER_NO IS NULL AND B.USER_NO = ? "
+				+ "GROUP BY A.CART_LIST_NO, A.CART_NO, B.STORE_NAME, A.MENU_NAME, A.PRICE , B.OPENTIME, B.CLOSETIME";
 		
 		PreparedStatement pstmt = conn.prepareStatement(query);
 		pstmt.setString(1, memberNo);
@@ -38,18 +40,27 @@ public class OrderDao {
 			String cartListNo = rs.getString("CART_LIST_NO");
 			String cartNo = rs.getString("CART_NO");
 			String storeName = rs.getString("STORE_NAME");
+			String openTime = rs.getString("OPENTIME");
+			String closeTime = rs.getString("CLOSETIME");
 			String menuName = rs.getString("MENU_NAME");
 			int price = rs.getInt("PRICE");
 			int quantity = rs.getInt("QUANTITY");
 			int subTotal = rs.getInt("SUBTOTAL");
 			
-			cartList.add(new CartListDto(cartListNo, cartNo, storeName, menuName, price, quantity, subTotal));
+			cartList.add(new CartListDto(cartListNo, cartNo, storeName, menuName, openTime, closeTime, price, quantity, subTotal));
 		}
 		
 		JDBCTemplate.close(rs);
 		JDBCTemplate.close(pstmt);
 		return cartList;
 	}
+	/**
+	 * 회원의 잔액 조회하기
+	 * @param memberNo
+	 * @param conn
+	 * @return
+	 * @throws Exception
+	 */
 	public int getMoneyById(String memberNo, Connection conn) throws Exception {
 		query = "SELECT MONEY FROM MEMBER WHERE MEMBER_NO = ?";
 		
@@ -65,6 +76,7 @@ public class OrderDao {
 		JDBCTemplate.close(pstmt);
 		return money;
 	}
+	
 	/**
 	 * 주문 내역 추가
 	 * @param newOrder
