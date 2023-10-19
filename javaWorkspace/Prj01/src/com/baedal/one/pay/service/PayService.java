@@ -24,7 +24,7 @@ public class PayService {
 
 		return nowMoney;
 	}
-
+	//입출금 내역
 	public List<PayVo> payList(String userno) throws Exception {
 		// conn
 		Connection conn = JDBCTemplate.getConnection();

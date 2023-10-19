@@ -6,12 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import com.baedal.one.pay.vo.PayVo;
 import com.kh.app.jdbc.JDBCTemplate;
 
-import oracle.sql.converter.JdbcCharacterConverters;
 
 public class PayDao {
 
