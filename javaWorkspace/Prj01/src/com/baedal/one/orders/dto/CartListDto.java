@@ -2,7 +2,7 @@ package com.baedal.one.orders.dto;
 
 /**
  * 장바구니 조회 Dto
- * 물품 번호, 매장 이름, 메뉴 이름, 가격, 수량, 소계(메뉴*수량)
+ * 물품 번호, 매장 이름, 오픈 시간 마감 시간, 메뉴 이름, 가격, 수량, 소계(메뉴*수량)
  */
 public class CartListDto {
 
@@ -10,33 +10,26 @@ public class CartListDto {
 	private String cartNo;
 	private String storeName;
 	private String menuName;
+	private String openTime;
+	private String closeTime;
 	private int price;
 	private int quantity;
 	private int subTotal;
 	
-	
-	public CartListDto(String cartListNo, String storeName, String menuName, int price, int quantity, int subTotal) {
-		super();
+
+	public CartListDto(String cartListNo, String cartNo, String storeName, String menuName, String openTime, String closeTime,
+			int price, int quantity, int subTotal) {
 		this.cartListNo = cartListNo;
+		this.cartNo = cartNo;
 		this.storeName = storeName;
 		this.menuName = menuName;
+		this.openTime = openTime;
+		this.closeTime = closeTime;
 		this.price = price;
 		this.quantity = quantity;
 		this.subTotal = subTotal;
 	}
 
-	public CartListDto(String cartListNo, String cartNo, String storeName, String menuName, int price, int quantity,
-			int subTotal) {
-		super();
-		this.cartListNo = cartListNo;
-		this.cartNo = cartNo;
-		this.storeName = storeName;
-		this.menuName = menuName;
-		this.price = price;
-		this.quantity = quantity;
-		this.subTotal = subTotal;
-	}
-	
 	public String getCartListNo() {
 		return cartListNo;
 	}
@@ -69,6 +62,22 @@ public class CartListDto {
 		this.menuName = menuName;
 	}
 
+	public int getOpenTime() {
+		return Integer.parseInt(openTime);
+	}
+
+	public void setOpenTime(String openTime) {
+		this.openTime = openTime;
+	}
+
+	public int getCloseTime() {
+		return Integer.parseInt(closeTime);
+	}
+
+	public void setCloseTime(String closeTime) {
+		this.closeTime = closeTime;
+	}
+
 	public int getPrice() {
 		return price;
 	}
@@ -84,7 +93,7 @@ public class CartListDto {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	
+
 	public int getSubTotal() {
 		return subTotal;
 	}

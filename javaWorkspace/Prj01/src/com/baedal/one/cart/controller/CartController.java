@@ -103,8 +103,8 @@ public class CartController {
 				
 				//운영시간일때만 장바구니에 담을 수 있게 조건 설정하기
 				int currentHour = LocalDateTime.now().getHour();
-				if(currentHour >= Integer.parseInt(menuInfoList.get(Integer.parseInt(menuNum)-1).getOpenTime())
-						 && currentHour < Integer.parseInt(menuInfoList.get(Integer.parseInt(menuNum)-1).getCloseTime())) {
+				if(currentHour >= menuInfoList.get(Integer.parseInt(menuNum)-1).getOpenTime()
+						 && currentHour < menuInfoList.get(Integer.parseInt(menuNum)-1).getCloseTime()) {
 					
 					CartListVo newCartList = new CartListVo(myCart.getCartNo(), menuInfoList.get(Integer.parseInt(menuNum)-1).getMenuNo(), Integer.parseInt(quantity));
 					result = cartService.addMenu(newCartList);					
@@ -124,8 +124,8 @@ public class CartController {
 				
 				//운영시간일때만 장바구니에 담을 수 있게 조건 설정하기
 				int currentHour = LocalDateTime.now().getHour();
-				if(currentHour >= Integer.parseInt(menuInfoList.get(Integer.parseInt(menuNum)-1).getOpenTime())
-						 && currentHour < Integer.parseInt(menuInfoList.get(Integer.parseInt(menuNum)-1).getCloseTime())) {
+				if(currentHour >= menuInfoList.get(Integer.parseInt(menuNum)-1).getOpenTime()
+						 && currentHour < menuInfoList.get(Integer.parseInt(menuNum)-1).getCloseTime()) {
 					
 					CartListVo newCartList = new CartListVo(myCart.getCartNo(), menuInfoList.get(Integer.parseInt(menuNum)-1).getMenuNo(), Integer.parseInt(quantity));
 					result = cartService.addMenu(newCartList);					

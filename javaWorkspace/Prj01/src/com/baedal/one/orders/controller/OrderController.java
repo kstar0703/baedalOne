@@ -1,5 +1,6 @@
 package com.baedal.one.orders.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.baedal.one.Main;
@@ -39,9 +40,15 @@ public class OrderController {
 				return;
 			} else {
 				//내 장바구니 리스트 보여주기
-				System.out.println("------------------------------");
+				
 				for(int length = 0; length < cartList.size(); length++) {
-					System.out.println((length+1)+". "+cartList.get(length));
+					System.out.println("------------------------------");
+					
+					System.out.println("매장 : "+ cartList.get(length).getStoreName());
+					System.out.println("메뉴 : "+ cartList.get(length).getMenuName());
+					System.out.println("가격 : "+ cartList.get(length).getPrice()+"원");
+					System.out.println("수량 : "+ cartList.get(length).getQuantity()+"개");
+					System.out.println("\t\t" + cartList.get(length).getSubTotal()+"원");
 				}
 			}
 		} catch (Exception e) {
@@ -51,10 +58,10 @@ public class OrderController {
 	
 	private void selectOption() {
 		while(true) {
+			//내 장바구니 리스트 보여주기
 			getCartList();
+			System.out.println("--------------------------------");
 			if(cartList.size() != 0) {
-				//내 장바구니 리스트 보여주기
-				System.out.println("--------------------------------");
 				System.out.println("원하는 작업을 선택하세요.");
 				System.out.println("1. 결제하기");
 				System.out.println("2. 수량 수정하기");
@@ -71,7 +78,9 @@ public class OrderController {
 				case"4": return;
 				default: System.out.println("잘못입력하셨습니다. 다시 입력하세요");		
 				}
-			} 
+			} else {
+				return;
+			}
 		}
 	}
 	private void deleteCartList() {
@@ -141,42 +150,47 @@ public class OrderController {
 	 * 결제하기
 	 */
 	private void printPayInfo() {
-		System.out.println("------------결제 하기------------");
-		try {
-			//페이 가져오기
-			int money = orderService.getMoneyById(TestMain.memberNo);
-			
-			int totalPrice = 0;
-			int totalQuantity = 0;
-			for(CartListDto c : cartList) {
-				totalPrice += c.getSubTotal();
-				totalQuantity += c.getQuantity();
+		int currentHour = LocalDateTime.now().getHour();
+		if(currentHour >= cartList.get(0).getOpenTime() && currentHour < cartList.get(0).getCloseTime()) {
+			System.out.println("------------결제 하기------------");
+			try {
+				//페이 가져오기
+				int money = orderService.getMoneyById(TestMain.memberNo);
+				
+				int totalPrice = 0;
+				int totalQuantity = 0;
+				for(CartListDto c : cartList) {
+					totalPrice += c.getSubTotal();
+					totalQuantity += c.getQuantity();
+				}
+				
+				System.out.println("총 수량 = " + totalQuantity + "개");
+				System.out.println("총 가격 = " + totalPrice + "원");
+				System.out.println("보유 잔액 = " + money + "원");
+				System.out.println("결제 후 잔액 = " + (money-totalPrice) + "원");
+				
+				String select = "";
+				if(money-totalPrice >= 0) {
+					do {
+						System.out.print("결제 하시겠습니까?(y/n)");
+						select = Main.SC.nextLine().toLowerCase();
+						
+						switch(select) {
+						case"y": 
+							OrdersVo newOrder = new OrdersVo(TestMain.memberNo, cartList.get(0).getCartNo(), totalPrice, cartList.get(0).getMenuName(), totalQuantity);
+							pay(newOrder, money); break;
+						case"n": return;
+						default: System.out.println("y와 n중에서 입력해주세요"); break;
+						}					
+					} while(!select.equals("y"));
+				} else 
+					throw new Exception("잔액이 부족합니다.");
+			} catch (Exception e) {
+				System.out.println("결제 실패");
+				System.out.println(e.getMessage()); 
 			}
-			
-			System.out.println("총 수량 = " + totalQuantity + "개");
-			System.out.println("총 가격 = " + totalPrice + "원");
-			System.out.println("보유 잔액 = " + money + "원");
-			System.out.println("결제 후 잔액 = " + (money-totalPrice) + "원");
-			
-			String select = "";
-			if(money-totalPrice >= 0) {
-				do {
-					System.out.print("결제 하시겠습니까?(y/n)");
-					select = Main.SC.nextLine().toLowerCase();
-					
-					switch(select) {
-					case"y": 
-						OrdersVo newOrder = new OrdersVo(TestMain.memberNo, cartList.get(0).getCartNo(), totalPrice, cartList.get(0).getMenuName(), totalQuantity);
-						pay(newOrder, money); break;
-					case"n": return;
-					default: System.out.println("y와 n중에서 입력해주세요"); break;
-					}					
-				} while(!select.equals("y"));
-			} else 
-				throw new Exception("잔액이 부족합니다.");
-		} catch (Exception e) {
-			System.out.println("결제 실패");
-			System.out.println(e.getMessage()); 
+		} else {
+			System.out.println("매장 영업시간이 아닙니다.");
 		}
 	}
 

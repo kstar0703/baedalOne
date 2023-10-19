@@ -11,7 +11,8 @@ public class MenuInfoDto {
 	private String storeName;
 	private String menuName;
 	private String price;
-	//08:00 -> 8 //23:00 -> 23으로 가져오기
+	// 08:00 -> 8 //23:00 -> 23으로 가져오기
+	//	받는 건 String으로 반환하는 건 int로
 	private String openTime;
 	private String closeTime;
 	
@@ -58,16 +59,16 @@ public class MenuInfoDto {
 		this.price = price;
 	}
 
-	public String getOpenTime() {
-		return openTime;
+	public int getOpenTime() {
+		return Integer.parseInt(openTime);
 	}
 
 	public void setOpenTime(String openTime) {
 		this.openTime = openTime;
 	}
 
-	public String getCloseTime() {
-		return closeTime;
+	public int getCloseTime() {
+		return Integer.parseInt(closeTime);
 	}
 
 	public void setCloseTime(String closeTime) {
