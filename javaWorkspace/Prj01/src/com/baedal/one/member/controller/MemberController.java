@@ -17,7 +17,7 @@ public class MemberController {
 		ms = new MemberService();
 	}
 
-	//사용자 회원가입/로그인/뒤로 가기 중 선택하기
+	//회원이 할 수 있는 것들 중 선택
 	public void selectMember() {
 		
 		String num;
