@@ -1,6 +1,7 @@
 package com.baedal.one.menu.service;
 
 import java.sql.Connection;
+import java.util.List;
 
 import com.baedal.one.jdbcTemplate.JDBCTemplate;
 import com.baedal.one.menu.dao.MenuDao;
@@ -29,6 +30,20 @@ public class MenuService {
 		
 	}
 	
+	//메뉴 전체 리스트 
+	public List<MenuVo> menuList() throws Exception {
+		//conn
+		Connection conn = JDBCTemplate.getConnection();
+		
+		//DAO
+		List<MenuVo> voList = menuDao.menuList(conn);
+		
+		//close
+		JDBCTemplate.close(conn);
+		
+		return voList;
+	}
+	
 	//메뉴등록
 	public int addMenu(MenuVo newMenu) throws Exception {
 		//conn
@@ -53,7 +68,6 @@ public class MenuService {
 	
 	//메뉴 수정
 	public int editMenu(MenuVo menuVo) throws Exception {
-		System.out.println("--- 메뉴 수정 ---");
 		
 		//conn
 		Connection conn = JDBCTemplate.getConnection();
@@ -62,14 +76,24 @@ public class MenuService {
 		int result = menuDao.editMenu(conn, menuVo);
 		
 		//tx
-		JDBCTemplate.commit(conn);
-		JDBCTemplate.rollback(conn);
+        if (result == 1) {
+            JDBCTemplate.commit(conn);
+        } else {
+            JDBCTemplate.rollback(conn);
+        }
+       
 		
-		//close
 		JDBCTemplate.close(conn);
 		
 		return result;
 		
+//		if(result == 1) {
+//			JDBCTemplate.commit(conn);
+//		} else {
+//			JDBCTemplate.rollback(conn);
+//		}
+		
+		//close
 	}
 
 	//메뉴 삭제
@@ -79,6 +103,13 @@ public class MenuService {
 		
 		//DAO
 		int result = menuDao.deleteMenu(conn, menuVo);
+		
+		//tx
+		if(result == 1) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
 		
 		//close
 		JDBCTemplate.close(conn);
