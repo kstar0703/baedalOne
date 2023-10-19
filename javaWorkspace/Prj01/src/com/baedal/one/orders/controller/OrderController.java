@@ -40,16 +40,20 @@ public class OrderController {
 				return;
 			} else {
 				//내 장바구니 리스트 보여주기
-				
+				int total = 0;
+				System.out.println("--------------------------------");
+				System.out.println("\t     장바구니\t");
+				System.out.println("--------------------------------");
 				for(int length = 0; length < cartList.size(); length++) {
-					System.out.println("------------------------------");
 					
 					System.out.println("매장 : "+ cartList.get(length).getStoreName());
 					System.out.println("메뉴 : "+ cartList.get(length).getMenuName());
-					System.out.println("가격 : "+ cartList.get(length).getPrice()+"원");
 					System.out.println("수량 : "+ cartList.get(length).getQuantity()+"개");
-					System.out.println("\t\t" + cartList.get(length).getSubTotal()+"원");
+					System.out.println("가격 : "+ cartList.get(length).getPrice()+"원   "+"\u001B[32m"+"| 총합 : " + cartList.get(length).getSubTotal()+"원"+"\u001B[0m");
+					System.out.println("--------------------------------");
+					total += cartList.get(length).getPrice();
 				}
+				System.out.println("\u001B[36m"+"총 가격 : " + total + "원"+"\u001B[0m");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -165,9 +169,9 @@ public class OrderController {
 				}
 				
 				System.out.println("총 수량 = " + totalQuantity + "개");
-				System.out.println("총 가격 = " + totalPrice + "원");
 				System.out.println("보유 잔액 = " + money + "원");
-				System.out.println("결제 후 잔액 = " + (money-totalPrice) + "원");
+				System.out.println("\u001B[31m"+"총 가격 = " + totalPrice + "원"+"\u001B[0m");
+				System.out.println("\u001B[32m"+"결제 후 잔액 = " + (money-totalPrice) + "원"+"\u001B[0m");
 				
 				String select = "";
 				if(money-totalPrice >= 0) {
@@ -179,7 +183,7 @@ public class OrderController {
 						case"y": 
 							OrdersVo newOrder = new OrdersVo(TestMain.memberNo, cartList.get(0).getCartNo(), totalPrice, cartList.get(0).getMenuName(), totalQuantity);
 							pay(newOrder, money); break;
-						case"n": return;
+						case"n": System.out.println("뒤로 이동합니다"); return;
 						default: System.out.println("y와 n중에서 입력해주세요"); break;
 						}					
 					} while(!select.equals("y"));
