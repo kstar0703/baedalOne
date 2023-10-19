@@ -1,4 +1,17 @@
 # 배달의 달인
+
+## 팀 소개
+### 팀명 - 배달ONE
+### 팀원 소개
+
+| 구분 | 이준호 | 김희성 | 박병욱 | 김송희 | 박범렬 | 이예지 |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| Role | Leader | SCM | DB Manager | Developer | Developer | Developer |
+| GitHub | [rinklove](https://github.com/rinklove) | [kstar0703](https://github.com/kstar0703) | [Byeonguk2](https://github.com/Byeonguk2) | [KIMBBOI](https://github.com/KIMBBOI) | [BeomRyeolPark](https://github.com/BeomRyeolPark) | [leeyeji803](https://github.com/leeyeji803) |
+| Contrbtions | 장바구니 담기, 결제 |  | 리뷰(작성, 삭제, 조회) |  |  | 회원 관리, 주문 내역 조회 |  
+
+<hr>
+
 ## 프로그램 소개
 배달 예약 및 결제 프로그램
 
@@ -23,14 +36,6 @@
   - 매장 관리(매장 등록, 수정, 삭제)
   - 메뉴 관리(메뉴 추가, 수정, 삭제)
   - 주문 리스트 조회
-<br>
 
-## 팀 소개
-### 팀명 - 배달ONE
-### 팀원 소개
 
-| 구분 | 이준호 | 김희성 | 박병욱 | 김송희 | 박범렬 | 이예지 |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Role | Leader | SCM | DB Manager | Developer | Developer | Developer |
-| GitHub | [rinklove](https://github.com/rinklove) | [kstar0703](https://github.com/kstar0703) | [Byeonguk2](https://github.com/Byeonguk2) | [KIMBBOI](https://github.com/KIMBBOI) | [BeomRyeolPark](https://github.com/BeomRyeolPark) | [leeyeji803](https://github.com/leeyeji803) |
-| Contrbtions | 장바구니 담기, 결제 |  | 리뷰(작성, 삭제, 조회) |  |  | 회원 관리, 주문 내역 조회 |  
+
