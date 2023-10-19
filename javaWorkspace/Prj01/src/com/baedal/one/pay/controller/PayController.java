@@ -1,10 +1,8 @@
 package com.baedal.one.pay.controller;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
-import com.baedal.one.pay.PayTestMain;
 import com.baedal.one.pay.service.PayService;
 import com.baedal.one.pay.vo.PayVo;
 
@@ -39,17 +37,13 @@ public class PayController {
 		}
 	}
 
-	// 비밀번호 구하기
+	// 현재 잔액
 	private int findBalance() {
 		int nowMoney = 0;
 		try {
-			// PayVo 객체 생성
-			PayVo vo = new PayVo();
-			vo.setUserNo(USERNO);
 
 			// 잔액을 불러와서 저장
-			nowMoney = service.findBalance(vo);
-
+			nowMoney = service.findBalance(USERNO);
 			
 					
 			if (nowMoney < 0) {
@@ -130,19 +124,29 @@ public class PayController {
 		try {
 			System.out.println("-----입출금 내역확인-------");
 
-			PayVo vo = new PayVo();
-
 			// 데이터
 			List<PayVo> voList = service.payList(USERNO);
 			// 결과
-			for (PayVo vo1 : voList) {
-				System.out.print(vo1.getSource());
-				System.out.print(" / ");
-				System.out.print(vo1.getPay());
-				System.out.print(" / ");
-				System.out.print(vo1.getPayDate());
-				System.out.print(" / ");
-				System.out.println(vo1.getBalance());
+			for (PayVo vo : voList) {
+				if(vo.getSource().equals("충전")) {
+					System.out.print("\u001B[34m"+vo.getSource());//""(쌍따움표)안의 역할 : 출력문 파랑색으로 바꾸기
+					System.out.print(" / ");
+					System.out.print(vo.getPay());
+					System.out.print(" / ");
+					System.out.print(vo.getPayDate());
+					System.out.print(" / ");
+					System.out.println(vo.getBalance()+"\u001B[0m");//""(쌍따움표)안의 역할 : 출력문 원래 색으로 바꾸기
+				}else {
+					System.out.print("\u001B[31m"+vo.getSource());//""(쌍따움표)안의 역할 : 출력문 빨강색으로 바꾸기
+					System.out.print(" / ");
+					System.out.print(vo.getPay());
+					System.out.print(" / ");
+					System.out.print(vo.getPayDate());
+					System.out.print(" / ");
+					System.out.println(vo.getBalance()+"\u001B[0m");//""(쌍따움표)안의 역할 : 출력문 원래 색으로 바꾸기
+					
+				}
+				
 
 			}
 		} catch (Exception e) {

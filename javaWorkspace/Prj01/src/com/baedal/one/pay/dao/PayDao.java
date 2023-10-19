@@ -6,20 +6,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import com.baedal.one.pay.vo.PayVo;
 import com.kh.app.jdbc.JDBCTemplate;
 
-import oracle.sql.converter.JdbcCharacterConverters;
 
 public class PayDao {
 
-	public int findBalance(Connection conn, PayVo vo) throws Exception {
+	public int findBalance(Connection conn, String userno) throws Exception {
 		String sql = "SELECT M.MONEY FROM MEMBER M JOIN PAY P ON M.MEMBER_NO= P.USER_NO WHERE M.MEMBER_NO = ?";
 
 		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, vo.getUserNo());
+		pstmt.setString(1, userno);
 		ResultSet rs = pstmt.executeQuery();
 		int nowMoney = 0;
 		if (rs.next()) {
@@ -32,7 +30,7 @@ public class PayDao {
 	}
 
 	public List<PayVo> payList(Connection conn, String userno) throws Exception {
-		String sql = "SELECT SOURCE, PAY, PAY_DATE, BALANCE FROM PAY WHERE USER_NO =? ORDER BY PAY_DATE";
+		String sql = "SELECT SOURCE, PAY, PAY_DATE, BALANCE FROM PAY WHERE USER_NO =? ORDER BY PAY_DATE DESC";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, userno);
 		
