@@ -7,22 +7,21 @@ import com.baedal.one.owner.vo.OwnerVo;
 
 public class MenuMain {
 	
+//	public static StoreVo StoreNo = "1";
+//	public static OwnerVo loginOwner;
 	public static final Scanner SC = new Scanner(System.in); 
 
 	public static void main(String[] args) {
 		
 		
-		System.out.println("☎☏ ㈜ 배달의 달인 ☏☎");
+		System.out.println("== 메뉴(매장) 관리 ==");
 		
 		//객체
 		MenuController menuController = new MenuController();
 
-		menuController.addMenu();;
 //		while(true) {
-//			
-//			//메뉴판
-//			System.out.println("★☆ 메뉴 관리 ☆★");
-//			}
+			menuController.findPwd();
+//		}
 			
 		}
 		
