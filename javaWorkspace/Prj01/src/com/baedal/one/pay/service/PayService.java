@@ -15,10 +15,10 @@ public class PayService {
 		dao = new PayDao();
 	}
 
-	public int findBalance(PayVo vo) throws Exception {
+	public int findBalance(String userno) throws Exception {
 		Connection conn = JDBCTemplate.getConnection();
 
-		int nowMoney = dao.findBalance(conn, vo);
+		int nowMoney = dao.findBalance(conn, userno);
 
 		JDBCTemplate.close(conn);
 

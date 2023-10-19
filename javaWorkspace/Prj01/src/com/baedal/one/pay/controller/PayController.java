@@ -39,16 +39,13 @@ public class PayController {
 		}
 	}
 
-	// 비밀번호 구하기
+	// 현재 잔액
 	private int findBalance() {
 		int nowMoney = 0;
 		try {
-			// PayVo 객체 생성
-			PayVo vo = new PayVo();
-			vo.setUserNo(USERNO);
 
 			// 잔액을 불러와서 저장
-			nowMoney = service.findBalance(vo);
+			nowMoney = service.findBalance(USERNO);
 
 			
 					
@@ -136,13 +133,25 @@ public class PayController {
 			List<PayVo> voList = service.payList(USERNO);
 			// 결과
 			for (PayVo vo1 : voList) {
-				System.out.print(vo1.getSource());
-				System.out.print(" / ");
-				System.out.print(vo1.getPay());
-				System.out.print(" / ");
-				System.out.print(vo1.getPayDate());
-				System.out.print(" / ");
-				System.out.println(vo1.getBalance());
+				if(vo1.getSource().equals("충전")) {
+					System.out.print("\u001B[34m"+vo1.getSource());
+					System.out.print(" / ");
+					System.out.print(vo1.getPay());
+					System.out.print(" / ");
+					System.out.print(vo1.getPayDate());
+					System.out.print(" / ");
+					System.out.println(vo1.getBalance()+"\u001B[0m");
+				}else {
+					System.out.print("\u001B[31m"+vo1.getSource());
+					System.out.print(" / ");
+					System.out.print(vo1.getPay());
+					System.out.print(" / ");
+					System.out.print(vo1.getPayDate());
+					System.out.print(" / ");
+					System.out.println(vo1.getBalance()+"\u001B[0m");
+					
+				}
+				
 
 			}
 		} catch (Exception e) {
