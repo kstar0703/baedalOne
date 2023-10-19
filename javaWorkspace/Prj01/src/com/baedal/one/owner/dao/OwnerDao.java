@@ -5,10 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.naming.spi.DirStateFactory.Result;
-
+import com.baedal.one.cart.TestMain;
+import com.baedal.one.jdbcTemplate.JDBCTemplate;
+import com.baedal.one.owner.OwnerTestMain;
 import com.baedal.one.owner.vo.OwnerVo;
-import com.kh.app.jdbc.JDBCTemplate;
 
 public class OwnerDao {
 	
@@ -36,34 +36,77 @@ public class OwnerDao {
 		
 	
 	//sql
-	String sql = "SELECT * FROM OWNER WHERE OWNER_ID =? AND OWNER_PWD = ? AND QUIT_YN ='N'";
+	String sql = "SELECT * FROM OWNER WHERE OWNER_ID =? AND OWNER_PWD =? AND QUIT_YN = 'N'";
 	PreparedStatement pstmt = conn.prepareStatement(sql);
 	pstmt.setString(1, vo.getOwnerId());
 	pstmt.setString(2, vo.getOwnerPwd());
 	
+	
+	//rs
 	ResultSet rs = pstmt.executeQuery();
 	
 	OwnerVo ownerLogin = null;
 	
 	
-	//
+	
 	if(rs.next()) {
 		String ownerNO = rs.getString("OWNER_NO");
 		String ownerId = rs.getString("OWNER_ID");
 		String ownerPwd = rs.getString("OWNER_PWD");
-		
+		String enrolldate = rs.getString("ENROLL_DATE");
+		String updateDate = rs.getString("UPDATE_DATE");
 		String quitYn = rs.getString("QUIT_YN");
 		
 		ownerLogin = new OwnerVo();
+		ownerLogin.setOwnerNo(ownerNO);
+		ownerLogin.setOwnerId(ownerId);
+		ownerLogin.setOwnerPwd(ownerPwd);
+		ownerLogin.setEnrollDate(enrolldate);
+		ownerLogin.setUpdateDate(updateDate);
+		ownerLogin.setQuitYn(quitYn);
 		
 	}
+	
+	//close
+	JDBCTemplate.close(pstmt);
+	JDBCTemplate.close(rs);
+	
+	
 	return ownerLogin;
 	
-	
-	
-	
-	
-	
+	}
+
+	// 비밀번호 변경
+	public int changePwd(Connection conn, String changPwd) throws Exception {
+		
+		//sql
+		String sql = "UPDATE OWNER SET OWNER_PWD = ?, UPDATE_DATE =SYSDATE WHERE OWNER_ID =? AND QUIT_YN ='N'";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, changPwd);
+		pstmt.setString(2, OwnerTestMain.LoginOwner.getOwnerId());
+		int result = pstmt.executeUpdate();
+		
+		// close
+		pstmt.close();
+		
+		return result;
+		
+	}
+
+
+	public int quit(Connection conn) throws Exception {
+		
+		//sql
+		String sql = "UPDATE OWNER SET QUIT_YN = 'Y' WHERE OWNER_NO =? ";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		// # OwnerTestMain.LoginOwner --> Main.LoginOwner 변수 변경
+		pstmt.setString(1, OwnerTestMain.LoginOwner.getOwnerNo());
+		int result = pstmt.executeUpdate();
+		// close
+		pstmt.close();		
+		return result;
+				
+			
 	}
 
 }

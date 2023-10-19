@@ -1,11 +1,10 @@
 package com.baedal.one.owner.service;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 
+import com.baedal.one.jdbcTemplate.JDBCTemplate;
 import com.baedal.one.owner.dao.OwnerDao;
 import com.baedal.one.owner.vo.OwnerVo;
-import com.kh.app.jdbc.JDBCTemplate;
 
 public class OwnerService {
 	// 오너 dao
@@ -50,6 +49,52 @@ public class OwnerService {
 		
 	
 		return ownerVo;
+	}
+	
+	// 오너 비밀번호 변경
+	public int changePwd(String changPwd) throws Exception {
+		
+		//conn
+		Connection conn = JDBCTemplate.getConnection();
+		
+		//Dao
+		int result = dao.changePwd(conn, changPwd);
+		
+		// tx
+		if(result==1) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		// close
+		conn.close();
+		
+		return result;
+
+		
+		
+		
+		
+	}
+
+	public int quit() throws Exception {
+		
+		// conn 
+		Connection conn = JDBCTemplate.getConnection();
+		
+		// Dao
+		int result = dao.quit(conn);
+		
+		//tx
+		if(result==1) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		// close
+		conn.close();
+		
+		return result;
 	}
 	
 	
