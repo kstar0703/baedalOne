@@ -6,28 +6,28 @@ public class ReviewVo {
 		
 	}
 
-	public ReviewVo(String writerName, String writeDate, String content, String menuName, String storeNo,
-			int lastOrderNo, int allorderNo, String userNo) {
+	public ReviewVo(String userNo, String reviewNo, String nickName, String writeDate, String content, String menuName,
+			String storeNo, String orderNo) {
 		super();
-		this.writerName = writerName;
+		this.userNo = userNo;
+		this.reviewNo = reviewNo;
+		this.nickName = nickName;
 		this.writeDate = writeDate;
 		this.content = content;
 		this.menuName = menuName;
 		StoreNo = storeNo;
-		this.lastOrderNo = lastOrderNo;
-		this.allorderNo = allorderNo;
-		this.userNo = userNo;
+		this.orderNo = orderNo;
 	}
 
-	String writerName;
+	String userNo;
+	String reviewNo;
+	String nickName;
 	String writeDate;
 	String content;
 	String menuName;
 	String StoreNo;
-	int lastOrderNo;
-	int allorderNo;
-	String userNo;
-
+	String orderNo;
+	
 	public String getUserNo() {
 		return userNo;
 	}
@@ -36,12 +36,20 @@ public class ReviewVo {
 		this.userNo = userNo;
 	}
 
-	public String getStoreNo() {
-		return StoreNo;
+	public String getReviewNo() {
+		return reviewNo;
 	}
 
-	public void setStoreNo(String reviewNo) {
-		StoreNo = reviewNo;
+	public void setReviewNo(String reviewNo) {
+		this.reviewNo = reviewNo;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 
 	public String getWriteDate() {
@@ -68,35 +76,27 @@ public class ReviewVo {
 		this.menuName = menuName;
 	}
 
-	public String getWriterName() {
-		return writerName;
+	public String getStoreNo() {
+		return StoreNo;
 	}
 
-	public void setWriterName(String writerName) {
-		this.writerName = writerName;
+	public void setStoreNo(String storeNo) {
+		StoreNo = storeNo;
 	}
 
-	public int getLastOrderNo() {
-		return lastOrderNo;
+	public String getOrderNo() {
+		return orderNo;
 	}
 
-	public void setLastOrderNo(int lastOrderNo) {
-		this.lastOrderNo = lastOrderNo;
-	}
-
-	public int getAllorderNo() {
-		return allorderNo;
-	}
-
-	public void setAllorderNo(int allorderNo) {
-		this.allorderNo = allorderNo;
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
 	}
 
 	@Override
 	public String toString() {
-		return "ReviewVo [writerName=" + writerName + ", writeDate=" + writeDate + ", content=" + content
-				+ ", menuName=" + menuName + ", StoreNo=" + StoreNo + ", lastOrderNo=" + lastOrderNo + ", allorderNo="
-				+ allorderNo + ", userNo=" + userNo + "]";
+		return "ReviewVo [userNo=" + userNo + ", reviewNo=" + reviewNo + ", nickName=" + nickName + ", writeDate="
+				+ writeDate + ", content=" + content + ", menuName=" + menuName + ", StoreNo=" + StoreNo + ", orderNo="
+				+ orderNo + "]";
 	}
 
 }
