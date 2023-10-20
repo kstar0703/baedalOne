@@ -66,6 +66,7 @@ public class CartController {
 		String quantity = "";	//수량
 		int result = 0;
 		
+		//장바구니가 없을 경우 새로 생성
 		try {
 			try {
 				myCart = cartService.getMyCart(TestMain.memberNo);
@@ -109,10 +110,10 @@ public class CartController {
 				}
 				
 				//운영시간일때만 장바구니에 담을 수 있게 조건 설정하기
-				int currentHour = LocalDateTime.now().getHour();
-				if(currentHour >= menuInfoList.get(Integer.parseInt(menuNum)-1).getOpenTime()
-						 && currentHour < menuInfoList.get(Integer.parseInt(menuNum)-1).getCloseTime()) {
-					
+				int openTime = menuInfoList.get(Integer.parseInt(menuNum)-1).getOpenTime();
+				int closeTime = menuInfoList.get(Integer.parseInt(menuNum)-1).getCloseTime();
+				
+				if(isOpen(openTime, closeTime)) {
 					CartListVo newCartList = new CartListVo(myCart.getCartNo(), menuInfoList.get(Integer.parseInt(menuNum)-1).getMenuNo(), Integer.parseInt(quantity));
 					result = cartService.addMenu(newCartList);					
 				} else {
@@ -130,10 +131,7 @@ public class CartController {
 				}
 				
 				//운영시간일때만 장바구니에 담을 수 있게 조건 설정하기
-				int currentHour = LocalDateTime.now().getHour();
-				if(currentHour >= menuInfoList.get(Integer.parseInt(menuNum)-1).getOpenTime()
-						 && currentHour < menuInfoList.get(Integer.parseInt(menuNum)-1).getCloseTime()) {
-					
+				if(isOpen(menuInfoList.get(Integer.parseInt(menuNum)-1).getOpenTime(), menuInfoList.get(Integer.parseInt(menuNum)-1).getCloseTime())) {
 					CartListVo newCartList = new CartListVo(myCart.getCartNo(), menuInfoList.get(Integer.parseInt(menuNum)-1).getMenuNo(), Integer.parseInt(quantity));
 					result = cartService.addMenu(newCartList);					
 				} else {
@@ -203,5 +201,10 @@ public class CartController {
 			}
 		} while (!answer.equals("y"));
 		return isDelete;
+	}
+	
+	private boolean isOpen(int openTime, int closeTime) {
+		int currentHour = LocalDateTime.now().getHour();
+		return currentHour >= openTime && currentHour < closeTime ? true : false;
 	}
 }
