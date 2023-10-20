@@ -14,6 +14,7 @@ public class OwnerService {
 		 dao = new OwnerDao();
 	}
 
+	// # 회원가입
 	public int join(OwnerVo vo) throws Exception {
 
 		
@@ -35,7 +36,7 @@ public class OwnerService {
 		
 		return result;	
 	}
-	// 오너 login
+	// #오너 login
 	public OwnerVo login(OwnerVo vo) throws Exception {
 		
 		//conn
@@ -51,7 +52,7 @@ public class OwnerService {
 		return ownerVo;
 	}
 	
-	// 오너 비밀번호 변경
+	// #오너 비밀번호 변경
 	public int changePwd(String changPwd) throws Exception {
 		
 		//conn
@@ -76,7 +77,7 @@ public class OwnerService {
 		
 		
 	}
-
+		// # 오너 회원 탈퇴
 	public int quit() throws Exception {
 		
 		// conn 
@@ -95,6 +96,24 @@ public class OwnerService {
 		conn.close();
 		
 		return result;
+	}
+
+	
+	// 오너 정보 출력
+	public OwnerVo showStoreInfo(String ownerNo) throws Exception {
+		
+		// conn
+		Connection conn = JDBCTemplate.getConnection();
+		
+	
+		// dao
+		OwnerVo vo = dao.showStoreInfo(conn, ownerNo);
+		
+		// close
+		conn.close();
+		
+		return vo;
+		
 	}
 	
 	
