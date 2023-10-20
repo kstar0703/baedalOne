@@ -66,11 +66,13 @@ public class CartController {
 		String quantity = "";	//수량
 		int result = 0;
 		
+		//장바구니가 없을 경우 새로 생성
 		try {
 			try {
 				myCart = cartService.getMyCart(TestMain.memberNo);
 				if(myCart == null) throw new NullPointerException("장바구니를 새로 생성합니다");
 			} catch (NullPointerException e) {
+				System.err.println(e.getMessage());
 				myCart = createNewCart(null);
 			}
 			
@@ -93,12 +95,15 @@ public class CartController {
 				}
 			} while(Integer.parseInt(menuNum)-1 >= menuInfoList.size());
 			
+			
+			int openTime = menuInfoList.get(Integer.parseInt(menuNum)-1).getOpenTime(); //오픈 시간
+			int closeTime = menuInfoList.get(Integer.parseInt(menuNum)-1).getCloseTime(); //마감 시간
+			
 //			 다른 매장의 메뉴를 담을 경우
 			if (!storeNo.equals(myCart.getStoreNo()) && !myCart.getStoreNo().equals("0")) {
 				isDeleted = deleteCartList(myCart.getCartNo());
 				myCart = createNewCart(null);
 			}
-			
 			//같은 매장의 메뉴를 담을 경우 or 새로 담는 경우
 			else if(storeNo.equals(myCart.getStoreNo()) || myCart.getStoreNo().equals("0")) {
 				System.out.print("메뉴 수량을 입력하세요: ");
@@ -108,10 +113,9 @@ public class CartController {
 				}
 				
 				//운영시간일때만 장바구니에 담을 수 있게 조건 설정하기
-				int currentHour = LocalDateTime.now().getHour();
-				if(currentHour >= menuInfoList.get(Integer.parseInt(menuNum)-1).getOpenTime()
-						 && currentHour < menuInfoList.get(Integer.parseInt(menuNum)-1).getCloseTime()) {
-					
+				
+				
+				if(isOpen(openTime, closeTime)) {
 					CartListVo newCartList = new CartListVo(myCart.getCartNo(), menuInfoList.get(Integer.parseInt(menuNum)-1).getMenuNo(), Integer.parseInt(quantity));
 					result = cartService.addMenu(newCartList);					
 				} else {
@@ -129,10 +133,7 @@ public class CartController {
 				}
 				
 				//운영시간일때만 장바구니에 담을 수 있게 조건 설정하기
-				int currentHour = LocalDateTime.now().getHour();
-				if(currentHour >= menuInfoList.get(Integer.parseInt(menuNum)-1).getOpenTime()
-						 && currentHour < menuInfoList.get(Integer.parseInt(menuNum)-1).getCloseTime()) {
-					
+				if(isOpen(openTime,closeTime)) {
 					CartListVo newCartList = new CartListVo(myCart.getCartNo(), menuInfoList.get(Integer.parseInt(menuNum)-1).getMenuNo(), Integer.parseInt(quantity));
 					result = cartService.addMenu(newCartList);					
 				} else {
@@ -145,7 +146,7 @@ public class CartController {
 			else 
 				throw new Exception();
 		} catch (Exception e) {
-			System.out.println("장바구니 담기 실패");
+			System.err.println("장바구니 담기 실패");
 			e.printStackTrace();
 		} 
 	}
@@ -202,5 +203,10 @@ public class CartController {
 			}
 		} while (!answer.equals("y"));
 		return isDelete;
+	}
+	
+	private boolean isOpen(int openTime, int closeTime) {
+		int currentHour = LocalDateTime.now().getHour();
+		return currentHour >= openTime && currentHour < closeTime ? true : false;
 	}
 }

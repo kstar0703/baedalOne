@@ -208,5 +208,16 @@ public class OrderDao {
 		JDBCTemplate.close(pstmt);
 		return result;
 	}
+	public String getAmountPwd(String memberNo, Connection conn) throws Exception {
+		query = "SELECT AMOUNT_PWD FROM MEMBER WHERE MEMBER_NO = ?";
+		PreparedStatement pstmt = conn.prepareStatement(query);
+		pstmt.setString(1, memberNo);
+		ResultSet rs = pstmt.executeQuery();
+		String findAmountPwd = null;
+		if(rs.next()) {
+			findAmountPwd = new String(rs.getString("AMOUNT_PWD"));
+		}
+		return findAmountPwd;
+	}
 
 }

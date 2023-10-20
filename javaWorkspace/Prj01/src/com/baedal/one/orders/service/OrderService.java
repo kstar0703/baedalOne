@@ -139,4 +139,13 @@ public class OrderService {
 		return result;
 	}
 
+	public String getAmountPwd(String memberNo) throws Exception {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		String findAmountPwd = orderDao.getAmountPwd(memberNo, conn);
+		
+		JDBCTemplate.close(conn);
+		return findAmountPwd;
+	}
+
 }

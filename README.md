@@ -8,7 +8,7 @@
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | Role | Leader | SCM | DB Manager | Developer | Developer | Developer |
 | GitHub | [rinklove](https://github.com/rinklove) | [kstar0703](https://github.com/kstar0703) | [Byeonguk2](https://github.com/Byeonguk2) | [KIMBBOI](https://github.com/KIMBBOI) | [BeomRyeolPark](https://github.com/BeomRyeolPark) | [leeyeji803](https://github.com/leeyeji803) |
-| Contrbtions | 장바구니 담기, 결제 |  | 리뷰(작성, 삭제, 조회) |  |  | 회원 관리, 주문 내역 조회 |  
+| Contributions | 장바구니, 결제 관련 기능 | 매장 관련 기능 | 리뷰 관련 기능 | 메뉴 관련 기능 | 페이 관련 기능 | 회원 관련 기능 |  
 
 <hr>
 
@@ -36,6 +36,3 @@
   - 매장 관리(매장 등록, 수정, 삭제)
   - 메뉴 관리(메뉴 추가, 수정, 삭제)
   - 주문 리스트 조회
-
-
-
