@@ -7,8 +7,7 @@ import com.baedal.one.owner.vo.OwnerVo;
 
 public class MenuMain {
 	
-//	public static StoreVo StoreNo = "1";
-//	public static OwnerVo loginOwner;
+	public static String storeNo = "1";
 	public static final Scanner SC = new Scanner(System.in); 
 
 	public static void main(String[] args) {
@@ -19,13 +18,8 @@ public class MenuMain {
 		//객체
 		MenuController menuController = new MenuController();
 
-//		while(true) {
-			menuController.findPwd();
-//		}
+		menuController.findPwd(storeNo);
 			
-		}
-		
-
-	
+	}
 
 }
