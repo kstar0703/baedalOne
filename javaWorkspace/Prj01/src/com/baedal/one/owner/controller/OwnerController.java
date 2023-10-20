@@ -5,13 +5,16 @@ import java.lang.reflect.Member;
 import java.nio.channels.SelectableChannel;
 import java.security.PublicKey;
 import java.security.Provider.Service;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
 import javax.imageio.metadata.IIOMetadataFormatImpl;
 
 import com.baedal.one.Main;
+import com.baedal.one.cart.TestMain;
 import com.baedal.one.owner.OwnerTestMain;
 import com.baedal.one.owner.service.OwnerService;
 import com.baedal.one.owner.vo.OwnerVo;
@@ -34,7 +37,7 @@ public class OwnerController {
 		System.out.println("1. 회원가입");
 		System.out.println("2. 로그인 ");
 		System.out.println("3. 비밀번호 변경");
-		System.out.println("4. 매장정보 출력");
+		System.out.println("4. 유저정보 출력");
 		System.out.println("5. 로그아웃");
 		System.out.println("6. 회원탈퇴 ");
 		System.out.println("9. 뒤로가기");
@@ -236,19 +239,31 @@ public class OwnerController {
 		/**
 		 * 매장정보 출력 및 유저 정보 출력
 		 * 
-		 * List<String> 타입으로 가져와도 되는지?
-		 * 
-		 * === 유저 ====
-		 * 
-		 * 
-		 * === 보유한 ===
-		 *  
-		 *
 		 */
 		public void showStoreInfo() {
 			System.out.println("===== 유저 정보 =====");
 			
-		try 
+			try {
+				// #Main.LoginOwner --> 변경
+				if(OwnerTestMain.LoginOwner == null) {
+					throw new Exception();
+				}
+				
+				String ownerNo = OwnerTestMain.LoginOwner.getOwnerNo();
+				
+				OwnerVo vo = ownerService.showStoreInfo(ownerNo);
+				
+				System.out.println("아이디 : " + vo.getOwnerId());
+				System.out.println("비밀번호 : " + vo.getOwnerPwd());
+				System.out.println("가입일자 : " + vo.getEnrollDate());
+							
+			} catch (Exception e) {
+					System.out.println("유저 정보 출력 실패");
+					e.printStackTrace();
+			}
+			
+			
+		
 			
 			
 			
@@ -256,6 +271,8 @@ public class OwnerController {
 		}
 		
 		
+	
+
 		/**
 		 * 로그아웃
 		 */

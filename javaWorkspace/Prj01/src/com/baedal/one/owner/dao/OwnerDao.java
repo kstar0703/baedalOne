@@ -93,7 +93,7 @@ public class OwnerDao {
 		
 	}
 
-
+    // #회원탈퇴
 	public int quit(Connection conn) throws Exception {
 		
 		//sql
@@ -106,6 +106,29 @@ public class OwnerDao {
 		pstmt.close();		
 		return result;
 				
+			
+	}
+
+    // #정보출력
+	public OwnerVo showStoreInfo(Connection conn, String ownerNo) throws Exception {
+		
+		//sql
+		String sql = "SELECT OWNER_NO,OWNER_ID,OWNER_PWD,TO_CHAR(ENROLL_DATE,'YYYY-DD-MM') AS ENROLL_DATE ,UPDATE_DATE,QUIT_YN FROM OWNER WHERE OWNER_NO =?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1,ownerNo);
+	
+		// rs
+		ResultSet rs = pstmt.executeQuery();
+		
+		OwnerVo vo = null;
+		if(rs.next()) {
+			vo = new OwnerVo(rs.getString("OWNER_NO"),rs.getString("OWNER_ID"),rs.getString("OWNER_PWD"),rs.getString("ENROLL_DATE"),rs.getString("UPDATE_DATE"),rs.getString("QUIT_YN"));
+		}
+		
+		JDBCTemplate.close(conn);
+		JDBCTemplate.close(pstmt);
+		
+		return vo;
 			
 	}
 
