@@ -2,6 +2,7 @@ package com.baedal.one.review.service;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.baedal.one.review.dao.ReviewDao;
@@ -17,15 +18,15 @@ public class ReviewService {
 	}
 
 	// 리뷰 작성
-	public int writeReview(ReviewVo vo, int orderNo) throws Exception {
+	public int writeReview(ReviewVo vo) throws Exception {
 
 		// 디비 연결
 		Connection conn = JDBCTemplate.getConnection();
 
 		// dao
-		int result = dao.writeReview(vo, conn, orderNo);
+		int result = dao.writeReview(vo, conn);
 
-		// commit or rollback
+		// commit , rollback
 		if (result == 1) {
 			JDBCTemplate.commit(conn);
 		} else {
@@ -68,7 +69,7 @@ public class ReviewService {
 		return voList;
 	}
 
-	
+	// 리뷰삭제
 	public int deleteReview(ReviewVo vo) throws Exception{
 		
 		//conn
@@ -90,4 +91,26 @@ public class ReviewService {
 		return result;
 	}
 
+	
+	// 리뷰 수정 
+	public int updateReview(ReviewVo vo) throws Exception {
+		
+		//conn
+		Connection conn = JDBCTemplate.getConnection();
+		
+		//dao
+		int result = dao.updateReview(vo,conn);
+		
+		if(result == 1) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		//close
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
+	
 }

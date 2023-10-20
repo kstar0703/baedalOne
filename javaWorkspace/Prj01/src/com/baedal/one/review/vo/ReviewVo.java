@@ -21,13 +21,12 @@ public class ReviewVo {
 
 	String userNo;
 	String reviewNo;
-	String nickName;
+	String nickName; // dto
 	String writeDate;
 	String content;
-	String menuName;
+	String menuName; // dto 
 	String StoreNo;
 	String orderNo;
-	
 	public String getUserNo() {
 		return userNo;
 	}
@@ -98,5 +97,5 @@ public class ReviewVo {
 				+ writeDate + ", content=" + content + ", menuName=" + menuName + ", StoreNo=" + StoreNo + ", orderNo="
 				+ orderNo + "]";
 	}
-
+	
 }
