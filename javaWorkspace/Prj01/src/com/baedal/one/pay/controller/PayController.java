@@ -10,7 +10,6 @@ public class PayController {
 
 	private final PayService service;
 	private static final String USERNO = "1"; // 임시 사용자 넘버
-	private static final String OWNERNO = "2"; // 임시 사용자 넘버
 
 	Scanner sc = new Scanner(System.in);
 
@@ -32,7 +31,7 @@ public class PayController {
 		// 엽력한 수에 따라 기능 실행
 		switch(inputNum) {
 		case "1" : selectChargePay(); break;
-		case "2" : DepositWithdrawalDetails(); break;
+		case "2" : DepositWithdrawalDetails(USERNO); break;
 //		case "3" : 이전화면
 		}
 	}
@@ -120,7 +119,7 @@ public class PayController {
 	}
 
 	// 입출금 내역
-	private void DepositWithdrawalDetails() {
+	private void DepositWithdrawalDetails(String USERNO) {
 		try {
 			System.out.println("-----입출금 내역확인-------");
 

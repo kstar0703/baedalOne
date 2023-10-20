@@ -8,11 +8,11 @@ public class OwnerOdersVo {
 	private String oderDate;
 	private String totalPrice;
 	private String menuName;
+	
 	private String totalQuantity;
 
 	public OwnerOdersVo() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public OwnerOdersVo(String orderNo, String userNo, String cartNo, String oderDate, String totalPrice,

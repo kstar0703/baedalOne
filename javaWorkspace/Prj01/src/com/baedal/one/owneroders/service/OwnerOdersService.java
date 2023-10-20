@@ -1,10 +1,8 @@
 package com.baedal.one.owneroders.service;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
-import com.baedal.one.orders.dto.CartListDto;
 import com.baedal.one.owneroders.dao.OwnerOdersDao;
 import com.baedal.one.owneroders.dto.OwnerCartListDTO;
 import com.baedal.one.owneroders.dto.OwnerOdersVo;
@@ -32,7 +30,7 @@ public class OwnerOdersService {
 	public OwnerCartListDTO findStoreName(String storeNo) throws Exception {
 		Connection conn = JDBCTemplate.getConnection();
 
-		OwnerCartListDTO cartListDto = dao.findBalance(conn, storeNo);
+		OwnerCartListDTO cartListDto = dao.findStoreName(conn, storeNo);
 
 		JDBCTemplate.close(conn);
 		return cartListDto;

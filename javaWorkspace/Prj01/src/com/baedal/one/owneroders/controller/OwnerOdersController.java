@@ -9,7 +9,6 @@ import com.baedal.one.owneroders.service.OwnerOdersService;
 import com.baedal.one.owneroders.dto.OwnerCartListDTO;
 public class OwnerOdersController {
 	
-	public final String STORENO= "1";
 	private final OwnerOdersService service;
 	private final Scanner sc;
 	public OwnerCartListDTO dto;
@@ -19,13 +18,13 @@ public class OwnerOdersController {
 		sc = new Scanner(System.in);
 	}
 	
-	public OwnerCartListDTO showOders() 
+	public OwnerCartListDTO showOders(String storeNo) 
 	{
 		try {
-			dto.setStoreName(findStoreName());
+			dto.setStoreName(findStoreName(storeNo));
 			System.out.println("======"+dto.getStoreName()+"<간편 주문 목록 조회>======");
 			List<OwnerOdersVo> voList;
-			voList = service.OwnerOderList(STORENO);
+			voList = service.OwnerOderList(storeNo);
 			HashMap<Integer, String> map = new HashMap<Integer, String>();
 			int i = 1;
 			for(OwnerOdersVo vo : voList) {
@@ -67,7 +66,7 @@ public class OwnerOdersController {
 
 	}
 	//매장 이름 찾기
-	private String findStoreName() {
+	private String findStoreName(String STORENO) {
 		OwnerCartListDTO cartListDto =null;
 		try {
 			cartListDto = service.findStoreName(STORENO);
@@ -84,13 +83,18 @@ public class OwnerOdersController {
 	//상세내역 보기
 	private void oderDetails(String nowCartNo, OwnerCartListDTO dto) {
 		System.out.println("----------"+dto.getStoreName()+"<주문 상세 내역>-------------");
-		
 		try {
-			List<OwnerCartListDTO> voList = service.oderDetails(nowCartNo);
-			
-			for(OwnerCartListDTO vo : voList) {
-				
+			List<OwnerCartListDTO> dtoList = service.oderDetails(nowCartNo);
+			for(OwnerCartListDTO ocDto : dtoList) {
+				System.out.print(ocDto.getMenuName());
+				System.out.print(" / ");
+				System.out.print(ocDto.getQuantity());
+				System.out.print(" / ");
+				int price = Integer.parseInt(ocDto.getQuantity())*Integer.parseInt(ocDto.getPrice());
+				System.out.println(price);
 			}
+			System.out.println("총 결제 금액 : " +dto.getTotalPrice());
+			System.out.println("결제 일시 : "+ dto.getOrderDate());
 		} catch (Exception e) {
 			System.out.println("주문 상세 내역 불러오기 실패");
 			e.printStackTrace();
