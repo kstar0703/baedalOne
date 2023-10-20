@@ -2,6 +2,7 @@ package com.baedal.one.member.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.baedal.one.member.vo.MemberVo;
@@ -13,22 +14,51 @@ public class MemberDao {
 	public int join(Connection conn, MemberVo vo) throws Exception {
 		
 		//sql
-		String sql = "INSERT INTO MEMBER(ID,PWD,NICKNAME,ADDRESS,PHONE,AMOUNT_PWD) VALUES (?,?,?,?,?)";
+		String sql = "INSERT INTO MEMBER(MEMBER_NO,ID,PWD,NICKNAME,ADDRESS,PHONE,AMOUNT_PWD) VALUES (SEQ_MEMBER.NEXTVAL,?,?,?,?,?,?)";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, vo.getId());
 		pstmt.setString(2, vo.getPwd());
 		pstmt.setString(3, vo.getNickName());
 		pstmt.setString(4, vo.getAddress());
-		pstmt.setString(5, vo.getAmountPwd());
+		pstmt.setString(5, vo.getPhone());
+		pstmt.setString(6, vo.getAmountPwd());
 		int result = pstmt.executeUpdate();
-		
-		//rs
 		
 		//close
 		JDBCTemplate.close(pstmt);
 		
 		return result;
 		
+	}
+
+	//로그인
+	public MemberVo login(Connection conn, MemberVo vo) throws Exception {
+		//sql
+		String sql = "SELECT * fROM MEMBER WHERE ID = ? AND PWD = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, vo.getId());
+		pstmt.setString(2, vo.getPwd());
+		ResultSet rs = pstmt.executeQuery();
+		
+		//rs
+		MemberVo dbVo = null;
+		if(rs.next()) {
+			String dbId = rs.getString("ID");
+			String dbPwd = rs.getString("PwD");
+			String dbNickName = rs.getString("NICKNAME");
+			
+			dbVo = new MemberVo();
+			dbVo.setId(dbId);
+			dbVo.setPwd(dbPwd);
+			dbVo.setNickName(dbNickName);
+			
+		}
+		
+		//close
+		JDBCTemplate.close(rs);
+		JDBCTemplate.close(pstmt);
+		
+		return dbVo;
 	}
 
 }

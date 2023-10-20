@@ -3,11 +3,13 @@ package com.baedal.one;
 import java.util.Scanner;
 
 import com.baedal.one.member.controller.MemberController;
+import com.baedal.one.member.vo.MemberVo;
 import com.baedal.one.owner.controller.OwnerController;
 import com.kh.app.jdbc.JDBCTemplate;
 
 public class Main {
 	
+	public static MemberVo loginMember;
 	public static final Scanner SC = new Scanner(System.in);
 	
 	public static void main(String[] args) {
