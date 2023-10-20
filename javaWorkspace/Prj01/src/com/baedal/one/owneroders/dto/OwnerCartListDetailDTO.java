@@ -1,6 +1,6 @@
 package com.baedal.one.owneroders.dto;
 
-public class OwnerCartListDTO {
+public class OwnerCartListDetailDTO {
 	private String storeName;
 	private String orderDate;
 	private String menuName;
@@ -8,12 +8,12 @@ public class OwnerCartListDTO {
 	private String price;
 	private String totalPrice;
 	
-	public OwnerCartListDTO() {
+	public OwnerCartListDetailDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public OwnerCartListDTO(String storeName, String orderDate, String menuName, String quantity, String price,
+	public OwnerCartListDetailDTO(String storeName, String orderDate, String menuName, String quantity, String price,
 			String totalPrice) {
 		super();
 		this.storeName = storeName;
