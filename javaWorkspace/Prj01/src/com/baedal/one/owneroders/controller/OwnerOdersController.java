@@ -31,7 +31,7 @@ public class OwnerOdersController {
 			for (OwnerOdersVo vo : voList) {
 				map.put(i, vo.getCartNo());
 				System.out.print(i + ". ");
-//				System.out.print(vo.getCartNo() +" ");
+				System.out.print(vo.getCartNo() +" ");
 				System.out.print(vo.getMenuName() + " ");
 				int otherQuantity = Integer.parseInt(vo.getTotalQuantity()) - 1;
 				if (otherQuantity > 0) {
