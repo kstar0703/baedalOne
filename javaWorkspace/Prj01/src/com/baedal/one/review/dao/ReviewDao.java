@@ -16,7 +16,7 @@ public class ReviewDao {
 	public int writeReview(ReviewVo vo, Connection conn) throws Exception {
 
 		// SQL
-		String sql = "INSERT INTO REVIEW (REVIEW_NO, STORE_NO, ORDER_NO, CONTENT, USER_NO) VALUES (SEQ_REVIEW.NEXTVAL,?,?,?,?)";
+		String sql = "INSERT INTO REVIEW (REVIEW_NO, STORE_NO, ORDER_NO, CONTENT, USER_NO, REVIEW_RATING) VALUES (SEQ_REVIEW.NEXTVAL,?,?,?,?,?)";
 
 		// pstmt
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -24,6 +24,7 @@ public class ReviewDao {
 		pstmt.setString(2, vo.getOrderNo());
 		pstmt.setString(3, vo.getContent());
 		pstmt.setString(4, vo.getUserNo());
+		pstmt.setInt(5, vo.getRating());
 		int result = pstmt.executeUpdate();
 
 		// close

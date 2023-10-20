@@ -6,9 +6,10 @@ public class ReviewVo {
 		
 	}
 
-	public ReviewVo(String userNo, String reviewNo, String nickName, String writeDate, String content, String menuName,
-			String storeNo, String orderNo) {
+	public ReviewVo(int rating, String userNo, String reviewNo, String nickName, String writeDate, String content,
+			String menuName, String storeNo, String orderNo) {
 		super();
+		this.rating = rating;
 		this.userNo = userNo;
 		this.reviewNo = reviewNo;
 		this.nickName = nickName;
@@ -19,6 +20,7 @@ public class ReviewVo {
 		this.orderNo = orderNo;
 	}
 
+	int rating;
 	String userNo;
 	String reviewNo;
 	String nickName; // dto
@@ -27,6 +29,15 @@ public class ReviewVo {
 	String menuName; // dto 
 	String StoreNo;
 	String orderNo;
+	
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+
 	public String getUserNo() {
 		return userNo;
 	}
@@ -93,9 +104,9 @@ public class ReviewVo {
 
 	@Override
 	public String toString() {
-		return "ReviewVo [userNo=" + userNo + ", reviewNo=" + reviewNo + ", nickName=" + nickName + ", writeDate="
-				+ writeDate + ", content=" + content + ", menuName=" + menuName + ", StoreNo=" + StoreNo + ", orderNo="
-				+ orderNo + "]";
+		return "ReviewVo [rating=" + rating + ", userNo=" + userNo + ", reviewNo=" + reviewNo + ", nickName=" + nickName
+				+ ", writeDate=" + writeDate + ", content=" + content + ", menuName=" + menuName + ", StoreNo="
+				+ StoreNo + ", orderNo=" + orderNo + "]";
 	}
-	
+
 }

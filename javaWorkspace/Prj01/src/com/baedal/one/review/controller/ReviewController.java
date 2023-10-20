@@ -22,9 +22,9 @@ public class ReviewController {
 	}
 
 	/**
-	 * 리뷰 작성
-	 * INSERT INTO REVIEW (REVIEW_NO, STORE_NO, ORDER_NO, CONTENT, USER_NO) 
+	 * 리뷰 작성 INSERT INTO REVIEW (REVIEW_NO, STORE_NO, ORDER_NO, CONTENT, USER_NO)
 	 * VALUES (SEQ_REVIEW.NEXTVAL,?,?,?,?)
+	 * 
 	 * @param storeNo
 	 * @param userNo
 	 * @param orederNo
@@ -34,12 +34,19 @@ public class ReviewController {
 		try {
 			// 데이터 입력받기
 			System.out.println("\n===== 리뷰 작성 =====");
-			
+
 			System.out.print("\n내용을 입력하세요: ");
 			String content = Main.SC.nextLine();
+			System.out.print("\n평점을 1점부터 5점 사이로 입력하세요: ");
+			int rating = Main.SC.nextInt();
 
 			ReviewVo vo = new ReviewVo();
-			vo.setStoreNo(storeNo); // 매장번호 입력 
+			if (rating < 6 && rating > 0) {
+				vo.setRating(rating); // 평점 입력
+			} else {
+				throw new Exception("1~5점 사이로 입력해주세요.");
+			}
+			vo.setStoreNo(storeNo); // 매장번호 입력
 			vo.setContent(content); // 리뷰내용 입력
 			vo.setUserNo(userNo); // 회원번호 입력
 			vo.setOrderNo(orederNo); // 주문번호 입력
@@ -53,10 +60,12 @@ public class ReviewController {
 			} else {
 				throw new Exception();
 			}
-			
-			//예외처리 
+
+			// 예외처리
 		} catch (java.sql.SQLIntegrityConstraintViolationException e) {
 			System.err.println("\n중복된 아이디 입니다.");
+		} catch (java.util.InputMismatchException e) {
+			System.err.println("\n번호를 입력해주세요.");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("\n리뷰 작성이 실패 했습니다.");
@@ -65,106 +74,123 @@ public class ReviewController {
 	}
 
 	/**
-	 * 매장 모든 리뷰 조회하기
-	 *  SELECT NICKNAME 
-	 *  , TO_CHAR(WRITE_DATE,'YYYY-MM-DD hh24:mi') AS WRITE_DATE 
-	 *  , CONTENT,MENU_NAME 
-	 *  , R.ORDER_NO
-	 *  , R.STORE_NO
-	 *  , R.REVIEW_NO  
-	 *  FROM REVIEW R  
-	 *  JOIN ORDERS O ON R.ORDER_NO = O.ORDER_NO  
-	 *  JOIN MEMBER MB ON O.USER_NO = MB.MEMBER_NO  
-	 *  RIGHT JOIN CART_LIST C ON O.CART_NO = C.CART_NO  
-	 *  JOIN MENU M ON C.MENU_NO = M.MENU_NO  
-	 *  WHERE R.STORE_NO = ? 
-	 *  AND R.DELETE_YN = 'N' 
-	 *  ORDER BY R.REVIEW_NO DESC
-	 *  
+	 * 매장 모든 리뷰 조회하기 SELECT NICKNAME , TO_CHAR(WRITE_DATE,'YYYY-MM-DD hh24:mi') AS
+	 * WRITE_DATE , CONTENT,MENU_NAME , R.ORDER_NO , R.STORE_NO , R.REVIEW_NO FROM
+	 * REVIEW R JOIN ORDERS O ON R.ORDER_NO = O.ORDER_NO JOIN MEMBER MB ON O.USER_NO
+	 * = MB.MEMBER_NO RIGHT JOIN CART_LIST C ON O.CART_NO = C.CART_NO JOIN MENU M ON
+	 * C.MENU_NO = M.MENU_NO WHERE R.STORE_NO = ? AND R.DELETE_YN = 'N' ORDER BY
+	 * R.REVIEW_NO DESC
+	 * 
 	 * @param storeNo
 	 */
 	public void storeReview(String storeNo) {
 		try {
 			System.out.println("===== 리뷰조회 =====");
-			
+
 			ReviewVo vo = new ReviewVo();
 
 			// vo객체에 매장번호 입력
 			vo.setStoreNo(storeNo);
 			System.out.println();
-			
+
 			// 서비스 호출하기
 			ArrayList<ReviewVo> dbVo = service.storeReview(vo);
-			
-			// 조건문에 필요한  첫번째 주문번호 입력 
+
+			// 조건문에 필요한 첫번째 주문번호 입력
 			String orderNo = dbVo.get(0).getOrderNo();
-			
+
 			// 조건문에 필요한 첫번째 리뷰번호 입력
 			String reviewNo = dbVo.get(0).getReviewNo();
-			
-			// Map 생성 
+
+			// Map 생성
 			HashMap<Integer, String> map = new HashMap<Integer, String>();
-			
-			// 조건문에 필요한 변수에 1 할당 
+
+			// 조건문에 필요한 변수에 1 할당
 			int i = 1;
 			for (ReviewVo voList : dbVo) {
 
-				// 오더번호가 같을때만 출력 
+				// 오더번호가 같을때만 출력
 				if (voList.getOrderNo().equals(orderNo)) {
-					
-					// map의 key값에 i를 넣고 value 값을 오더번호로 설정   
+
+					// map의 key값에 i를 넣고 value 값을 오더번호로 설정
 					map.put(i, voList.getReviewNo());
-					
-					// 콘솔 꾸미기 
+
+					// 콘솔 꾸미기
 					System.out.println(i + ".꒰⑅•ᴗ•⑅꒱ " + voList.getNickName());
 					System.out.println(voList.getWriteDate());
 					System.out.println();
-					System.out.println(voList.getContent());
+					StringBuilder sbContent = new StringBuilder();
+					sbContent.append(voList.getContent());
+
+					int index = 30;
+
+					for (int x = 1; x < voList.getContent().length(); x++) {
+
+						if (x == index) {
+							sbContent.insert(x, "\n");
+							index += 31;
+						}
+
+					}
+					System.out.println(sbContent);
 					System.out.println();
 					System.out.println("< 주문메뉴 >");
 					System.out.print(voList.getMenuName());
-					
-					// 주문번호에 ""를 넣어 값을 다르게 만듬 
-					orderNo = "";
-					
-					// 리뷰 한개당 i 1씩 증가
-					i++; 
 
-				// 리뷰번호가 달라질때 출력 
+					// 주문번호에 ""를 넣어 값을 다르게 만듬
+					orderNo = "";
+
+					// 리뷰 한개당 i 1씩 증가
+					i++;
+
+					// 리뷰번호가 달라질때 출력
 				} else if (!voList.getReviewNo().equals(reviewNo)) {
-					
-					// map의 key값에 i를 넣고 value 값을 오더번호로 설정   
+
+					// map의 key값에 i를 넣고 value 값을 오더번호로 설정
 					map.put(i, voList.getReviewNo());
-					
-					//콘솔 꾸미기 
+
+					// 콘솔 꾸미기
 					System.out.println();
 					System.out.println("\n---------------------------------");
 					System.out.println();
 					System.out.println(i + ".꒰⑅•ᴗ•⑅꒱ " + voList.getNickName());
 					System.out.println(voList.getWriteDate());
 					System.out.println();
-					System.out.println(voList.getContent());
+					StringBuilder sbContent = new StringBuilder();
+					sbContent.append(voList.getContent());
+
+					int index = 30;
+
+					for (int x = 1; x < voList.getContent().length(); x++) {
+
+						if (x == index) {
+							sbContent.insert(x, "\n");
+							index += 31;
+						}
+
+					}
+					System.out.println(sbContent);
 					System.out.println();
 					System.out.println("< 주문메뉴 >");
 					System.out.print(voList.getMenuName());
-					
-					// 변한 리뷰번호를 변수에 새로 할당 
-					reviewNo = voList.getReviewNo();
-					
-					//리뷰 한개당 i 1씩 증가 
-					i++; 
 
-				// 오더번호가 다를때 출력 
+					// 변한 리뷰번호를 변수에 새로 할당
+					reviewNo = voList.getReviewNo();
+
+					// 리뷰 한개당 i 1씩 증가
+					i++;
+
+					// 오더번호가 다를때 출력
 				} else {
 
-					// 메뉴출력 
+					// 메뉴출력
 					System.out.print("/" + voList.getMenuName());
 
 				}
 
 			}
 
-		// 예외처리 
+			// 예외처리
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("리뷰 조회 실패...");
@@ -172,37 +198,30 @@ public class ReviewController {
 	}
 
 	/**
-	 * 회원 모든 리뷰 조회하기 
-	 * SELECT NICKNAME 
-	 * , TO_CHAR(WRITE_DATE,'YYYY-MM-DD hh24:mi') AS WRITE_DATE 
-	 * , CONTENT 
-	 * ,MENU_NAME
-	 * , R.ORDER_NO
-	 * , R.STORE_NO
-	 * , R.REVIEW_NO 
-	 * FROM REVIEW R  
-	 * JOIN ORDERS O ON R.ORDER_NO = O.ORDER_NO  
-	 * JOIN MEMBER MB ON O.USER_NO = MB.MEMBER_NO  
-	 * RIGHT JOIN CART_LIST C ON O.CART_NO = C.CART_NO  
-	 * JOIN MENU M ON C.MENU_NO = M.MENU_NO WHERE O.USER_NO = ? 
-	 * AND R.DELETE_YN = 'N' ORDER BY R.REVIEW_N
+	 * 회원 모든 리뷰 조회하기 SELECT NICKNAME , TO_CHAR(WRITE_DATE,'YYYY-MM-DD hh24:mi') AS
+	 * WRITE_DATE , CONTENT ,MENU_NAME , R.ORDER_NO , R.STORE_NO , R.REVIEW_NO FROM
+	 * REVIEW R JOIN ORDERS O ON R.ORDER_NO = O.ORDER_NO JOIN MEMBER MB ON O.USER_NO
+	 * = MB.MEMBER_NO RIGHT JOIN CART_LIST C ON O.CART_NO = C.CART_NO JOIN MENU M ON
+	 * C.MENU_NO = M.MENU_NO WHERE O.USER_NO = ? AND R.DELETE_YN = 'N' ORDER BY
+	 * R.REVIEW_N
+	 * 
 	 * @param userNo
 	 */
 	public void userReview(String userNo) {
 		try {
 			System.out.println("===== 리뷰조회 =====");
 			System.out.println();
-			
+
 			// 서비스 호출하기
 			ArrayList<ReviewVo> dbVo = service.userReview(userNo);
-			
-			// 조건문에 필요한  첫번째 주문번호 입력 
+
+			// 조건문에 필요한 첫번째 주문번호 입력
 			String orderNo = dbVo.get(0).getOrderNo();
-			
-			// 조건문에 필요한  첫번째 리뷰번호 입력 
+
+			// 조건문에 필요한 첫번째 리뷰번호 입력
 			String reviewNo = dbVo.get(0).getReviewNo();
-			
-			// map 생성 
+
+			// map 생성
 			HashMap<Integer, String> map = new HashMap<Integer, String>();
 			int i = 1;
 			for (ReviewVo voList : dbVo) {
@@ -212,16 +231,24 @@ public class ReviewController {
 					System.out.println(i + ".꒰⑅•ᴗ•⑅꒱ " + voList.getNickName());
 					System.out.println(voList.getWriteDate());
 					System.out.println();
+					
+					String s = voList.getContent();
+
 					StringBuilder sbContent = new StringBuilder();
-					sbContent.append(voList.getContent());
-					int index = 30;
-					for(int x = 1; x<voList.getContent().length(); x++) {
-						if(x == index) {
-							sbContent.insert(x, "\n");
-							index += 30;
-						}
+					sbContent.append(s);
+					
+					String[] strArr = new String[s.length()];
+					System.out.println(strArr.length-1);
+					for (int x = 0; x < voList.getContent().length(); x++) {
+						System.out.println(x);
+						
+						
+						
 					}
-					System.out.println(sbContent);
+					
+					String m = sbContent.toString();
+					System.out.println(m.replace("/", "\n"));
+					
 					System.out.println();
 					System.out.println("< 주문메뉴 >");
 					System.out.print(voList.getMenuName());
@@ -229,21 +256,30 @@ public class ReviewController {
 					i++;
 
 				} else if (!voList.getReviewNo().equals(reviewNo)) {
+
 					map.put(i, voList.getReviewNo());
+
 					System.out.println();
 					System.out.println("\n---------------------------------");
 					System.out.println();
 					System.out.println(i + ".꒰⑅•ᴗ•⑅꒱ " + voList.getNickName());
 					System.out.println(voList.getWriteDate());
 					System.out.println();
+
 					StringBuilder sbContent = new StringBuilder();
 					sbContent.append(voList.getContent());
+
 					int index = 30;
-					for(int x = 1; i<voList.getContent().length(); x++) {
-						if(x == index) {
-							sbContent.insert(i, "\n");
+
+					for (int x = 1; x < voList.getContent().length(); x++) {
+
+						if (x == index) {
+							sbContent.insert(x, "\n");
+							index += 31;
 						}
+
 					}
+
 					System.out.println(sbContent);
 					System.out.println();
 					System.out.println("< 주문메뉴 >");
@@ -278,9 +314,9 @@ public class ReviewController {
 				System.out.println("다시 입력하세요.");
 				break;
 			}
-		}  catch (java.lang.IndexOutOfBoundsException e) {
+		} catch (java.lang.IndexOutOfBoundsException e) {
 			System.err.println("\n작성된 리뷰가 없습니다.");
-		}	catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("리뷰 조회 실패...");
 		}
@@ -302,11 +338,11 @@ public class ReviewController {
 			System.out.print("\n\n수정할 내용을 입력하세요: ");
 			Main.SC.nextLine();
 			String content = Main.SC.nextLine();
-			
-			// 생성자에서 입력받은 주문번호 변수에 할당 
+
+			// 생성자에서 입력받은 주문번호 변수에 할당
 			String orderNo = map.get(num);
 
-			// vo객체에 매개변수의 값들 입력 
+			// vo객체에 매개변수의 값들 입력
 			ReviewVo vo = new ReviewVo();
 			vo.setOrderNo(orderNo);
 			vo.setUserNo(userNo);
@@ -319,11 +355,11 @@ public class ReviewController {
 			if (result != 1) {
 				throw new Exception();
 			}
-			
-			//리뷰 수정 완료
+
+			// 리뷰 수정 완료
 			System.out.println("\n리뷰 수정이 완료 되었습니다.");
-		
-			//예외처리 	
+
+			// 예외처리
 		} catch (java.util.InputMismatchException e) {
 			System.err.println("\n번호를 입력하세요.");
 		} catch (SQLException e) {
@@ -331,7 +367,7 @@ public class ReviewController {
 			System.out.println("\n리뷰 데이터 불러오기 실패");
 		} catch (Exception e) {
 			System.err.println("\n존재하지 않는 리뷰 번호 입니다.");
-		} 
+		}
 
 	}
 
@@ -346,12 +382,12 @@ public class ReviewController {
 	public void DeleteReview(HashMap<Integer, String> map, String userNo) {
 
 		try {
-			// 데이터 입력받기 
+			// 데이터 입력받기
 			System.out.println("\n===== 리뷰삭제 =====");
 			System.out.print("\n삭제할 리뷰에 번호를 입력해주세요: ");
 			int reviewNo = Main.SC.nextInt();
 
-			// vo 객체에 입력받은 값 입력 
+			// vo 객체에 입력받은 값 입력
 			ReviewVo vo = new ReviewVo();
 			vo.setReviewNo(map.get(reviewNo));
 			vo.setUserNo(userNo);
@@ -364,8 +400,8 @@ public class ReviewController {
 				throw new Exception();
 			}
 			System.out.println("\n리뷰 삭제완료!");
-			
-			// 예외처리 
+
+			// 예외처리
 		} catch (java.util.InputMismatchException e) {
 			System.err.println("\n번호를 입력하세요.");
 		} catch (SQLException e) {
@@ -373,6 +409,6 @@ public class ReviewController {
 			System.err.println("\n리뷰 데이터 불러오기 실패");
 		} catch (Exception e) {
 			System.err.println("\n존재하지 않는 리뷰 번호 입니다.");
-		} 
+		}
 	}
 }
