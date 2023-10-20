@@ -71,6 +71,7 @@ public class CartController {
 				myCart = cartService.getMyCart(TestMain.memberNo);
 				if(myCart == null) throw new NullPointerException("장바구니를 새로 생성합니다");
 			} catch (NullPointerException e) {
+				System.err.println(e.getMessage());
 				myCart = createNewCart(null);
 			}
 			
@@ -145,7 +146,7 @@ public class CartController {
 			else 
 				throw new Exception();
 		} catch (Exception e) {
-			System.out.println("장바구니 담기 실패");
+			System.err.println("장바구니 담기 실패");
 			e.printStackTrace();
 		} 
 	}

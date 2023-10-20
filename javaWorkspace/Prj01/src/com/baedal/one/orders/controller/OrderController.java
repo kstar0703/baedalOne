@@ -51,7 +51,7 @@ public class OrderController {
 					System.out.println("수량 : "+ cartList.get(length).getQuantity()+"개");
 					System.out.println("가격 : "+ cartList.get(length).getPrice()+"원   "+"\u001B[32m"+"| 총합 : " + cartList.get(length).getSubTotal()+"원"+"\u001B[0m");
 					System.out.println("--------------------------------");
-					total += cartList.get(length).getPrice();
+					total += cartList.get(length).getSubTotal();
 				}
 				System.out.println("\u001B[36m"+"총 가격 : " + total + "원"+"\u001B[0m");
 			}
@@ -97,7 +97,7 @@ public class OrderController {
 				else throw new Exception("1 이상의 수만 입력하세요.");
 				
 			} catch (Exception e) {
-				System.out.println(e.getMessage());
+				System.err.println(e.getMessage());
 				System.out.println("잘못 입력하셨습니다. 다시입력하세요");
 			}						
 		}
@@ -110,7 +110,7 @@ public class OrderController {
 			if(result == 1) System.out.println("상품 삭제 성공");
 			else throw new Exception();
 		} catch (Exception e) {
-			System.out.println("상품 삭제 실패");
+			System.err.println("상품 삭제 실패");
 			e.printStackTrace();
 		}
 
@@ -133,7 +133,7 @@ public class OrderController {
 				if(Integer.parseInt(quantity) > 0) break;
 				else throw new Exception("1 이상의 수만 입력하세요.");
 			} catch (Exception e) {
-				System.out.println(e.getMessage());
+				System.err.println(e.getMessage());
 				System.out.println("잘못 입력하셨습니다. 다시입력하세요");
 			}						
 		}
@@ -145,7 +145,7 @@ public class OrderController {
 			if(result == 1) System.out.println("상품 수량 수정 성공");
 			else throw new Exception();
 		} catch (Exception e) {
-			System.out.println("상품 수량 수정 실패");
+			System.err.println("상품 수량 수정 실패");
 			e.printStackTrace();
 		}
 	}
@@ -190,8 +190,8 @@ public class OrderController {
 				} else 
 					throw new Exception("잔액이 부족합니다.");
 			} catch (Exception e) {
-				System.out.println("결제 실패");
-				System.out.println(e.getMessage()); 
+				System.err.println("결제 실패");
+				System.err.println(e.getMessage()); 
 			}
 		} else {
 			System.out.println("매장 영업시간이 아닙니다.");
@@ -200,7 +200,16 @@ public class OrderController {
 
 	private void pay(OrdersVo newOrder, int money) {
 		 try {
-			int result = orderService.pay(newOrder, money);
+			System.out.print("결제 비밀번호를 입력하세요: ");
+			String amountPwd = Main.SC.nextLine();
+			
+			String findAmountPwd = orderService.getAmountPwd(TestMain.memberNo);
+			int result = 0;
+			if(amountPwd.equals(findAmountPwd)) {
+				result = orderService.pay(newOrder, money);				
+			} else {
+				throw new Exception("비밀번호가 틀립니다");
+			}
 			
 			if(result == 1) {
 				System.out.println("구매 성공하셨습니다");
