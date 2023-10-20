@@ -9,7 +9,7 @@ import com.baedal.one.pay.vo.PayVo;
 public class PayController {
 
 	private final PayService service;
-	private static final String USERNO = "1"; // 임시 사용자 넘버
+	private static final String USERNO = "2"; // 임시 사용자 넘버
 
 	Scanner sc = new Scanner(System.in);
 
