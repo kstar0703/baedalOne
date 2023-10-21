@@ -37,7 +37,7 @@ public class ReviewDao {
 	public ArrayList<ReviewVo> storeReview(ReviewVo vo, Connection conn) throws Exception {
 
 		// sql
-		String sql = "SELECT NICKNAME , TO_CHAR(WRITE_DATE,'YYYY-MM-DD hh24:mi') AS WRITE_DATE , CONTENT,MENU_NAME , R.ORDER_NO, R.STORE_NO, R.REVIEW_NO  FROM REVIEW R  JOIN ORDERS O ON R.ORDER_NO = O.ORDER_NO  JOIN MEMBER MB ON O.USER_NO = MB.MEMBER_NO  RIGHT JOIN CART_LIST C ON O.CART_NO = C.CART_NO  JOIN MENU M ON C.MENU_NO = M.MENU_NO  WHERE R.STORE_NO = ? AND R.DELETE_YN = 'N' ORDER BY R.REVIEW_NO DESC";
+		String sql = "SELECT NICKNAME , TO_CHAR(WRITE_DATE,'YYYY-MM-DD hh24:mi') AS WRITE_DATE , CONTENT,MENU_NAME , R.ORDER_NO, R.STORE_NO, R.REVIEW_NO, R.REVIEW_RATING  FROM REVIEW R  JOIN ORDERS O ON R.ORDER_NO = O.ORDER_NO  JOIN MEMBER MB ON O.USER_NO = MB.MEMBER_NO  RIGHT JOIN CART_LIST C ON O.CART_NO = C.CART_NO  JOIN MENU M ON C.MENU_NO = M.MENU_NO  WHERE R.STORE_NO = ? AND R.DELETE_YN = 'N' ORDER BY R.REVIEW_NO DESC";
 
 		// pstmt
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -58,6 +58,7 @@ public class ReviewDao {
 			dbVo.setContent(rs.getNString("CONTENT"));
 			dbVo.setMenuName(rs.getString("MENU_NAME"));
 			dbVo.setReviewNo(rs.getString("REVIEW_NO"));
+			dbVo.setRating(rs.getInt("REVIEW_RATING"));
 			voList.add(dbVo);
 		}
 
@@ -69,7 +70,7 @@ public class ReviewDao {
 	public ArrayList<ReviewVo> userReview(Connection conn,String userNo) throws Exception {
 
 		// sql
-		String sql = "SELECT NICKNAME , TO_CHAR(WRITE_DATE,'YYYY-MM-DD hh24:mi') AS WRITE_DATE , CONTENT ,MENU_NAME, R.ORDER_NO, R.STORE_NO, R.REVIEW_NO FROM REVIEW R  JOIN ORDERS O ON R.ORDER_NO = O.ORDER_NO  JOIN MEMBER MB ON O.USER_NO = MB.MEMBER_NO  RIGHT JOIN CART_LIST C ON O.CART_NO = C.CART_NO  JOIN MENU M ON C.MENU_NO = M.MENU_NO WHERE O.USER_NO = ? AND R.DELETE_YN = 'N' ORDER BY R.REVIEW_NO";
+		String sql = "SELECT NICKNAME , TO_CHAR(WRITE_DATE,'YYYY-MM-DD hh24:mi') AS WRITE_DATE , CONTENT ,MENU_NAME, R.ORDER_NO, R.STORE_NO, R.REVIEW_NO, R.REVIEW_RATING FROM REVIEW R  JOIN ORDERS O ON R.ORDER_NO = O.ORDER_NO  JOIN MEMBER MB ON O.USER_NO = MB.MEMBER_NO  RIGHT JOIN CART_LIST C ON O.CART_NO = C.CART_NO  JOIN MENU M ON C.MENU_NO = M.MENU_NO WHERE O.USER_NO = ? AND R.DELETE_YN = 'N' ORDER BY R.REVIEW_NO";
 
 		// pstmt
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -91,6 +92,7 @@ public class ReviewDao {
 			dbVo.setContent(rs.getNString("CONTENT"));
 			dbVo.setMenuName(rs.getString("MENU_NAME"));
 			dbVo.setReviewNo(rs.getString("REVIEW_NO"));
+			dbVo.setRating(rs.getInt("REVIEW_RATING"));
 			voList.add(dbVo);
 		}
 
