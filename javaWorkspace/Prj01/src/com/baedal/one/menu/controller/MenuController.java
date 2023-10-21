@@ -392,18 +392,25 @@ public class MenuController {
 				System.out.println("메뉴 정보가 없습니다.");
 			} else {
 				System.out.println("================================");
-				System.out.print("메뉴 번호");
-				System.out.print(" | ");
-				System.out.print("메뉴 이름");
-				System.out.print(" | ");
-				System.out.println("가격");
-				System.out.print(" | ");
+				System.out.print("\t메뉴 번호");
+				System.out.print("\t | ");
+				System.out.print("\t메뉴 이름");
+				System.out.print("\t | ");
+				System.out.print("\t가격");
+				System.out.print("\t | ");
+				System.out.print("\t삭제 여부");
+				System.out.print("\t | ");
+				System.out.println("\t판매 여부");
 				for (MenuVo menuVo : voList) {
-					System.out.print(menuVo.getMenuNo());
-					System.out.print(" | ");
-					System.out.print(menuVo.getMenuName());
-					System.out.print(" | ");
-					System.out.println(menuVo.getPrice());
+					System.out.print("\t" + menuVo.getMenuNo());
+					System.out.print("\t | ");
+					System.out.print("\t" + menuVo.getMenuName());
+					System.out.print("\t | ");
+					System.out.print("\t" + menuVo.getPrice());
+					System.out.print("\t | ");
+					System.out.print("\t" + menuVo.getDeleteYn());
+					System.out.print("\t | ");
+					System.out.println("\t" + menuVo.getSellYn());
 				}
 				System.out.println("================================");
 			}
@@ -522,9 +529,9 @@ public class MenuController {
 		
 	
 	//뒤로가기
-	public void back() {
-		
-	}
+//	public void back() {
+//		
+//	}
 	
 	
 
