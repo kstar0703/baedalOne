@@ -16,7 +16,7 @@ public class ReviewVo {
 		this.writeDate = writeDate;
 		this.content = content;
 		this.menuName = menuName;
-		StoreNo = storeNo;
+		this.StoreNo = storeNo;
 		this.orderNo = orderNo;
 	}
 

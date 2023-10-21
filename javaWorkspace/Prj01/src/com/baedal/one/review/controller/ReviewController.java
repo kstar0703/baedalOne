@@ -2,9 +2,11 @@ package com.baedal.one.review.controller;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
+import java.util.StringJoiner;
 
 import com.baedal.one.Main;
 import com.baedal.one.review.dao.ReviewDao;
@@ -22,7 +24,8 @@ public class ReviewController {
 	}
 
 	/**
-	 * 리뷰 작성 INSERT INTO REVIEW (REVIEW_NO, STORE_NO, ORDER_NO, CONTENT, USER_NO)
+	 * 리뷰 작성 
+	 * INSERT INTO REVIEW (REVIEW_NO, STORE_NO, ORDER_NO, CONTENT, USER_NO)
 	 * VALUES (SEQ_REVIEW.NEXTVAL,?,?,?,?)
 	 * 
 	 * @param storeNo
@@ -33,19 +36,22 @@ public class ReviewController {
 
 		try {
 			// 데이터 입력받기
+			ReviewVo vo = new ReviewVo();
 			System.out.println("\n===== 리뷰 작성 =====");
 
-			System.out.print("\n내용을 입력하세요: ");
-			String content = Main.SC.nextLine();
 			System.out.print("\n평점을 1점부터 5점 사이로 입력하세요: ");
-			int rating = Main.SC.nextInt();
-
-			ReviewVo vo = new ReviewVo();
+			String num = Main.SC.nextLine();
+			
+			int rating = Integer.parseInt(num);
 			if (rating < 6 && rating > 0) {
 				vo.setRating(rating); // 평점 입력
 			} else {
-				throw new Exception("1~5점 사이로 입력해주세요.");
+				throw new Exception();
 			}
+			
+			System.out.print("\n내용을 입력하세요: ");
+			String content = Main.SC.nextLine();
+
 			vo.setStoreNo(storeNo); // 매장번호 입력
 			vo.setContent(content); // 리뷰내용 입력
 			vo.setUserNo(userNo); // 회원번호 입력
@@ -63,12 +69,16 @@ public class ReviewController {
 
 			// 예외처리
 		} catch (java.sql.SQLIntegrityConstraintViolationException e) {
-			System.err.println("\n중복된 아이디 입니다.");
+			System.err.println("\n이미 리뷰를 작성했습니다.");
 		} catch (java.util.InputMismatchException e) {
 			System.err.println("\n번호를 입력해주세요.");
-		} catch (Exception e) {
+		} catch (java.lang.NumberFormatException e) {
+			System.err.println("\n숫자를 입력해주세요.");
+		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("\n리뷰 작성이 실패 했습니다.");
+			System.out.println("디비 연결 실패...");
+		} catch (Exception e) {
+			System.err.println("\n1~5점 사이로 입력하세요.");
 		}
 
 	}
@@ -118,21 +128,16 @@ public class ReviewController {
 					// 콘솔 꾸미기
 					System.out.println(i + ".꒰⑅•ᴗ•⑅꒱ " + voList.getNickName());
 					System.out.println(voList.getWriteDate());
-					System.out.println();
-					StringBuilder sbContent = new StringBuilder();
-					sbContent.append(voList.getContent());
-
-					int index = 30;
-
-					for (int x = 1; x < voList.getContent().length(); x++) {
-
-						if (x == index) {
-							sbContent.insert(x, "\n");
-							index += 31;
-						}
-
+					System.out.print("평점: ");
+					switch (voList.getRating()) {
+					case 1 : System.out.println("☆☆☆☆★"); break;
+					case 2 : System.out.println("☆☆☆★★"); break;
+					case 3 : System.out.println("☆☆★★★"); break;
+					case 4 : System.out.println("☆★★★★"); break;
+					case 5 : System.out.println("★★★★★"); break;
 					}
-					System.out.println(sbContent);
+					System.out.println();
+					System.out.println(voList.getContent());
 					System.out.println();
 					System.out.println("< 주문메뉴 >");
 					System.out.print(voList.getMenuName());
@@ -155,21 +160,16 @@ public class ReviewController {
 					System.out.println();
 					System.out.println(i + ".꒰⑅•ᴗ•⑅꒱ " + voList.getNickName());
 					System.out.println(voList.getWriteDate());
-					System.out.println();
-					StringBuilder sbContent = new StringBuilder();
-					sbContent.append(voList.getContent());
-
-					int index = 30;
-
-					for (int x = 1; x < voList.getContent().length(); x++) {
-
-						if (x == index) {
-							sbContent.insert(x, "\n");
-							index += 31;
-						}
-
+					System.out.print("평점: ");
+					switch (voList.getRating()) {
+					case 1 : System.out.println("☆☆☆☆★"); break;
+					case 2 : System.out.println("☆☆☆★★"); break;
+					case 3 : System.out.println("☆☆★★★"); break;
+					case 4 : System.out.println("☆★★★★"); break;
+					case 5 : System.out.println("★★★★★"); break;
 					}
-					System.out.println(sbContent);
+					System.out.println();
+					System.out.println(voList.getContent());
 					System.out.println();
 					System.out.println("< 주문메뉴 >");
 					System.out.print(voList.getMenuName());
@@ -178,6 +178,7 @@ public class ReviewController {
 					reviewNo = voList.getReviewNo();
 
 					// 리뷰 한개당 i 1씩 증가
+				
 					i++;
 
 					// 오더번호가 다를때 출력
@@ -224,31 +225,25 @@ public class ReviewController {
 			// map 생성
 			HashMap<Integer, String> map = new HashMap<Integer, String>();
 			int i = 1;
+			String con = "";
+			int index = 30;
+			int y =61;
 			for (ReviewVo voList : dbVo) {
 
 				if (voList.getOrderNo().equals(orderNo)) {
-					map.put(i, voList.getReviewNo());
+					map.put(i, voList.getOrderNo());
 					System.out.println(i + ".꒰⑅•ᴗ•⑅꒱ " + voList.getNickName());
 					System.out.println(voList.getWriteDate());
-					System.out.println();
-					
-					String s = voList.getContent();
-
-					StringBuilder sbContent = new StringBuilder();
-					sbContent.append(s);
-					
-					String[] strArr = new String[s.length()];
-					System.out.println(strArr.length-1);
-					for (int x = 0; x < voList.getContent().length(); x++) {
-						System.out.println(x);
-						
-						
-						
+					System.out.print("평점: ");
+					switch (voList.getRating()) {
+					case 1 : System.out.println("☆☆☆☆★"); break;
+					case 2 : System.out.println("☆☆☆★★"); break;
+					case 3 : System.out.println("☆☆★★★"); break;
+					case 4 : System.out.println("☆★★★★"); break;
+					case 5 : System.out.println("★★★★★"); break;
 					}
-					
-					String m = sbContent.toString();
-					System.out.println(m.replace("/", "\n"));
-					
+					System.out.println();
+					System.out.println(voList.getContent());
 					System.out.println();
 					System.out.println("< 주문메뉴 >");
 					System.out.print(voList.getMenuName());
@@ -257,30 +252,23 @@ public class ReviewController {
 
 				} else if (!voList.getReviewNo().equals(reviewNo)) {
 
-					map.put(i, voList.getReviewNo());
+					map.put(i, voList.getOrderNo());
 
 					System.out.println();
 					System.out.println("\n---------------------------------");
 					System.out.println();
 					System.out.println(i + ".꒰⑅•ᴗ•⑅꒱ " + voList.getNickName());
 					System.out.println(voList.getWriteDate());
-					System.out.println();
-
-					StringBuilder sbContent = new StringBuilder();
-					sbContent.append(voList.getContent());
-
-					int index = 30;
-
-					for (int x = 1; x < voList.getContent().length(); x++) {
-
-						if (x == index) {
-							sbContent.insert(x, "\n");
-							index += 31;
-						}
-
+					System.out.print("평점: ");
+					switch (voList.getRating()) {
+					case 1 : System.out.println("☆☆☆☆★"); break;
+					case 2 : System.out.println("☆☆☆★★"); break;
+					case 3 : System.out.println("☆☆★★★"); break;
+					case 4 : System.out.println("☆★★★★"); break;
+					case 5 : System.out.println("★★★★★"); break;
 					}
-
-					System.out.println(sbContent);
+					System.out.println();
+					System.out.println(voList.getContent());
 					System.out.println();
 					System.out.println("< 주문메뉴 >");
 					System.out.print(voList.getMenuName());
@@ -341,7 +329,7 @@ public class ReviewController {
 
 			// 생성자에서 입력받은 주문번호 변수에 할당
 			String orderNo = map.get(num);
-
+			System.out.println(orderNo);
 			// vo객체에 매개변수의 값들 입력
 			ReviewVo vo = new ReviewVo();
 			vo.setOrderNo(orderNo);
@@ -366,6 +354,7 @@ public class ReviewController {
 			e.printStackTrace();
 			System.out.println("\n리뷰 데이터 불러오기 실패");
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.err.println("\n존재하지 않는 리뷰 번호 입니다.");
 		}
 
