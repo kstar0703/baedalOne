@@ -148,7 +148,7 @@ public class MenuDao {
 	//메뉴 삭제 리스트
 	public List<MenuVo> deleteMenuList(String storeNo, Connection conn) throws Exception {
 		//sql
-		String sql = "SELECT MENU_NO, MENU_NAME, PRICE, DELETE_YN, SELL_YN FROM MENU WHERE DELETE_YN = 'Y' AND SELL_YN = 'N' AND STORE_NO = ? ORDER BY MENU_NO ASC";
+		String sql = "SELECT ROWNUM, A.* FROM (SELECT MENU_NO, MENU_NAME, PRICE, DELETE_YN, SELL_YN FROM MENU WHERE DELETE_YN = 'Y' AND SELL_YN = 'N' AND STORE_NO = ? ORDER BY MENU_NO ASC) A";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, storeNo);
 		ResultSet rs = pstmt.executeQuery();
