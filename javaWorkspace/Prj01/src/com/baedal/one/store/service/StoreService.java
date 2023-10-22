@@ -18,7 +18,7 @@ public class StoreService {
 	
 	
 	/**
-	 *
+	 * 매장 정보 (점주)
 	 */
 	public List<StoreVo> showStoreInfo(String loginOwnerNo) throws Exception {
 		
@@ -31,11 +31,26 @@ public class StoreService {
 		//close
 		conn.close();
 		
+		
 		return list;
+	}
+
+
+	/**
+	 * 
+	 */
+	public StoreVo chooseStore(StoreVo storeVo) throws Exception {
 		
+		//conn
+		Connection conn = JDBCTemplate.getConnection();
 		
+		//dao
+		StoreVo vo = dao.chooseStore(conn,storeVo); 
 		
+		//close
+		conn.close();
 		
+		return vo;
 	}
 
 }
