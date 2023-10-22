@@ -6,6 +6,7 @@ import java.security.Provider.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.metadata.IIOMetadataFormatImpl;
 import javax.management.loading.PrivateClassLoader;
 
 import com.baedal.one.owner.OwnerTestMain;
@@ -24,14 +25,7 @@ public class StoreController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	// 점주 출력
+	// 점주 출력 
 	public List<StoreVo> showStoreInfo() {
 			List<StoreVo> storeList =null;
 		try {
@@ -44,6 +38,13 @@ public class StoreController {
 			if(storeList.size()==0) {
 				throw new Exception("등록한 매장이 없습니다");
 			}
+			
+			for(int i =0; i<storeList.size(); i++) {
+				System.out.println(i+1 +"번" + storeList.get(i).getStoreName() );
+			}
+			
+			
+			
 			
 		} catch (Exception e) {
 			System.out.println("매장 조회 실패");
