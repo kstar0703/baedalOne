@@ -18,6 +18,8 @@ import com.baedal.one.cart.TestMain;
 import com.baedal.one.owner.OwnerTestMain;
 import com.baedal.one.owner.service.OwnerService;
 import com.baedal.one.owner.vo.OwnerVo;
+import com.baedal.one.store.controller.StoreController;
+import com.baedal.one.store.service.StoreService;
 
 public class OwnerController {
 	
@@ -256,6 +258,12 @@ public class OwnerController {
 				System.out.println("아이디 : " + vo.getOwnerId());
 				System.out.println("비밀번호 : " + vo.getOwnerPwd());
 				System.out.println("가입일자 : " + vo.getEnrollDate());
+				
+				// 가게정보 호출 출력
+				StoreController storeController = new StoreController();
+				storeController.showStoreInfo();
+				
+				
 							
 			} catch (Exception e) {
 					System.out.println("유저 정보 출력 실패");

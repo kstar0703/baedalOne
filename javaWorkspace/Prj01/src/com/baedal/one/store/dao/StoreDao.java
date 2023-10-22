@@ -15,13 +15,11 @@ public class StoreDao {
 	public List<StoreVo> showStoreInfo(Connection conn, String loginOwnerNo) throws Exception {
 	    
 		//sql
-		String sql = "SELECT STORE_NO,CATEGORY_NO,OWNER_NO,STORE_NAME,STORE_PHONE,STORE_ADDRESS,TO_CHAR(ENROLL_DATE,'YYYY-MM-DD') AS ENROLL_DATE,CLOSE_YN,OPENTIME,CLOSETIME  FROM STORE WHERE = ?";
+		String sql = "SELECT STORE_NO,CATEGORY_NO,OWNER_NO,STORE_NAME,STORE_PHONE,STORE_ADDRESS,TO_CHAR(ENROLL_DATE,'YYYY-MM-DD') AS ENROLL_DATE,CLOSE_YN,OPENTIME,CLOSETIME  FROM STORE WHERE OWNER_NO = ?";
 		
 		//psmt
 		PreparedStatement pstmt = conn.prepareStatement(sql);
-		
-		
-		
+		pstmt.setString(1, loginOwnerNo);
 		
 		//rs
 		ResultSet rs = pstmt.executeQuery();
