@@ -22,8 +22,8 @@ public class CartController {
 	}
 
 	/**
-	 * 장바구니에 담기 or or 결제기능
-	 * @param storeNo
+	 * 장바구니에 담기 or 결제기능
+	 * @param storeNo 매장 번호 필요
 	 */
 	public void selectOption(String storeNo) {
 		String input = "";
@@ -84,7 +84,7 @@ public class CartController {
 				System.out.println("\t\t   MENU");
 				System.out.println("--------------------------------------------");
 				for(int length = 0; length < menuInfoList.size(); length++) {
-					System.out.println((length+1)+" | "+menuInfoList.get(length));
+					System.out.println("\u001B[35m번호\u001B[0m : "+(length+1)+" | "+menuInfoList.get(length));
 					System.out.println("--------------------------------------------");
 				}
 				System.out.print("선택할 메뉴 번호: ");
@@ -113,8 +113,6 @@ public class CartController {
 				}
 				
 				//운영시간일때만 장바구니에 담을 수 있게 조건 설정하기
-				
-				
 				if(isOpen(openTime, closeTime)) {
 					CartListVo newCartList = new CartListVo(myCart.getCartNo(), menuInfoList.get(Integer.parseInt(menuNum)-1).getMenuNo(), Integer.parseInt(quantity));
 					result = cartService.addMenu(newCartList);					
@@ -207,6 +205,9 @@ public class CartController {
 	
 	private boolean isOpen(int openTime, int closeTime) {
 		int currentHour = LocalDateTime.now().getHour();
+		if(openTime == closeTime) return true;
+		if(openTime > closeTime) closeTime += 24;
+		if(currentHour < closeTime) currentHour += 24;
 		return currentHour >= openTime && currentHour < closeTime ? true : false;
 	}
 }

@@ -77,7 +77,7 @@ public class MenuInfoDto {
 
 	@Override
 	public String toString() {
-		return "메뉴 이름 = " + menuName + "   |   가격 = " + price + "원";
+		return "\u001B[35m메뉴 이름\u001B[0m : " + menuName + "   |   \u001B[35m가격\u001B[0m : " + price + "원";
 	}
 	
 }

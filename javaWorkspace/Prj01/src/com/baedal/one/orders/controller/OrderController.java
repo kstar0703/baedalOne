@@ -41,8 +41,9 @@ public class OrderController {
 			} else {
 				//내 장바구니 리스트 보여주기
 				int total = 0;
+				System.out.println();
 				System.out.println("--------------------------------");
-				System.out.println("\t     장바구니\t");
+				System.out.println("\t   🛒 장바구니\t");
 				System.out.println("--------------------------------");
 				for(int length = 0; length < cartList.size(); length++) {
 					
@@ -64,7 +65,7 @@ public class OrderController {
 		while(true) {
 			//내 장바구니 리스트 보여주기
 			getCartList();
-			System.out.println("--------------------------------");
+			System.out.println("-------------------------");
 			if(cartList.size() != 0) {
 				System.out.println("원하는 작업을 선택하세요.");
 				System.out.println("1. 결제하기");
@@ -83,6 +84,7 @@ public class OrderController {
 				default: System.out.println("잘못입력하셨습니다. 다시 입력하세요");		
 				}
 			} else {
+				System.out.println();
 				return;
 			}
 		}
