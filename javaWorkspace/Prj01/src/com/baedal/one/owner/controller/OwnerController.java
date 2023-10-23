@@ -38,32 +38,56 @@ public class OwnerController {
 		
 		System.out.println("1. 회원가입");
 		System.out.println("2. 로그인 ");
-		System.out.println("3. 비밀번호 변경");
-		System.out.println("4. 유저정보 출력");
-		System.out.println("5. 로그아웃");
-		System.out.println("6. 회원탈퇴 ");
 		System.out.println("9. 뒤로가기");
+		System.out.println("0. 종료");
 		
 		
 		
+		// 로그인 이전
+		String numBeforeLogin = Main.SC.nextLine();
 		
-		
-		String num = Main.SC.nextLine();
-		
-		switch (num) {
+		switch (numBeforeLogin) {
 		case "1" : join(); break;
 		case "2" : login(); break;
-		case "3" : changePwd(); break;
-		case "4" : showStoreInfo(); break;
-		case "5" : logout(); break;
-		case "6" : quit(); break;
-		case "9" : System.out.println("");
+		case "9" : System.out.println("뒤로가기 메뉴 출력"); break;
+		case "0" : System.exit(0);
+	
 		
-		default : System.out.println("잘못누르셨습니다 다시 입력하세요");
+		default : System.out.println("잘못누르셨습니다 다시 입력하세요"); selectMenu();
 	
 		}
+		
+		
+		
+		if(numBeforeLogin.equals("2")) {
+			while(true) {
+				
+			System.out.println("1. 매장 관리 및 등록");
+			System.out.println("2. 유저정보 확인");
+			System.out.println("3. 비밀번호 변경");
+			System.out.println("4. 로그아웃");
+			System.out.println("5. 회원탈퇴 ");
+			System.out.println("6. 뒤로가기");
+			System.out.println("0. 종료");
+			
+			// 로그인 이후
+			String numAfterLogin = Main.SC.next();
+		
+			switch (numAfterLogin) {
+			case "2" : showStoreInfo(); break;
+			case "3" : changePwd(); break;
+			case "4" : logout(); break;
+			case "5" : quit(); break;
+			case "6" : return; 
+			case "0" : System.exit(0);
+			}
+		}
+	}		
 	}
-	
+			
+		
+			
+
 
 	
 
@@ -103,6 +127,7 @@ public class OwnerController {
 	} catch (Exception e) {
 		System.out.println("회원가입 실패 ...");
 		e.printStackTrace();
+		selectMenu();
 	}
 		
 	}
@@ -164,6 +189,7 @@ public class OwnerController {
 		}catch (Exception e) {
 			System.out.println("로그인 실패");
 			e.printStackTrace();
+			selectMenu();
 		}
 	
 		
@@ -261,6 +287,7 @@ public class OwnerController {
 				
 				// 가게정보 호출 출력
 				StoreController storeController = new StoreController();
+				
 				storeController.showStoreInfo();
 				
 				
