@@ -13,6 +13,6 @@ public class OwnerFunctionTestMain {
 //		ownerOdersController.showOders(storeNo);
 		
 		SalesController salesController = new SalesController(storeNo);
-		salesController.selectSalesMenu(storeNo);
+		salesController.showMonthSales(storeNo);
 	}
 }
