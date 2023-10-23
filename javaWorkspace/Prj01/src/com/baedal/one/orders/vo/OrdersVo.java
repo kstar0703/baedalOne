@@ -24,8 +24,10 @@ public class OrdersVo {
 
 	public OrdersVo(String orderNo, String userNo, String cartNo, String orderDate, int totalPrice, String menuName,
 			int totalQuantity) {
+		this.orderNo= orderNo;
 		this.userNo = userNo;
 		this.cartNo = cartNo;
+		this.orderDate = orderDate;
 		this.totalPrice = totalPrice;
 		this.menuName = menuName;
 		this.totalQuantity = totalQuantity;

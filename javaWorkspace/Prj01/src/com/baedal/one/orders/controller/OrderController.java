@@ -219,6 +219,7 @@ public class OrderController {
 			}
 			
 			System.out.println("구매 성공하셨습니다");
+			System.out.println();
 			printRecentOrder(recentOrder);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
@@ -229,7 +230,7 @@ public class OrderController {
 	
 	private void printRecentOrder(OrdersVo recentOrder) {
 		System.out.println("----------------------------------");
-		System.out.println("\t 결제 내역");
+		System.out.println("\t    결제 내역");
 		System.out.println("----------------------------------");
 		System.out.println("주문 번호: " + recentOrder.getOrderNo());
 		System.out.print("주문한 음식: ");
@@ -240,6 +241,8 @@ public class OrderController {
 		}
 		System.out.println("주문 일자: " + recentOrder.getOrderDate());
 		System.out.println("주문 가격: " + recentOrder.getTotalPrice()+"원");
+		System.out.println("----------------------------------");
+		System.out.println();
 	}
 
 	private boolean isOpen(int openTime, int closeTime) {

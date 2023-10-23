@@ -242,7 +242,7 @@ public class OrderDao {
 			int totalPrice = rs.getInt("TOTAL_PRICE");
 			String menuName = rs.getString("MENU_NAME");
 			int totalQuantity = rs.getInt("TOTAL_QUANTITY");
-			
+
 			resultVo = new OrdersVo(orderNo, null, null, orderDate, totalPrice, menuName, totalQuantity);
 		}
 		JDBCTemplate.close(rs);
