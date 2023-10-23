@@ -6,9 +6,10 @@ public class MemberVo {
 			
 		}
 	
-	public MemberVo(String id, String pwd, String nickName, String address, String phone, String enrollDate,
+	public MemberVo(String memberNo, String id, String pwd, String nickName, String address, String phone, String enrollDate,
 			String quitYn, String updateDate, String money, String amountPwd) {
 		
+		this.memberNo = memberNo;
 		this.id = id;
 		this.pwd = pwd;
 		this.nickName = nickName;
@@ -20,7 +21,8 @@ public class MemberVo {
 		this.money = money;
 		this.amountPwd = amountPwd;
 	}
-
+	
+	private String memberNo;
 	private String id;
 	private String pwd;
 	private String nickName;
@@ -32,6 +34,16 @@ public class MemberVo {
 	private String money;
 	private String amountPwd;
 	
+	
+	
+	public String getMemberNo() {
+		return memberNo;
+	}
+
+	public void setMemberNo(String memberNo) {
+		this.memberNo = memberNo;
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -114,7 +126,7 @@ public class MemberVo {
 
 	@Override
 	public String toString() {
-		return "Membercontroller [id=" + id + ", pwd=" + pwd + ", nickName=" + nickName + ", address=" + address
+		return "Membercontroller [memberNo=" + memberNo + ",id=" + id + ", pwd=" + pwd + ", nickName=" + nickName + ", address=" + address
 				+ ", phone=" + phone + ", enrollDate=" + enrollDate + ", quitYn=" + quitYn + ", updateDate="
 				+ updateDate + ", money=" + money + ", amountPwd=" + amountPwd + "]";
 	}
