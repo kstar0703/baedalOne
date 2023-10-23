@@ -32,8 +32,7 @@ public class StoreService {
 		
 		//close
 		conn.close();
-		
-		
+			
 		return list;
 	}
 
@@ -56,9 +55,6 @@ public class StoreService {
 		return vo;
 	}
 
-
-	
-	
 	/**
 	 * 카테고리 목록 출력 - 매장등록시 사용 , 구매자 검색 할때 사용
 	 */
@@ -99,6 +95,62 @@ public class StoreService {
 		}
 		
 		//close
+		conn.close();
+		
+		return result;
+	}
+
+
+	/**
+	 * 매장 수정
+	 * @param vo
+	 * 매장 이름 수정  ,카테고리 전화번호 수정, 매장주소 수정, 매장 영업시간 수정
+	 * 
+	 */
+	public int changeStoreInfo(StoreVo vo, StoreVo changeVo) throws Exception {
+
+		// conn
+		Connection conn = JDBCTemplate.getConnection();
+		
+		// dao
+		
+		int result = dao.changetStoreInfo(conn,vo,changeVo);
+		
+		// tx
+		if(result == 1) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.close(conn);
+		}
+		
+		// close
+		conn.close();
+		
+		return result;
+	}
+
+
+	/**
+	 * 매장 폐업 
+	 * @throws Exception 
+	 */
+	public int shoutDownStore(StoreVo vo, String password) throws Exception {
+		
+		// conn
+		Connection conn = JDBCTemplate.getConnection();
+		
+		// dao
+		
+		int result = dao.shoutDownStore(conn,vo,password);
+		
+		// tx
+		if(result ==1) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.close(conn);
+		}
+		
+		// close
 		conn.close();
 		
 		return result;
