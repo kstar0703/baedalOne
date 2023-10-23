@@ -1,4 +1,4 @@
-package com.baedal.one.owneroders.dto;
+package com.baedal.one.ownerfunction.dto;
 
 public class OwnerCartListDetailDTO {
 	private String storeName;
