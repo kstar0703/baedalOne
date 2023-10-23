@@ -1,12 +1,12 @@
-package com.baedal.one.owneroders.controller;
+package com.baedal.one.ownerfunction.controller;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-import com.baedal.one.owneroders.dto.OwnerOdersVo;
-import com.baedal.one.owneroders.service.OwnerOdersService;
-import com.baedal.one.owneroders.dto.OwnerCartListDetailDTO;
+import com.baedal.one.ownerfunction.dto.OwnerCartListDetailDTO;
+import com.baedal.one.ownerfunction.dto.OwnerOdersVo;
+import com.baedal.one.ownerfunction.service.OwnerOdersService;
 
 /**
  * 주문내역 보기(점주) 
@@ -37,8 +37,7 @@ public class OwnerOdersController {
 			List<OwnerOdersVo> voList = service.OwnerOderList(storeNo);
 
 			// HashMap<출력될 번호 , 장바구니 번호> map = new HashMap<출력될 번호 , 장바구니 번호>();
-			// 장바구니 번호는 별도로 저장되어 있는 번호기 때문에 그냥 오름차순으로 출력(ex: 2,5,6,7,9)되는 것을 1부터 차례대로 출력 되게
-			// 함(ex:1,2,3,4,5)
+			// 장바구니 번호는 별도로 저장되어 있는 번호기 때문에 그냥 오름차순으로 출력(ex: 2,5,6,7,9)되는 것을 1부터 차례대로 출력 되게 함(ex:1,2,3,4,5)
 			HashMap<Integer, String> map = new HashMap<Integer, String>();
 			int i = 1;
 
@@ -96,7 +95,7 @@ public class OwnerOdersController {
 	}
 
 	// 매장 이름 찾기
-	private String findStoreName(String storeNo) {
+	public String findStoreName(String storeNo) {
 		// 매장 이름을 넣을 변수
 		String storeName = null;
 		try {

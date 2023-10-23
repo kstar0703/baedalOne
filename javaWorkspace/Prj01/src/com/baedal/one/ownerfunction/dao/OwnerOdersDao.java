@@ -1,4 +1,4 @@
-package com.baedal.one.owneroders.dao;
+package com.baedal.one.ownerfunction.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.baedal.one.owneroders.dto.OwnerCartListDetailDTO;
-import com.baedal.one.owneroders.dto.OwnerOdersVo;
+import com.baedal.one.ownerfunction.dto.OwnerCartListDetailDTO;
+import com.baedal.one.ownerfunction.dto.OwnerOdersVo;
 import com.kh.app.jdbc.JDBCTemplate;
 
 public class OwnerOdersDao {

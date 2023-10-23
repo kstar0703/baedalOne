@@ -1,11 +1,11 @@
-package com.baedal.one.owneroders.service;
+package com.baedal.one.ownerfunction.service;
 
 import java.sql.Connection;
 import java.util.List;
 
-import com.baedal.one.owneroders.dao.OwnerOdersDao;
-import com.baedal.one.owneroders.dto.OwnerCartListDetailDTO;
-import com.baedal.one.owneroders.dto.OwnerOdersVo;
+import com.baedal.one.ownerfunction.dao.OwnerOdersDao;
+import com.baedal.one.ownerfunction.dto.OwnerCartListDetailDTO;
+import com.baedal.one.ownerfunction.dto.OwnerOdersVo;
 import com.kh.app.jdbc.JDBCTemplate;
 
 public class OwnerOdersService {
