@@ -7,12 +7,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 import com.baedal.one.Main;
 import com.baedal.one.review.dao.ReviewDao;
 import com.baedal.one.review.service.ReviewService;
-import com.baedal.one.review.vo.replyVo;
+import com.baedal.one.review.vo.ReplyVo;
 import com.baedal.one.review.vo.ReviewVo;
+import com.baedal.one.review.vo.ReviewReplyVo;
 
 public class ReviewController {
 
@@ -86,7 +88,8 @@ public class ReviewController {
 	}
 
 	/**
-	 * 매장 모든 리뷰 조회하기 SELECT NICKNAME , TO_CHAR(WRITE_DATE,'YYYY-MM-DD hh24:mi') AS
+	 * 매장 모든 리뷰 조회하기 
+	 * SELECT NICKNAME , TO_CHAR(WRITE_DATE,'YYYY-MM-DD hh24:mi') AS
 	 * WRITE_DATE , CONTENT,MENU_NAME , R.ORDER_NO , R.STORE_NO , R.REVIEW_NO FROM
 	 * REVIEW R JOIN ORDERS O ON R.ORDER_NO = O.ORDER_NO JOIN MEMBER MB ON O.USER_NO
 	 * = MB.MEMBER_NO RIGHT JOIN CART_LIST C ON O.CART_NO = C.CART_NO JOIN MENU M ON
@@ -96,104 +99,34 @@ public class ReviewController {
 	 * @param storeNo
 	 */
 	public void storeReview(String storeNo) {
+		// Map 생성
+		HashMap<Integer, String> map = new HashMap<Integer, String>();
+		HashMap<String, String> menuMap = new HashMap<String, String>();
+		int i = 1;
 		try {
 			System.out.println("===== 리뷰조회 =====");
 
-			ReviewVo vo = new ReviewVo();
-
+			ReviewReplyVo reRpVo = new ReviewReplyVo();
+			ReviewVo reviewVo = new ReviewVo();
+			reviewVo.setStoreNo(storeNo);
 			// vo객체에 매장번호 입력
-			vo.setStoreNo(storeNo);
-			System.out.println();
+			reRpVo.setReviewVo(reviewVo);
 
 			// 서비스 호출하기
-			ArrayList<ReviewVo> voList = service.storeReview(vo);
+			ArrayList<ReviewReplyVo> reRpVoList = service.storeReview(reRpVo);
 
 			// 리스트에서 첫번째 주문번호 가져오기
-			String orderNo = voList.get(0).getOrderNo();
+			String orderNo = reRpVo.getReviewVo().getOrderNo();
 
 			// 리스트에서 첫번째 리뷰번호 가져오기
-			String reviewNo = voList.get(0).getReviewNo();
-
-			// Map 생성
-			HashMap<Integer, String> map = new HashMap<Integer, String>();
-
-			// 리뷰 한개당 i씩 증가
-			int i = 1;
-			for (ReviewVo dbVo : voList) {
-
-				// 주문번호가 같을때만 출력
-				if (dbVo.getOrderNo().equals(orderNo)) {
-
-					// map의 key값에 i를 넣고 value 값을 주문번호로 설정
-					map.put(i, dbVo.getReviewNo());
-
-					// 콘솔에 리뷰 츌력 
-					System.out.println(i + ".꒰⑅•ᴗ•⑅꒱ " + dbVo.getNickName());
-					System.out.println(dbVo.getWriteDate());
-					
-					// 평점 확인하기 
-					System.out.print("평점: ");
-					switch (dbVo.getRating()) {
-					case 1 : System.out.println("☆☆☆☆★"); break;
-					case 2 : System.out.println("☆☆☆★★"); break;
-					case 3 : System.out.println("☆☆★★★"); break;
-					case 4 : System.out.println("☆★★★★"); break;
-					case 5 : System.out.println("★★★★★"); break;
-					}
-					System.out.println();
-					System.out.println(dbVo.getContent());
-					System.out.println();
-					System.out.println("< 주문메뉴 >");
-					System.out.print(dbVo.getMenuName());
-
-					// 주문번호에 ""를 할당해 값을 다르게 만들고 아래 조건문을 실행시킴
-					orderNo = "";
-
-					// 리뷰 한개당 i 1씩 증가
-					i++;
-
-					// 리뷰번호가 달라질때 출력
-				} else if (!dbVo.getReviewNo().equals(reviewNo)) {
-
-					// map의 key값에 i를 넣고 value 값을 오더번호로 설정
-					map.put(i, dbVo.getReviewNo());
-
-					// 콘솔 꾸미기
-					System.out.println();
-					System.out.println("\n---------------------------------");
-					System.out.println();
-					System.out.println(i + ".꒰⑅•ᴗ•⑅꒱ " + dbVo.getNickName());
-					System.out.println(dbVo.getWriteDate());
-					// 평점 별모양으로 출력
-					System.out.print("평점: ");
-					switch (dbVo.getRating()) {
-					case 1 : System.out.println("☆☆☆☆★"); break;
-					case 2 : System.out.println("☆☆☆★★"); break;
-					case 3 : System.out.println("☆☆★★★"); break;
-					case 4 : System.out.println("☆★★★★"); break;
-					case 5 : System.out.println("★★★★★"); break;
-					}
-					System.out.println();
-					System.out.println(dbVo.getContent());
-					System.out.println();
-					System.out.println("< 주문메뉴 >");
-					System.out.print(dbVo.getMenuName());
-
-					// 변한 리뷰번호를 변수에 새로 할당
-					reviewNo = dbVo.getReviewNo();
-
-					// 리뷰 한개당 i 1씩 증가
-				
-					i++;
-
-					// 주문번호가 다를때 출력
-				} else {
-
-					// 메뉴출력
-					System.out.print("," + dbVo.getMenuName());
-
-				}
-
+			String reviewNo = reRpVo.getReviewVo().getReviewNo();
+			
+			String replyNo = reRpVoList.get(0).getReplyVo().getReplyNo();
+			
+			List<ReviewReplyVo> newList = reRpVoList.stream().distinct().collect(Collectors.toList());
+			
+			for(ReviewReplyVo voList : newList) {
+				System.out.println(voList);
 			}
 			
 			// 예외처리
@@ -206,7 +139,8 @@ public class ReviewController {
 	}
 
 	/**
-	 * 회원 모든 리뷰 조회하기 SELECT NICKNAME , TO_CHAR(WRITE_DATE,'YYYY-MM-DD hh24:mi') AS
+	 * 회원 모든 리뷰 조회하기 
+	 * SELECT NICKNAME , TO_CHAR(WRITE_DATE,'YYYY-MM-DD hh24:mi') AS
 	 * WRITE_DATE , CONTENT ,MENU_NAME , R.ORDER_NO , R.STORE_NO , R.REVIEW_NO FROM
 	 * REVIEW R JOIN ORDERS O ON R.ORDER_NO = O.ORDER_NO JOIN MEMBER MB ON O.USER_NO
 	 * = MB.MEMBER_NO RIGHT JOIN CART_LIST C ON O.CART_NO = C.CART_NO JOIN MENU M ON
@@ -413,16 +347,51 @@ public class ReviewController {
 	}
 	
 	/**
-	 * 
+	 * 답변 작성
+	 * INSERT INTO REPLY (REPLY_NO,REVIEW_NO,CONTENT) 
+	 * VALUES (SEQ_REPLY.NEXTVAL,?,?)
 	 * @param reviewNo
 	 */
-	public void Whitereply(String reviewNo) {
+	public void WriteReply(String reviewNo) {
 		
-		// 리뷰번호 vo에 입력받기
-		replyVo vo = new replyVo();
-		vo.setReviewNo(reviewNo);
+		System.out.println("\n1. 답변작성");
+		System.out.println("2. 뒤로가기");
+		System.out.print("번호를 입력하세요: ");
+		String num = Main.SC.nextLine();
 		
-		//
+		switch (num) {
+		case "1" : break;
+		case "2" : return;
+		default: System.out.println("\n잘못된 입력입니다."); return;
+		}
+		
+		try {
+			// 리뷰번호 vo에 입력
+			ReplyVo vo = new ReplyVo();
+			vo.setReviewNo(reviewNo);
+			
+			
+			// 스캐너로 답변내용 입력받기 
+			System.out.print("\n답변 내용을 입력하세요: ");
+			String content = Main.SC.nextLine();
+			
+			// 사장님 답변내용 vo에 입력
+			vo.setContent(content);
+			
+			// 서비스 호출 
+			int result = service.writeReply(vo);
+			
+			// 결과집합 
+			if(result != 1) {
+				throw new Exception();
+			}
+			System.out.println("\n답변 작성 완료!");
+		}catch (java.sql.SQLIntegrityConstraintViolationException e) {
+			System.err.println("\n이미 작성된 답변입니다.");
+		}catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("\n답변 작성중 디비 연결 실패..");
+		}
 		
 	}
 }

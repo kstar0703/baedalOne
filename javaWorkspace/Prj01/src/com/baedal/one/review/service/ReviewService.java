@@ -7,6 +7,8 @@ import java.util.List;
 
 import com.baedal.one.review.dao.ReviewDao;
 import com.baedal.one.review.vo.ReviewVo;
+import com.baedal.one.review.vo.ReviewReplyVo;
+import com.baedal.one.review.vo.ReplyVo;
 import com.kh.app.jdbc.JDBCTemplate;
 
 public class ReviewService {
@@ -40,18 +42,18 @@ public class ReviewService {
 	}
 
 	// 매장 모든 리뷰조회
-	public ArrayList<ReviewVo> storeReview(ReviewVo vo) throws Exception {
+	public ArrayList<ReviewReplyVo> storeReview(ReviewReplyVo reRpVo) throws Exception {
 
 		// conn
 		Connection conn = JDBCTemplate.getConnection();
 
 		// dao호출
-		ArrayList<ReviewVo> readVo = dao.storeReview(vo, conn);
+		ArrayList<ReviewReplyVo> reRpVoList = dao.storeReview(reRpVo, conn);
 
 		// close
 		JDBCTemplate.close(conn);
 
-		return readVo;
+		return reRpVoList;
 	}
 
 	// 유저 모든 리뷰 조회
@@ -106,6 +108,27 @@ public class ReviewService {
 		}else {
 			JDBCTemplate.rollback(conn);
 		}
+		//close
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
+
+	public int writeReply(ReplyVo vo) throws Exception {
+		
+		// conn생성
+		Connection conn = JDBCTemplate.getConnection();
+		
+		// dao 호출
+		int result = dao.writeReply(vo,conn);
+		
+		// commit / rollback
+		if(result == 1) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
 		//close
 		JDBCTemplate.close(conn);
 		
