@@ -8,6 +8,6 @@ public class TestMain {
 	public static void main(String[] args) {
 		
 		CartController purchaseController = new CartController();
-		purchaseController.selectOption("3");
+		purchaseController.selectOption("1");
 	}
 }
