@@ -26,7 +26,7 @@ public class StoreDao {
 	public List<StoreVo> showStoreInfo(Connection conn, String loginOwnerNo) throws Exception {
 	    
 		//sql
-		String sql = "SELECT * FROM STORE S JOIN STORE_CATEGORY C ON S.CATEGORY_NO = C.CATEGORY_NOWHERE WHERE OWNER_NO =?";
+		String sql = "SELECT S.STORE_NO,S.CATEGORY_NO,S.OWNER_NO,S.STORE_NAME,S.STORE_PHONE,S.STORE_ADDRESS,TO_CHAR(ENROLL_DATE,'YYYY-MM-DD') AS ENROLL_DATE,S.CLOSE_YN,S.OPENTIME,S.CLOSETIME,C.CATEGORY_NAME FROM STORE S JOIN STORE_CATEGORY C ON S.CATEGORY_NO = C.CATEGORY_NO WHERE OWNER_NO = ?";
 		
 		//psmt
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -44,7 +44,7 @@ public class StoreDao {
 						,rs.getString("STORE_ADDRESS"),rs.getString("ENROLL_DATE"),
 						rs.getString("CLOSE_YN"),rs.getString("OPENTIME")
 						,rs.getString("CLOSETIME"),rs.getString("CATEGORY_NAME")));
-						
+				
 		}
 		
 		JDBCTemplate.close(pstmt);
@@ -58,12 +58,13 @@ public class StoreDao {
 	
 	/**
 	 * 가게 선택 (점주)
+	 * @retunrn Storevo
 	 * 수정 변경 및 삭제 재활용 가능
 	 */
 
 	public StoreVo chooseStore(Connection conn, StoreVo storeVo) throws Exception {
 		//sql
-		String sql = "SELECT STORE_NO,CATEGORY_NO,OWNER_NO,STORE_NAME,STORE_PHONE,STORE_ADDRESS,TO_CHAR(ENROLL_DATE,'YYYY-MM-DD') AS ENROLL_DATE,CLOSE_YN,OPENTIME,CLOSETIME  FROM STORE WHERE STORE_NO = ?";
+		String sql = "SELECT S.STORE_NO,S.CATEGORY_NO,S.OWNER_NO,S.STORE_NAME,S.STORE_PHONE,S.STORE_ADDRESS,TO_CHAR(ENROLL_DATE,'YYYY-MM-DD') AS ENROLL_DATE,S.CLOSE_YN,S.OPENTIME,S.CLOSETIME,C.CATEGORY_NAME FROM STORE S JOIN STORE_CATEGORY C ON S.CATEGORY_NO = C.CATEGORY_NO WHERE STORE_NO = '?'";
 		
 		//pstmt
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -78,7 +79,7 @@ public class StoreDao {
 						rs.getString("STORE_NAME"),rs.getString("STORE_PHONE")
 						,rs.getString("STORE_ADDRESS"),rs.getString("ENROLL_DATE"),
 						rs.getString("CLOSE_YN"),rs.getString("OPENTIME")
-						,rs.getString("CLOSETIME"));
+						,rs.getString("CLOSETIME"),rs.getString("CATEGORY_NAME"));
 		}
 		
 		JDBCTemplate.close(pstmt);
@@ -221,7 +222,7 @@ public class StoreDao {
 	public int shoutDownStore(Connection conn, StoreVo vo, String password) throws Exception {
 
 		//sql
-		String sql = "UPDATE STORE SET CLOSE_YN = 'Y' WHERE STORE_NO = ?";
+		String sql = "UPDATE STORE SET CLOSE_YN = 'Y' WHERE STORE_NO = ? AND CLOSE_YN ='N'";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		
 		// 변수 변경 Main.Owner
@@ -235,4 +236,6 @@ public class StoreDao {
 		
 		return result;
 	}
+	
+	
 }

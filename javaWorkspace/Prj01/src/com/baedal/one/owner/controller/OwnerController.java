@@ -40,21 +40,22 @@ public class OwnerController {
 		
 		while(true) {
 		
-		System.out.println("===== OWNER =====");
+		System.out.println("===== 배달의 달인 =====");	
+		System.out.println("===== 점주 =====");
 
 		System.out.println("1. 회원가입");
 		System.out.println("2. 로그인 ")  ;
 		System.out.println("9. 뒤로가기");
 		System.out.println("0. 종료");
 		// 로그인 이전
-		String chooseNum = Main.SC.nextLine();
+		String beforeLoginChooseNum = Main.SC.nextLine();
 		
-		switch (chooseNum) {
+		switch (beforeLoginChooseNum) {
 		case "1" : join(); break;
 		case "2" : login(); afterLoginselecMenu();  break;
-		case "9" : return;
-		case "0" : System.exit(0); 
-		default : System.out.println("잘못누르셨습니다 다시 입력하세요"); 
+		case "9" : OwnerTestMain.LoginOwner = null; return;
+		case "0" : System.exit(0); break; 
+		default : System.out.println("잘못누르셨습니다 다시 입력하세요"); break; 
 		}
 			}	
 		}
@@ -65,6 +66,8 @@ public class OwnerController {
 	public void afterLoginselecMenu() { 
 		while(true) {
 			
+		System.out.println("=====메뉴를 선택하세요=====");	
+			
 		System.out.println("1. 매장 관리 선택 ");
 		System.out.println("2. 유저정보 확인");
 		System.out.println("3. 비밀번호 변경");
@@ -74,16 +77,16 @@ public class OwnerController {
 		System.out.println("0. 종료");
 		
 		// 로그인 이후
-		String chooseNum = Main.SC.next();
+		String afterLoginchooseNum = Main.SC.nextLine();
 	
-		switch (chooseNum) {
-		case "1" : storeController.storeSelectMenu();
+		switch (afterLoginchooseNum) {
+		case "1" : storeController.storeSelectMenu(); break;
 		case "2" : showStoreInfo(); break;
 		case "3" : changePwd(); break;
 		case "4" : logout(); break;
 		case "5" : quit(); break;
 		case "6" : return; 
-		case "0" : System.exit(0);
+		case "0" : System.exit(0); break;
 		}
 		}
 	}
@@ -231,10 +234,18 @@ public class OwnerController {
 				tryLoginCnt++;
 			}
 		}
-				
+			String changPwd ="";
 			//데이터
+			while(true) {
 			System.out.print("변경 할 비밀번호를 입력하세요 ");
-			String changPwd = Main.SC.nextLine();
+			changPwd = Main.SC.nextLine();
+			if(changPwd.equals(OwnerTestMain.LoginOwner.getOwnerPwd())) {
+				System.out.println("동일한 비밀번호 입니다");
+				System.out.println("다시 입력하세요");
+			}else {
+				break;
+			}
+			}
 			
 		
 			// 서비스
@@ -253,6 +264,8 @@ public class OwnerController {
 		} catch (Exception e) {
 			System.out.println("비밀번호 변경 실패...");
 			e.printStackTrace();
+			System.exit(0);
+			
 		}
 		
 	}
@@ -278,7 +291,7 @@ public class OwnerController {
 				System.out.println("가입일자 : " + vo.getEnrollDate());
 				
 				// 가게정보 호출 출력
-				storeController.showStoreInfo();
+				storeController.showStoreNameCategory();
 				
 			} catch (Exception e) {
 					System.out.println("유저 정보 출력 실패");

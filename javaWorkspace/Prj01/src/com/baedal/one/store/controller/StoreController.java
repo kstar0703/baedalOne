@@ -56,11 +56,11 @@ public class StoreController {
 		System.out.println("번호를 선택하세요");
 		String storeSelectNum = Main.SC.nextLine();
 		switch (storeSelectNum) {
-		case "1" :   System.out.println("디테일 매장 메소드 출력"); break;
+		case "1" :  showStoreInfo(chooseStore(showStoreNameCategory())); break;
 		case "2" :   registerStore(); break;
 		case "3" : System.out.println("송희님 메소드 호출");;
 		case "4" : System.out.println("범렬님 메소드 가져오기"); break;
-		case "5" : storeManger(chooseStore(showStoreInfo())); break;
+		case "5" : storeManger(chooseStore(showStoreNameCategory())); break;
 		case "9" : return; 
 		case "0" :  System.exit(0);
 		default : System.out.println("잘못 누르셨습니다 다시 입력하세요."); storeSelectMenu();
@@ -301,18 +301,38 @@ public class StoreController {
 	}
 	
 	/**
-	 * 
-	 * 디테일 매장 정보
-	 * 
+	 * 가게정보출력
 	 */
+	public StoreVo showStoreInfo(StoreVo vo) {
+		
+		try {
+			if(vo ==null) {
+				throw new Exception();
+			}
+			
+			System.out.println("가게명 : " +vo.getStoreName());
+			System.out.println("가게 전화번호 : " +vo.getStorePhone());
+			System.out.println("가게 주소 : " + vo.getStoreADDRESS());
+			System.out.println("가입일자 :" + vo.getEnrollDate());
+			System.out.println("OPEN : " + vo.getOpenTime());
+			System.out.println("CLOSE : " + vo.getCloseTime());
+			System.out.println("카테고리 : " + vo.getCategoryName());
+			
+
+		}catch (Exception e) {
+			System.out.println("매장 정보 출력 실패");
+		}
+		return vo;
+	}
 	
 	
 	
+
 	/**
 	 * 매장 선택 정보 출력(점주),카테고리명 출력
 	 * 수정 변경 및 삭제 재활용 가능, 
 	 */
-	public List<StoreVo> showStoreInfo() {
+	public List<StoreVo> showStoreNameCategory() {
 		
 			List<StoreVo> storeList =null;
 		try {
@@ -330,7 +350,7 @@ public class StoreController {
 			System.out.println("\n");
 			System.out.println("===== 보유 매장 ======");
 			for(int i =0; i<storeList.size(); i++) {
-				System.out.println(i+1 +". " + storeList.get(i).getStoreName() + "(" +"카테고리 :" + storeList  +")" );
+				System.out.println(i+1 +". " + storeList.get(i).getStoreName() + "(" +"카테고리 :" + storeList.get(i).getCategoryName()  +")" );
 			}
 			
 		} catch (Exception e) {
@@ -345,6 +365,7 @@ public class StoreController {
 	/**
 	 * 가게 선택 (점주)
 	 * 수정 변경 및 삭제 재활용 가능	 
+	 * 또 선택가능
 	 */
 	
 	public StoreVo chooseStore(List<StoreVo> storeList) {
@@ -356,7 +377,7 @@ public class StoreController {
 					}
 		
 			//데이터 
-			System.out.println("관리 하실 매장 번호를 선택하세요");
+			System.out.println("매장 번호를 선택하세요");
 			String chooseNum = Main.SC.nextLine();
 			int intChooseNum = Integer.valueOf(chooseNum)-1;
 			
@@ -383,6 +404,51 @@ public class StoreController {
 			storeSelectMenu();
 		}
 		return vo;
+	}
+	
+	/**
+	 *  전체 매장 조회
+	 *  매장 선택 메소드 재활용
+	 */
+	public List<StoreVo> showAllStore(){
+		
+		return null;
+	}
+	
+	/**
+	 * 매장 조회
+	 * 카테고리 검색 조회
+	 * 매장 선택 메소드 재활용
+	 */
+	public List<StoreVo> showCategoryStore(String categoryNum){
+		
+		return null;
+	}
+	/**
+	 *  유저 매장 선택 메소드
+	 */
+	public void showStoreForMemberManager() {
+		while(true) {
+		System.out.println("1. 전체 매장 조회");
+		System.out.println("2. 카테고리별 조회");
+		System.out.println("9. 뒤로가기");
+		System.out.println("0. 종료");
+		
+		System.out.print("번호를 선택 하세요");
+		String selectNum = Main.SC.nextLine();
+		
+		switch (selectNum) {
+		case "1" : chooseStore(showCategoryStore(selectCategory(showCategory()))); break;  // <-- 극혐코드 
+		case "2" : chooseStore(showAllStore()); break;
+		case "9" : System.out.println("이전 메소드 호출");  //# 
+		case "0" : System.exit(0); 
+		default : System.out.println("잘못 입력했습니다 다시 입력하세요");
+		}
+		
+		
+}
+		
+		
 	}
 	
 	
