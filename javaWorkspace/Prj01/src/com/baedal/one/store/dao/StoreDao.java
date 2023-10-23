@@ -26,7 +26,7 @@ public class StoreDao {
 	public List<StoreVo> showStoreInfo(Connection conn, String loginOwnerNo) throws Exception {
 	    
 		//sql
-		String sql = "SELECT STORE_NO,CATEGORY_NO,OWNER_NO,STORE_NAME,STORE_PHONE,STORE_ADDRESS,TO_CHAR(ENROLL_DATE,'YYYY-MM-DD') AS ENROLL_DATE,CLOSE_YN,OPENTIME,CLOSETIME  FROM STORE WHERE OWNER_NO = ? AND CLOSE_YN ='N'";
+		String sql = "SELECT * FROM STORE S JOIN STORE_CATEGORY C ON S.CATEGORY_NO = C.CATEGORY_NOWHERE WHERE OWNER_NO =?";
 		
 		//psmt
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -43,7 +43,7 @@ public class StoreDao {
 						,rs.getString("STORE_NAME"),rs.getString("STORE_PHONE")
 						,rs.getString("STORE_ADDRESS"),rs.getString("ENROLL_DATE"),
 						rs.getString("CLOSE_YN"),rs.getString("OPENTIME")
-						,rs.getString("CLOSETIME")));
+						,rs.getString("CLOSETIME"),rs.getString("CATEGORY_NAME")));
 						
 		}
 		
@@ -213,6 +213,10 @@ public class StoreDao {
 		
 		
 	}
+	
+	/**
+	 * 폐점 하기
+	 */
 
 	public int shoutDownStore(Connection conn, StoreVo vo, String password) throws Exception {
 

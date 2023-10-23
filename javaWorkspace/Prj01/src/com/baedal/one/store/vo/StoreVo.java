@@ -8,7 +8,6 @@ import oracle.security.o3logon.a;
 public class StoreVo {
 	
 	
-	private StoreVo vo; 
 	private String storeNO;
 	private String categoryNO;
 	private String ownerNo;
@@ -23,10 +22,10 @@ public class StoreVo {
 	
 	
 	
-	public StoreVo(StoreVo vo, String storeNO, String categoryNO, String ownerNo, String storeName, String storePhone,
+	public StoreVo(String storeNO, String categoryNO, String ownerNo, String storeName, String storePhone,
 			String storeADDRESS, String enrollDate, String closeYn, String openTime, String closeTime,
 			String categoryName) {
-		this.vo = vo;
+		
 		this.storeNO = storeNO;
 		this.categoryNO = categoryNO;
 		this.ownerNo = ownerNo;
@@ -59,13 +58,7 @@ public class StoreVo {
 	public StoreVo() {
 	}
 
-	public StoreVo getVo() {
-		return vo;
-	}
 
-	public void setVo(StoreVo vo) {
-		this.vo = vo;
-	}
 
 	public String getCategoryName() {
 		return categoryName;
@@ -231,17 +224,19 @@ public class StoreVo {
 		this.closeTime = closeTime;
 	}
 
-
-
-
-
 	@Override
 	public String toString() {
-		return "StoreVo [vo=" + vo + ", storeNO=" + storeNO + ", categoryNO=" + categoryNO + ", ownerNo=" + ownerNo
-				+ ", storeName=" + storeName + ", storePhone=" + storePhone + ", storeADDRESS=" + storeADDRESS
-				+ ", enrollDate=" + enrollDate + ", closeYn=" + closeYn + ", openTime=" + openTime + ", closeTime="
-				+ closeTime + ", categoryName=" + categoryName + "]";
+		return "StoreVo [storeNO=" + storeNO + ", categoryNO=" + categoryNO + ", ownerNo=" + ownerNo + ", storeName="
+				+ storeName + ", storePhone=" + storePhone + ", storeADDRESS=" + storeADDRESS + ", enrollDate="
+				+ enrollDate + ", closeYn=" + closeYn + ", openTime=" + openTime + ", closeTime=" + closeTime
+				+ ", categoryName=" + categoryName + "]";
 	}
+
+
+
+
+
+	
 	
 	
 	

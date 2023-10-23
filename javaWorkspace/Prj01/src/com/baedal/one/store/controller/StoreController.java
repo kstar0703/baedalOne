@@ -12,6 +12,8 @@ import javax.imageio.metadata.IIOMetadataFormatImpl;
 import javax.management.loading.PrivateClassLoader;
 import javax.sql.rowset.JoinRowSet;
 
+import org.w3c.dom.ls.LSOutput;
+
 import com.baedal.one.Main;
 import com.baedal.one.cart.TestMain;
 import com.baedal.one.menu.controller.MenuController;
@@ -54,7 +56,7 @@ public class StoreController {
 		System.out.println("번호를 선택하세요");
 		String storeSelectNum = Main.SC.nextLine();
 		switch (storeSelectNum) {
-		case "1" :   System.out.println("디테일 매장 메소드 출력");; break;
+		case "1" :   System.out.println("디테일 매장 메소드 출력"); break;
 		case "2" :   registerStore(); break;
 		case "3" : System.out.println("송희님 메소드 호출");;
 		case "4" : System.out.println("범렬님 메소드 가져오기"); break;
@@ -298,10 +300,17 @@ public class StoreController {
 		return categoryNum;
 	}
 	
+	/**
+	 * 
+	 * 디테일 매장 정보
+	 * 
+	 */
+	
+	
 	
 	/**
-	 * 매장 선택 정보 출력(점주)
-	 * 수정 변경 및 삭제 재활용 가능
+	 * 매장 선택 정보 출력(점주),카테고리명 출력
+	 * 수정 변경 및 삭제 재활용 가능, 
 	 */
 	public List<StoreVo> showStoreInfo() {
 		
@@ -319,12 +328,10 @@ public class StoreController {
 			}
 			
 			System.out.println("\n");
-			System.out.println("===== 매장 ======");
+			System.out.println("===== 보유 매장 ======");
 			for(int i =0; i<storeList.size(); i++) {
-				System.out.println(i+1 +". " + storeList.get(i).getStoreName() );
+				System.out.println(i+1 +". " + storeList.get(i).getStoreName() + "(" +"카테고리 :" + storeList  +")" );
 			}
-			
-			
 			
 		} catch (Exception e) {
 			System.out.println("매장 조회 실패");
@@ -333,39 +340,7 @@ public class StoreController {
 		return storeList;
 	}
 	
-	/**
-	 * 매장 상세정보 출력
-	 * join 해서 사용 String 은 카테고리명 
-	 */
 	
-	public Map<StoreVo,String> showStoreDetailInfo() {
-		
-		Map<StoreVo,String> storeMap =null;
-	try {
-	
-		// ##오너 번호변경 OwnerTest.LoginOwner.getOwnerNo -->Main.LoginOwer
-		String loginOwnerNo = OwnerTestMain.LoginOwner.getOwnerNo();
-		
-		// service 호출
-		
-		
-		
-		if(storeMap.size()==0) {
-			throw new Exception("보여줄 매장이 없습니다");
-		}
-		
-		System.out.println("\n");
-		System.out.println("=====매장 목록 ======");
-	
-		
-	} catch (Exception e) {
-		System.out.println("매장 조회 실패");
-		e.printStackTrace();
-	}
-	
-	
-	return storeMap;
-}
 	
 	/**
 	 * 가게 선택 (점주)
@@ -380,7 +355,6 @@ public class StoreController {
 				throw new Exception("선택할 매장이 없습니다");
 					}
 		
-			
 			//데이터 
 			System.out.println("관리 하실 매장 번호를 선택하세요");
 			String chooseNum = Main.SC.nextLine();
