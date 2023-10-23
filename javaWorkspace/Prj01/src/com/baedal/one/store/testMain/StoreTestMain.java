@@ -13,10 +13,6 @@ public class StoreTestMain {
 		StoreController sc = new StoreController();
 		
 		sc.storeSelectMenu();
-		
-		
-		
-		
 	}
 
 }

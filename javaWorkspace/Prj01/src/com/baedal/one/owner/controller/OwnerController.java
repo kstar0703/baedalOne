@@ -24,82 +24,78 @@ import com.baedal.one.store.service.StoreService;
 public class OwnerController {
 	
 	OwnerService ownerService;
+	StoreController storeController;
 	
 	public OwnerController() {
 	
 		ownerService = new OwnerService();
+		// 매장
+		storeController = new StoreController();
 	}
 	
-	public void selectMenu() {
+	/**
+	 * 
+	 */
+	public void beforeLoginselectMenu() {
 		
-		
+		while(true) {
 		
 		System.out.println("===== OWNER =====");
-		
+
 		System.out.println("1. 회원가입");
-		System.out.println("2. 로그인 ");
+		System.out.println("2. 로그인 ")  ;
 		System.out.println("9. 뒤로가기");
 		System.out.println("0. 종료");
-		
-		
-		
 		// 로그인 이전
-		String numBeforeLogin = Main.SC.nextLine();
+		String chooseNum = Main.SC.nextLine();
 		
-		switch (numBeforeLogin) {
+		switch (chooseNum) {
 		case "1" : join(); break;
-		case "2" : login(); break;
-		case "9" : System.out.println("뒤로가기 메뉴 출력"); break;
-		case "0" : System.exit(0);
-	
-		
-		default : System.out.println("잘못누르셨습니다 다시 입력하세요"); selectMenu();
-	
+		case "2" : login(); afterLoginselecMenu();  break;
+		case "9" : return;
+		case "0" : System.exit(0); 
+		default : System.out.println("잘못누르셨습니다 다시 입력하세요"); 
 		}
-		
-		
-		
-		if(numBeforeLogin.equals("2")) {
-			while(true) {
-				
-			System.out.println("1. 매장 관리 및 등록");
-			System.out.println("2. 유저정보 확인");
-			System.out.println("3. 비밀번호 변경");
-			System.out.println("4. 로그아웃");
-			System.out.println("5. 회원탈퇴 ");
-			System.out.println("6. 뒤로가기");
-			System.out.println("0. 종료");
+			}	
+		}
+	
+	/**
+	 * 
+	 */
+	public void afterLoginselecMenu() { 
+		while(true) {
 			
-			// 로그인 이후
-			String numAfterLogin = Main.SC.next();
+		System.out.println("1. 매장 관리 선택 ");
+		System.out.println("2. 유저정보 확인");
+		System.out.println("3. 비밀번호 변경");
+		System.out.println("4. 로그아웃");
+		System.out.println("5. 회원탈퇴 ");
+		System.out.println("6. 뒤로가기");
+		System.out.println("0. 종료");
 		
-			switch (numAfterLogin) {
-			case "2" : showStoreInfo(); break;
-			case "3" : changePwd(); break;
-			case "4" : logout(); break;
-			case "5" : quit(); break;
-			case "6" : return; 
-			case "0" : System.exit(0);
-			}
+		// 로그인 이후
+		String chooseNum = Main.SC.next();
+	
+		switch (chooseNum) {
+		case "1" : storeController.storeSelectMenu();
+		case "2" : showStoreInfo(); break;
+		case "3" : changePwd(); break;
+		case "4" : logout(); break;
+		case "5" : quit(); break;
+		case "6" : return; 
+		case "0" : System.exit(0);
 		}
-	}		
+		}
 	}
 			
 		
 			
-
-
-	
-
-
 	/**
 	 *  #점주 회원가입#
 	 */
 	public void join() {
 		
-		// switch case escape 추가
-		
-		
+				
 		try {
 		
 		System.out.println("=====회원가입=====");
@@ -127,7 +123,6 @@ public class OwnerController {
 	} catch (Exception e) {
 		System.out.println("회원가입 실패 ...");
 		e.printStackTrace();
-		selectMenu();
 	}
 		
 	}
@@ -151,8 +146,8 @@ public class OwnerController {
 			 * }
 			 */
 			if(OwnerTestMain.LoginOwner !=null) {
-				System.out.println("=====이미 접속중 입니다=====");
-				return;
+				throw new Exception("=====이미 접속중 입니다=====");
+				
 			}
 			
 		// 데이터
@@ -178,7 +173,6 @@ public class OwnerController {
 		 *
 		 */
 		
-		
 		//결과
 		if(ownerLoginInfo==null) {
 			throw new Exception();
@@ -188,8 +182,8 @@ public class OwnerController {
 		
 		}catch (Exception e) {
 			System.out.println("로그인 실패");
+			beforeLoginselectMenu();
 			e.printStackTrace();
-			selectMenu();
 		}
 	
 		
@@ -242,8 +236,7 @@ public class OwnerController {
 			System.out.print("변경 할 비밀번호를 입력하세요 ");
 			String changPwd = Main.SC.nextLine();
 			
-			
-
+		
 			// 서비스
 			int result = ownerService.changePwd(changPwd);
 			
@@ -266,7 +259,6 @@ public class OwnerController {
 		
 		/**
 		 * 매장정보 출력 및 유저 정보 출력
-		 * 
 		 */
 		public void showStoreInfo() {
 			System.out.println("===== 유저 정보 =====");
@@ -286,54 +278,47 @@ public class OwnerController {
 				System.out.println("가입일자 : " + vo.getEnrollDate());
 				
 				// 가게정보 호출 출력
-				StoreController storeController = new StoreController();
-				
 				storeController.showStoreInfo();
 				
-				
-							
 			} catch (Exception e) {
 					System.out.println("유저 정보 출력 실패");
 					e.printStackTrace();
 			}
 			
-			
-		
-			
-			
-			
-			
 		}
 		
-		
-	
-
 		/**
 		 * 로그아웃
+		 * 완료시 종료
 		 */
 		public void logout() {
+			try {
+				
 			
 			// # OwnerTestMain.LoginOwner --> Main.LoginOwner 변수 변경
 			if(OwnerTestMain.LoginOwner ==null) {
-				System.out.println("로그인 상태가 아닙니다");
-						return;
+				throw new Exception("로그인 상태가 아닙니다.");
 			}
 			
 			// #OwnerTestMain.LoginOwner --> Main.LoginOwner 변수 변경
 			OwnerTestMain.LoginOwner = null;
 			
-			
+			System.out.println("로그아웃 성공!");
+			beforeLoginselectMenu();
+			}catch (Exception e) {
+				System.out.println("로그아웃 실패;");
+			}
 		}
 		
 		/**
 		 * 회원탈퇴
+		 * 완료시 종료
 		 */
 		public void quit() {
 			try {
 				// # OwnerTestMain.LoginOwner --> Main.LoginOwner 변수 변경
 				if(OwnerTestMain.LoginOwner ==null) {
 					System.out.println("로그인 상태가 아닙니다");
-							return;
 				}
 				
 				// 비밀번호 입력 및 확인 
@@ -342,10 +327,7 @@ public class OwnerController {
 				
 				if(!OwnerTestMain.LoginOwner.getOwnerPwd().equals(pwd)) {
 					System.out.println("틀린 비밀번호 입니다");
-						return;
 				}
-				
-				
 				
 				//서비스
 				int result = ownerService.quit();
@@ -355,10 +337,12 @@ public class OwnerController {
 					throw new Exception();
 				}
 				System.out.println("회원탈퇴 성공ㅠ");
-				logout();
+				beforeLoginselectMenu();
+				
 				
 			} catch (Exception e) {
 				System.out.println("회원탈퇴 실패");
+				
 				e.printStackTrace();
 				
 			}		

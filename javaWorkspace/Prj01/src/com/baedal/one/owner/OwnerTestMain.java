@@ -14,8 +14,8 @@ public class OwnerTestMain {
 		
 		
 		while(true) {
-		ow.selectMenu();
-	
+		ow.beforeLoginselectMenu();
+
 		}
 		
 	}
