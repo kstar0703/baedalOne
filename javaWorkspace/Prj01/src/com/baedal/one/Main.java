@@ -18,7 +18,7 @@ public class Main {
 		
 		//객체 생성
 		MemberController mc = new MemberController();
-		OwnerController sc = new OwnerController();
+		OwnerController oc = new OwnerController();
 		
 		while(true) {
 			//원하는 유형 보여주기
@@ -30,7 +30,7 @@ public class Main {
 			String num = Main.SC.nextLine();
 			switch(num) {
 			case "1" : mc.selectMember(); break;
-//			case "2" : bc.selectOwner(); break;
+			case "2" : oc.selectMenu(); break;
 			case "9" : return;
 			default : System.out.println("잘못 입력하셨습니다.");
 			}

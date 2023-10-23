@@ -55,6 +55,44 @@ public class MemberService {
 		return dbVo;
 		
 	}
-			
+
+	//회원탈퇴
+	public int quit(String no) throws Exception {
+		
+		//conn
+		Connection conn = JDBCTemplate.getConnection();
+		
+		//DAO
+		int result = dao.quit(conn,no);
+		
+		//tx
+		if(result == 1 ) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		
+		//close
+		JDBCTemplate.close(conn);
+		
+		return result;
+	
+	}
+	
+	//비밀번호수정
+	public MemberVo changePwd() {
+		
+		//conn
+		
+		//DAO
+		
+		//tx
+		
+		//close
+		
+	}
+
+	
 
 }

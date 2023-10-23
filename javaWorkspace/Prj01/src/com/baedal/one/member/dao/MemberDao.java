@@ -60,5 +60,19 @@ public class MemberDao {
 		
 		return dbVo;
 	}
+	
+	//회원탈퇴하기
+	public int quit(Connection conn, String no) throws Exception {
+		
+		//SQL
+		String sql = "UPDATE MEMBER SET DEL_YN = 'Y', MODIFY_DATE = SYSDATE WHERE MEMBER_NO = ? ";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1,no);
+		
+		//rs
+		
+		return 0;
 
+	}
+	
 }

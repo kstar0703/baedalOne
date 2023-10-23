@@ -1,10 +1,11 @@
- package com.baedal.one.member.controller;
+package com.baedal.one.member.controller;
 
 import java.util.Scanner;
 
 import com.baedal.one.Main;
 import com.baedal.one.member.service.MemberService;
 import com.baedal.one.member.vo.MemberVo;
+import com.baedal.one.pay.controller.PayController;
 import com.baedal.one.review.controller.ReviewController;
 
 public class MemberController {
@@ -24,14 +25,16 @@ public class MemberController {
 		do {
 			System.out.println("1.회원가입");
 			System.out.println("2.로그인");
-			System.out.println("6.뒤로 가기");
+			System.out.println("9.뒤로 가기");
+			System.out.println("0.종료");
 
 			
 			num = Main.SC.nextLine();
 			switch(num) {
 			case "1" : join();break;
 			case "2" : login();break;
-			case "8" : return;
+			case "9" : return;
+			case "0" : System.exit(0);
 
 			default : System.out.println("그런 매뉴 없음");
 			}
@@ -55,7 +58,7 @@ public class MemberController {
 			String nickName = Main.SC.nextLine();
 			System.out.println("회원주소:");
 			String address = Main.SC.nextLine();
-			System.out.println("전화번호(010-1234-5678):");
+			System.out.println("전화번호(010-XXXX-XXXX):");
 			String phone = Main.SC.nextLine();
 			System.out.println("결제 비밀번호(6자리):");
 			String amountPwd = Main.SC.nextLine();
@@ -108,39 +111,41 @@ public class MemberController {
 			if(dbVo == null) {
 				throw new Exception();
 				
-			}else {
+			}
 				System.out.println("로그인 성공");
 				
 				String num;
 				do {
 					System.out.println("1.회원탈퇴");
 					System.out.println("2.로그아웃");
-					System.out.println("3.전체 매장정보 확인");
-					System.out.println("4.페이충전하기");
+					System.out.println("3.회원정보 수정하기");
+					System.out.println("4.내 돈 관리");
 					System.out.println("5.리뷰 작성하기");
 					System.out.println("6.리뷰 조회하기");
 					System.out.println("7.주문내역 확인하기");
-					System.out.println("8.뒤로 가기");
+					System.out.println("8.원하는 매장 선택");
+					System.out.println("9.뒤로 가기");
 
 					ReviewController rc= new ReviewController();
+					PayController pcm = new PayController();
 					
 					num = Main.SC.nextLine();
 					switch(num) {
 					case "1" : quit();break;
 					case "2" : logout();break;
-					case "3" : System.out.println();break;
-					case "4" : System.out.println();break;
+					case "3" : changeMemberInfo();break;
+					case "4" : pcm.selectPayMenu();break;
 					case "5" : rc.writeReview(num, num, num);break;
 					case "6" : rc.userReview(num);break;
-					case "7" : System.out.println();break;
-					case "8" : return;
+					case "7" : System.out.println("주문내역 확인하기 메소드 불러오기");break;
+					case "8" : System.out.println("원하는 매장 선택 메소드 불러오기");break;
+					case "9" : return;
 
 					default : System.out.println("그런 매뉴 없음");
 					}
 					
-				}while(num.equals(7));
-			}
-		
+				}while(num.equals(9));
+					
 		}catch(Exception e) {
 			System.out.println("로그인 실패");
 			e.printStackTrace();
@@ -148,27 +153,21 @@ public class MemberController {
 
 	}
 			
+
 	//회원탈퇴
 	public void quit() {
 		try {
 			System.out.println("-----회원탈퇴-----");
 			
-			//데이터 준비
-			System.out.println("회원탈퇴를 하기위해 기존의 아이디와 비밀번호를 입력하세요.");
-			System.out.println("아이디:");
-			String id = sc.nextLine();
-			System.out.println("비밀번호:");
-			String pwd = sc.nextLine();
-			
 			//로그인여부 검사
-			if(Main.loginMember == null) {
-				throw new Exception("로그인을 하고 회원탈퇴를 시도하세요");
+			if(Main.loginMember == null ) {
+				throw new Exception("다시 로그인을 하고 회원탈퇴를 시도하세요");
 			}
 			//데이터
 		    String no = Main.loginMember.getMemberNo();
 		    
 			//서비스
-			int result = service.quit(memberNo);
+			int result = ms.quit(no);
 			
 			//결과
 			if(result != 1) {
@@ -176,6 +175,9 @@ public class MemberController {
 			}
 			System.out.println("회원 탈퇴성공");
 			logout();
+		}catch(Exception e) {
+			System.out.println("회원 탈퇴 실패 ...");
+			e.printStackTrace();
 		}
 		
 		
@@ -189,18 +191,17 @@ public class MemberController {
 		
 	}
 	
-	//주문내역조회하기
-//	public void () {
-		
-		
-//	}
-	
-			
-	//뒤로 가기
-	public void back() {
-		System.out.println("-----뒤로 가기-----");
-
+	//회원정보 수정하기
+	public void changeMemberInfo() {
+		System.out.println("-----회원정보 수정하기-----");
+		System.out.println("1.비밀번호 수정하기");
+		System.out.println("2.닉네임 수정하기");
+		System.out.println("3.회원주소 수정하기");
+		System.out.println("4.전화번호 수정하기");
+		System.out.println("5.결제 비밀번호 수정하기");
 	}
+			
+	
 	
 	
 }//class
