@@ -9,7 +9,7 @@ public class ReviewMain {
 	public static void main(String[] args) {
 		
 		ReviewController reviewController= new ReviewController();
-		reviewController.userReview("2");
+		reviewController.writeReview("1","1","1");
 		
 	}
 
