@@ -28,7 +28,16 @@ public class MenuController {
 		}
 	}
 	
-	//점주 비밀번호 가져오기
+	/**
+	 * 점주 비밀번호 가져오기
+	 * 
+	 * String storeNo 가져오기
+	 * 
+	 * SELECT OWNER_PWD 
+	 * FROM OWNER 
+	 * WHERE OWNER_NO = ?
+	 * 
+	 */
 	public void findPwd(String storeNo) {
 		
 		//입력할 비밀번호
@@ -49,7 +58,7 @@ public class MenuController {
 					//메뉴 관리 기능 오픈
 					selectMenu(storeNo);
 				} else {
-					System.out.println("잘못된 비밀번호입니다. 다시 입력해주세요." );
+					System.out.println("잘못된 비밀번호입니다. 다시 입력해주세요.\n" );
 				}
 			}
 		} catch(Exception e) {
@@ -59,8 +68,10 @@ public class MenuController {
 		
 	}
 	
-	//메뉴선택
-	//1번 밖에 실행 안됨!!
+	/**
+	 * 메뉴선택
+	 * 
+	 */
 	public void selectMenu(String storeNo) {
 		
 		while(true) {
@@ -71,7 +82,7 @@ public class MenuController {
 			System.out.println("4. 삭제한 메뉴 복구하기");
 			System.out.println("5. 메뉴 리스트 보기 (매장 전체 메뉴)");
 			System.out.println("6. 삭제된 메뉴 리스트 보기");
-			System.out.println("7. 뒤로가기");
+			System.out.println("9. 뒤로가기");
 			
 			String num = MenuMain.SC.nextLine();
 			
@@ -82,15 +93,21 @@ public class MenuController {
 			case "4" : rollbackDeleteMenu(); break;
 			case "5" : menuList(storeNo); break;
 			case "6" : deleteMenuList(storeNo); break;
-			case "7" : return;
-			default : System.out.println("잘못된 명령입니다.");
+			case "9" : return;
+			default : System.out.println("잘못된 명령입니다.\n");
 			}
 		}
 		
 	}
 
 	
-	//메뉴 등록 여부 
+	/**
+	 * 메뉴 등록 여부 
+	 * 
+	 * INSERT INTO MENU(MENU_NO,STORE_NO, MENU_NAME, PRICE) 
+	 * VALUES(SEQ_MENU.NEXTVAL, ?, ?, ?)
+	 * 
+	 */
 	public void addMenu(String storeNo) {
 		System.out.println("▼ 메뉴 등록");
 		
@@ -123,25 +140,36 @@ public class MenuController {
 					
 					//결과
 					if(result == 1) {
-						System.out.println("메뉴 등록이 완료되었습니다.");
+						System.out.println("메뉴 등록이 완료되었습니다.\n");
 					}  else {
 						throw new Exception();
 					}
+					voList = menuService.menuList(MenuMain.storeNo);
 				}catch(Exception e) {
-					System.out.println("메뉴 등록에 실패하였습니다. 다시 시도해주세요.");
+					System.out.println("메뉴 등록에 실패하였습니다. 다시 시도해주세요.\n");
 					e.printStackTrace();
 				}
 				break;
 			case "n": 
 				System.out.println("뒤로 이동");
 			default : 
-				System.out.println("다시시도");
+				System.out.println("다시시도\n");
 				break;
 			}
 		} while (!answer.equals("y"));
 	}
 	
 	
+	/**
+	 * 메뉴 수정
+	 * 
+	 * UPDATE MENU 
+	 * 	SET 
+	 * 		MENU_NAME = ? 
+	 * 		, PRICE = ?  
+	 * WHERE MENU_NO = ? 
+	 * 
+	 */
 	public void editMenu() {
 	    try {
 	        System.out.println("▼ 메뉴 수정 ");
@@ -174,15 +202,15 @@ public class MenuController {
 	            
 	            // 결과 처리
 	            if(result == 1) {
-	                System.out.println("메뉴 정보가 수정되었습니다.");
+	                System.out.println("메뉴 정보가 수정되었습니다.\n");
 	            } else {
 	                throw new Exception();
 	            }
 	        } else {
-	            System.out.println("해당 메뉴가 존재하지 않습니다.");
+	            System.out.println("해당 메뉴가 존재하지 않습니다.\n");
 	        }
 	    } catch(Exception e) {
-	        System.out.println("메뉴정보 수정 중 오류가 발생했습니다.");
+	        System.out.println("메뉴정보 수정 중 오류가 발생했습니다.\n");
 	        e.printStackTrace();
 	    }
 	}
@@ -307,7 +335,16 @@ public class MenuController {
 //	// 이후 서비스 호출 등의 코드...
 
 	
-	//메뉴 삭제
+	/**
+	 * 메뉴 삭제
+	 * 
+	 * UPDATE MENU 
+	 * SET 
+	 * 		DELETE_YN = 'Y' 
+	 * 		, SELL_YN = 'N' 
+	 * WHERE MENU_NO = ?
+	 * 
+	 */
 	public boolean deleteMenu() {
 		System.out.println("▼ 메뉴 삭제 ");
 		
@@ -335,9 +372,9 @@ public class MenuController {
 					
 					
 					if(result != 1) {
-						System.out.println("메뉴 삭제 실패");
+						System.out.println("메뉴 삭제 실패\n");
 					} else {
-						System.out.println("메뉴 삭제가 완료되었습니다.");
+						System.out.println("메뉴 삭제가 완료되었습니다.\n");
 					}
 					
 					break;
@@ -351,19 +388,20 @@ public class MenuController {
 					int result2 = menuService.deleteMenu(menuVo2);
 					
 					if(result2 != 1) {
-						System.out.println("메뉴 삭제 취소 실패");
+						System.out.println("메뉴 삭제 취소 실패\n");
 					} else {
-						System.out.println("메뉴 삭제 취소");
+						System.out.println("메뉴 삭제 취소\n");
 					}
 					System.out.println("뒤로 이동합니다.");
 					break;
 					
 				default : 
-					System.out.println("다시 선택하세요.");
+					System.out.println("다시 선택하세요.\n");
 					break;
 				} 
+			voList = menuService.menuList(MenuMain.storeNo);
 		}catch(Exception e) {
-					System.out.println("메뉴 삭제 중 오류가 발생했습니다. 다시 시도해주세요.");
+					System.out.println("메뉴 삭제 중 오류가 발생했습니다. 다시 시도해주세요.\n");
 					e.printStackTrace();
 				}
 		
@@ -371,7 +409,16 @@ public class MenuController {
 	}
 	
 	
-	//삭제한 메뉴 복구
+	/**
+	 * 삭제한 메뉴 복구
+	 * 
+	 * UPDATE MENU 
+	 * SET 
+	 * 		DELETE_YN = 'N' 
+	 * 		, SELL_YN = 'Y' 
+	 * WHERE MENU_NO = ?
+	 * 
+	 */
 	public boolean rollbackDeleteMenu() {
 		System.out.println("▼ 메뉴 삭제 취소");
 		
@@ -400,9 +447,9 @@ public class MenuController {
 					
 					
 					if(result != 1) {
-						System.out.println("삭제한 메뉴 복구 실패");
+						System.out.println("삭제한 메뉴 복구 실패\n");
 					} else {
-						System.out.println("삭제한 메뉴 복구가 완료되었습니다.");
+						System.out.println("삭제한 메뉴 복구가 완료되었습니다.\n");
 					}
 					
 					break;
@@ -416,19 +463,21 @@ public class MenuController {
 					int result2 = menuService.deleteMenu(menuVo2);
 					
 					if(result2 != 1) {
-						System.out.println("삭제한 메뉴 복구 취소에 실패하였습니다.");
+						System.out.println("삭제한 메뉴 복구 취소에 실패하였습니다.\n");
 					} else {
-						System.out.println("삭제한 메뉴의 복구가 취소됨");
+						System.out.println("삭제한 메뉴의 복구가 취소됨\n");
 					}
 					System.out.println("뒤로 이동합니다.");
 					break;
 					
 				default : 
-					System.out.println("다시 선택하세요.");
+					System.out.println("다시 선택하세요.\n");
 					break;
+					
 				} 
+			voList = menuService.menuList(MenuMain.storeNo);
 		}catch(Exception e) {
-					System.out.println("메뉴 삭제 중 오류가 발생했습니다. 다시 시도해주세요.");
+					System.out.println("메뉴 삭제 중 오류가 발생했습니다. 다시 시도해주세요.\n");
 					e.printStackTrace();
 				}
 		
@@ -437,7 +486,20 @@ public class MenuController {
 		
 		
 		
-	//메뉴 전체 리스트
+	/**
+	 * 메뉴 전체 리스트
+	 * String storeNo 받기
+	 * 
+	 * SELECT 
+	 * 		MENU_NO
+	 * 		, MENU_NAME
+	 * 		, PRICE, DELETE_YN
+	 * 		, SELL_YN 
+	 * FROM MENU 
+	 * WHERE STORE_NO = ? 
+	 * ORDER BY MENU_NO ASC
+	 * 
+	 */
 	public void menuList(String storeNo) {
 		
 		try {
@@ -450,7 +512,7 @@ public class MenuController {
 			if(voList.size() == 0) {
 				System.out.println("메뉴 정보가 없습니다.");
 			} else {
-				System.out.println("================================");
+				System.out.println("====================================================================================");
 				System.out.print("\t메뉴 번호");
 				System.out.print("\t | ");
 				System.out.print("\t메뉴 이름");
@@ -471,7 +533,21 @@ public class MenuController {
 					System.out.print("\t | ");
 					System.out.println("\t" + menuVo.getSellYn());
 				}
-				System.out.println("================================");
+				
+//				 // 대표 메뉴 여부 체크
+//                if (menuVo.isFeatured()) {
+//                    System.out.print(" (대표 메뉴)");
+//                }
+//
+//                // 인기 메뉴 여부 체크
+//                if (menuVo.isPopular()) {
+//                    System.out.print(" (인기 메뉴)");
+//                }
+//
+//                System.out.print(" | ");
+//                System.out.println(menuVo.getPrice());
+                
+				System.out.println("====================================================================================\n");
 			}
 			
 		}catch(Exception e) {
@@ -482,7 +558,21 @@ public class MenuController {
 	}
 	
 	
-	// 메뉴 삭제 리스트
+	/**
+	 *  메뉴 삭제 리스트
+	 * String storeNo 받기
+	 * 
+	 * SELECT 
+	 * 		MENU_NO
+	 * 		, MENU_NAME
+	 * 		, PRICE
+	 * 		, DELETE_YN
+	 * 		, SELL_YN 
+	 * FROM MENU 
+	 * WHERE STORE_NO = ? 
+	 * ORDER BY MENU_NO ASC
+	 * 
+	 */
 	public void deleteMenuList(String storeNo) {
 		
 		try {
@@ -495,7 +585,7 @@ public class MenuController {
 			if(voDeleteList.size() == 0) {
 				System.out.println("삭제된 메뉴 정보가 없습니다.");
 			} else {
-				System.out.println("================================");
+				System.out.println("==========================================================================================");
 				System.out.print(" ");	//번호 부텨
 				System.out.print("\t | ");
 				System.out.print("\t메뉴 번호");
@@ -524,8 +614,9 @@ public class MenuController {
 					System.out.print("\t | ");
 					System.out.println("\t" + menuVo.getSellYn());
 				}
-				System.out.println("================================");
+				System.out.println("==========================================================================================\n");
 			}
+			voList = menuService.menuList(MenuMain.storeNo);
 		} catch(Exception e) {
 			System.out.println("삭제 리스트를 불러올 수 없습니다.");
 			e.printStackTrace();
@@ -534,75 +625,10 @@ public class MenuController {
 	}
 	
 	
-//	//메뉴 삭제
-//	public boolean deleteMenu() {
-//	    System.out.println("▼ 메뉴 삭제 ");
-//
-//	    boolean isDelete = false;
-//	    String answer = "";
-//
-//	    try {
-//	        //데이터 입력
-//	        System.out.print("메뉴 번호 : ");
-//	        String menuNo = Main.SC.nextLine();
-//
-//	        System.out.println("메뉴를 삭제하시겠습니까? (Y / N) ");
-//	        answer = MenuMain.SC.nextLine().toLowerCase();
-//
-//	        switch (answer) {
-//	            case "y":
-//	                MenuVo menuVo = new MenuVo();
-//	                menuVo.setMenuNo(menuNo);
-//	                menuVo.setDeleteYn("Y");  // delete_yn을 Y로 설정
-//	                menuVo.setSellYn("N");    // sell_yn을 N로 설정
-//
-//	                int result = menuService.deleteMenu(menuVo);
-//
-//	                if (result == 1) {
-//	                    System.out.println("메뉴 삭제가 완료되었습니다.");
-//	                } else {
-//	                    System.out.println("메뉴 삭제에 실패하였습니다.");
-//	                }
-//	                break;
-//	                
-//	            case "n":
-//	                MenuVo menuVo2 = new MenuVo();
-//	                menuVo2.setMenuNo(menuNo);
-//	                menuVo2.setDeleteYn("N");  // delete_yn을 N로 설정
-//	                menuVo2.setSellYn("Y");    // sell_yn을 Y로 설정
-//
-//	                int rollbackResult = menuService.deleteMenu(menuVo2);
-//
-//	                if (rollbackResult == 1) {
-//	                    System.out.println("메뉴 삭제가 취소되었습니다.");
-//	                } else {
-//	                    System.out.println("메뉴 삭제 취소에 실패하였습니다.");
-//	                }
-//	                break;
-//	                
-//	            default:
-//	                System.out.println("다시 시도하세요.");
-//	                break;
-//	        }
-//	        
-//	    } catch (Exception e) {
-//	        System.out.println("메뉴 삭제 중 오류가 발생했습니다. 다시 시도해주세요.");
-//	        e.printStackTrace();
-//	    }
-//
-//	    return isDelete;
-//	}
-	
-	
-//		MenuVo menuVo = new MenuVo();
-//		menuVo.setMenuNo(menuNo);
-		
-	
 	//뒤로가기
 //	public void back() {
 //		
 //	}
-	
 	
 
 }
