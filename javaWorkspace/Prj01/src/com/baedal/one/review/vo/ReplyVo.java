@@ -1,14 +1,14 @@
 package com.baedal.one.review.vo;
 
-public class replyVo {
+public class ReplyVo {
 	
-	public replyVo(String replyNo, String reviewNo, String content) {
+	public ReplyVo(String replyNo, String reviewNo, String content) {
 		this.replyNo = replyNo;
 		this.reviewNo = reviewNo;
 		this.content = content;
 	}
 	
-	public replyVo() {
+	public ReplyVo() {
 
 	}
 	
