@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.baedal.one.Main;
 import com.baedal.one.cart.TestMain;
+import com.baedal.one.cart.controller.CartController;
 import com.baedal.one.orders.dto.CartListDto;
 import com.baedal.one.orders.service.OrderService;
 import com.baedal.one.orders.vo.OrdersVo;
@@ -16,7 +17,6 @@ public class OrderController {
 	
 	public OrderController() {
 		orderService = new OrderService();
-
 	}
 	
 	/**
@@ -156,8 +156,8 @@ public class OrderController {
 	 * 결제하기
 	 */
 	private void printPayInfo() {
-		int currentHour = LocalDateTime.now().getHour();
-		if(currentHour >= cartList.get(0).getOpenTime() && currentHour < cartList.get(0).getCloseTime()) {
+		
+		if(isOpen(cartList.get(0).getOpenTime(), cartList.get(0).getCloseTime())) {
 			System.out.println("------------결제 하기------------");
 			try {
 				//페이 가져오기
@@ -184,7 +184,8 @@ public class OrderController {
 						switch(select) {
 						case"y": 
 							OrdersVo newOrder = new OrdersVo(TestMain.memberNo, cartList.get(0).getCartNo(), totalPrice, cartList.get(0).getMenuName(), totalQuantity);
-							pay(newOrder, money); break;
+							pay(newOrder, money); 
+							break;
 						case"n": System.out.println("뒤로 이동합니다"); return;
 						default: System.out.println("y와 n중에서 입력해주세요"); break;
 						}					
@@ -206,19 +207,45 @@ public class OrderController {
 			String amountPwd = Main.SC.nextLine();
 			
 			String findAmountPwd = orderService.getAmountPwd(TestMain.memberNo);
-			int result = 0;
+			OrdersVo recentOrder = null;
 			if(amountPwd.equals(findAmountPwd)) {
-				result = orderService.pay(newOrder, money);				
+				recentOrder = orderService.pay(newOrder, money);				
 			} else {
 				throw new Exception("비밀번호가 틀립니다");
 			}
 			
-			if(result == 1) {
-				System.out.println("구매 성공하셨습니다");
+			if(recentOrder == null) {
+				throw new Exception("결제 실패");
 			}
+			
+			System.out.println("구매 성공하셨습니다");
+			printRecentOrder(recentOrder);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 			e.printStackTrace();
 		}
+	}
+	
+	
+	private void printRecentOrder(OrdersVo recentOrder) {
+		System.out.println("----------------------------------");
+		System.out.println("\t 결제 내역");
+		System.out.println("----------------------------------");
+		System.out.println("주문 번호: " + recentOrder.getOrderNo());
+		System.out.print("주문한 음식: ");
+		if(recentOrder.getTotalQuantity() == 0) {
+			System.out.println(recentOrder.getMenuName());			
+		} else {
+			System.out.println(recentOrder.getMenuName()+" 외 "+recentOrder.getTotalQuantity() +"개" );
+		}
+		System.out.println("주문 일자: " + recentOrder.getOrderDate());
+		System.out.println("주문 가격: " + recentOrder.getTotalPrice()+"원");
+	}
+
+	private boolean isOpen(int openTime, int closeTime) {
+		int currentHour = LocalDateTime.now().getHour();
+		if(openTime == closeTime) return true;
+		if(openTime > closeTime) closeTime += 24;
+		return currentHour >= openTime && currentHour < closeTime ? true : false;
 	}
 }

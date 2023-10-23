@@ -58,10 +58,11 @@ public class OrderService {
 	 * @return
 	 * @throws Exception
 	 */
-	public int pay(OrdersVo newOrder, int money) throws Exception {
+	public OrdersVo pay(OrdersVo newOrder, int money) throws Exception {
 		
 		Connection conn = JDBCTemplate.getConnection();
 		
+		OrdersVo recentOrder = null;
 		int result = orderDao.addOrders(newOrder, conn);
 		//DB에서 가장 최근에 결제한 내역 가져오기
 		PayVo findOrder = null;
@@ -77,6 +78,7 @@ public class OrderService {
 		String balance = String.valueOf(money-Integer.parseInt(findOrder.getPay()));
 		PayVo newPayLog = new PayVo(findOrder.getUserNo(), findOrder.getSource(), findOrder.getPay(), findOrder.getPayDate(), balance);
 		
+		//결제 내역에 추가
 		result = orderDao.addPay(newPayLog, conn);
 		
 		if(result == 1) {
@@ -93,9 +95,13 @@ public class OrderService {
 			JDBCTemplate.rollback(conn);
 			throw new Exception("페이 테이블 추가 실패");
 		}
-		//결제 내역에 추가
 		
-		return result;
+		if(result == 1) {
+			recentOrder = orderDao.getRecentOrder(TestMain.memberNo, conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		return recentOrder;
 	}
 	
 	/**

@@ -207,7 +207,6 @@ public class CartController {
 		int currentHour = LocalDateTime.now().getHour();
 		if(openTime == closeTime) return true;
 		if(openTime > closeTime) closeTime += 24;
-		if(currentHour < closeTime) currentHour += 24;
 		return currentHour >= openTime && currentHour < closeTime ? true : false;
 	}
 }

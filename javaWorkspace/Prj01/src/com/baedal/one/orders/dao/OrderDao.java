@@ -208,6 +208,8 @@ public class OrderDao {
 		JDBCTemplate.close(pstmt);
 		return result;
 	}
+	
+	
 	public String getAmountPwd(String memberNo, Connection conn) throws Exception {
 		query = "SELECT AMOUNT_PWD FROM MEMBER WHERE MEMBER_NO = ?";
 		PreparedStatement pstmt = conn.prepareStatement(query);
@@ -217,7 +219,35 @@ public class OrderDao {
 		if(rs.next()) {
 			findAmountPwd = new String(rs.getString("AMOUNT_PWD"));
 		}
+		JDBCTemplate.close(rs);
+		JDBCTemplate.close(pstmt);	
 		return findAmountPwd;
+	}
+	
+	/**
+	 * 최근에 결제한 내역 보여주기
+	 * @param memberNo
+	 * @return
+	 * @throws Exception 
+	 */
+	public OrdersVo getRecentOrder(String memberNo, Connection conn) throws Exception {
+		query = "SELECT ORDER_NO , TO_CHAR(ORDER_DATE, 'YYYY\"년\" MM\"월\" DD\"일\" HH24\"시\" MM\"분\"') ORDER_DATE , TOTAL_PRICE , MENU_NAME , TOTAL_QUANTITY-1 TOTAL_QUANTITY FROM ORDERS WHERE USER_NO = ? ORDER BY 2 DESC FETCH FIRST 1 ROWS ONLY";
+		PreparedStatement pstmt = conn.prepareStatement(query);
+		pstmt.setString(1, memberNo);
+		ResultSet rs = pstmt.executeQuery();
+		OrdersVo resultVo = null;
+		if(rs.next()) {
+			String orderNo = rs.getString("ORDER_NO");
+			String orderDate = rs.getString("ORDER_DATE");
+			int totalPrice = rs.getInt("TOTAL_PRICE");
+			String menuName = rs.getString("MENU_NAME");
+			int totalQuantity = rs.getInt("TOTAL_QUANTITY");
+			
+			resultVo = new OrdersVo(orderNo, null, null, orderDate, totalPrice, menuName, totalQuantity);
+		}
+		JDBCTemplate.close(rs);
+		JDBCTemplate.close(pstmt);
+		return resultVo;
 	}
 
 }
