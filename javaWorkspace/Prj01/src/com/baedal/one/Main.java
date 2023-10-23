@@ -11,7 +11,7 @@ public class Main {
 	
 	public static MemberVo loginMember;
 	public static final Scanner SC = new Scanner(System.in);
-	
+		
 	public static void main(String[] args) {
 		
 		System.out.println("=====원하는 유형을 선택하세요=====");
