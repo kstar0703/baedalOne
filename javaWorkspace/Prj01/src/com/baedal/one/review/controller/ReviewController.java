@@ -11,6 +11,7 @@ import java.util.StringJoiner;
 import com.baedal.one.Main;
 import com.baedal.one.review.dao.ReviewDao;
 import com.baedal.one.review.service.ReviewService;
+import com.baedal.one.review.vo.replyVo;
 import com.baedal.one.review.vo.ReviewVo;
 
 public class ReviewController {
@@ -39,6 +40,7 @@ public class ReviewController {
 			ReviewVo vo = new ReviewVo();
 			System.out.println("\n===== 리뷰 작성 =====");
 
+			// 폄점남길 점수 입력 
 			System.out.print("\n평점을 1점부터 5점 사이로 입력하세요: ");
 			String num = Main.SC.nextLine();
 			
@@ -104,32 +106,34 @@ public class ReviewController {
 			System.out.println();
 
 			// 서비스 호출하기
-			ArrayList<ReviewVo> dbVo = service.storeReview(vo);
+			ArrayList<ReviewVo> voList = service.storeReview(vo);
 
-			// 조건문에 필요한 첫번째 주문번호 입력
-			String orderNo = dbVo.get(0).getOrderNo();
+			// 리스트에서 첫번째 주문번호 가져오기
+			String orderNo = voList.get(0).getOrderNo();
 
-			// 조건문에 필요한 첫번째 리뷰번호 입력
-			String reviewNo = dbVo.get(0).getReviewNo();
+			// 리스트에서 첫번째 리뷰번호 가져오기
+			String reviewNo = voList.get(0).getReviewNo();
 
 			// Map 생성
 			HashMap<Integer, String> map = new HashMap<Integer, String>();
 
-			// 조건문에 필요한 변수에 1 할당
+			// 리뷰 한개당 i씩 증가
 			int i = 1;
-			for (ReviewVo voList : dbVo) {
+			for (ReviewVo dbVo : voList) {
 
-				// 오더번호가 같을때만 출력
-				if (voList.getOrderNo().equals(orderNo)) {
+				// 주문번호가 같을때만 출력
+				if (dbVo.getOrderNo().equals(orderNo)) {
 
-					// map의 key값에 i를 넣고 value 값을 오더번호로 설정
-					map.put(i, voList.getReviewNo());
+					// map의 key값에 i를 넣고 value 값을 주문번호로 설정
+					map.put(i, dbVo.getReviewNo());
 
-					// 콘솔 꾸미기
-					System.out.println(i + ".꒰⑅•ᴗ•⑅꒱ " + voList.getNickName());
-					System.out.println(voList.getWriteDate());
+					// 콘솔에 리뷰 츌력 
+					System.out.println(i + ".꒰⑅•ᴗ•⑅꒱ " + dbVo.getNickName());
+					System.out.println(dbVo.getWriteDate());
+					
+					// 평점 확인하기 
 					System.out.print("평점: ");
-					switch (voList.getRating()) {
+					switch (dbVo.getRating()) {
 					case 1 : System.out.println("☆☆☆☆★"); break;
 					case 2 : System.out.println("☆☆☆★★"); break;
 					case 3 : System.out.println("☆☆★★★"); break;
@@ -137,31 +141,32 @@ public class ReviewController {
 					case 5 : System.out.println("★★★★★"); break;
 					}
 					System.out.println();
-					System.out.println(voList.getContent());
+					System.out.println(dbVo.getContent());
 					System.out.println();
 					System.out.println("< 주문메뉴 >");
-					System.out.print(voList.getMenuName());
+					System.out.print(dbVo.getMenuName());
 
-					// 주문번호에 ""를 넣어 값을 다르게 만듬
+					// 주문번호에 ""를 할당해 값을 다르게 만들고 아래 조건문을 실행시킴
 					orderNo = "";
 
 					// 리뷰 한개당 i 1씩 증가
 					i++;
 
 					// 리뷰번호가 달라질때 출력
-				} else if (!voList.getReviewNo().equals(reviewNo)) {
+				} else if (!dbVo.getReviewNo().equals(reviewNo)) {
 
 					// map의 key값에 i를 넣고 value 값을 오더번호로 설정
-					map.put(i, voList.getReviewNo());
+					map.put(i, dbVo.getReviewNo());
 
 					// 콘솔 꾸미기
 					System.out.println();
 					System.out.println("\n---------------------------------");
 					System.out.println();
-					System.out.println(i + ".꒰⑅•ᴗ•⑅꒱ " + voList.getNickName());
-					System.out.println(voList.getWriteDate());
+					System.out.println(i + ".꒰⑅•ᴗ•⑅꒱ " + dbVo.getNickName());
+					System.out.println(dbVo.getWriteDate());
+					// 평점 별모양으로 출력
 					System.out.print("평점: ");
-					switch (voList.getRating()) {
+					switch (dbVo.getRating()) {
 					case 1 : System.out.println("☆☆☆☆★"); break;
 					case 2 : System.out.println("☆☆☆★★"); break;
 					case 3 : System.out.println("☆☆★★★"); break;
@@ -169,30 +174,32 @@ public class ReviewController {
 					case 5 : System.out.println("★★★★★"); break;
 					}
 					System.out.println();
-					System.out.println(voList.getContent());
+					System.out.println(dbVo.getContent());
 					System.out.println();
 					System.out.println("< 주문메뉴 >");
-					System.out.print(voList.getMenuName());
+					System.out.print(dbVo.getMenuName());
 
 					// 변한 리뷰번호를 변수에 새로 할당
-					reviewNo = voList.getReviewNo();
+					reviewNo = dbVo.getReviewNo();
 
 					// 리뷰 한개당 i 1씩 증가
 				
 					i++;
 
-					// 오더번호가 다를때 출력
+					// 주문번호가 다를때 출력
 				} else {
 
 					// 메뉴출력
-					System.out.print("/" + voList.getMenuName());
+					System.out.print("," + dbVo.getMenuName());
 
 				}
 
 			}
-
+			
 			// 예외처리
-		} catch (Exception e) {
+		}catch (java.lang.IndexOutOfBoundsException e) {
+			System.err.println("작성된 리뷰가 없습니다.");
+		}catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("리뷰 조회 실패...");
 		}
@@ -216,24 +223,25 @@ public class ReviewController {
 			// 서비스 호출하기
 			ArrayList<ReviewVo> dbVo = service.userReview(userNo);
 
-			// 조건문에 필요한 첫번째 주문번호 입력
+			// 리스트에서 첫번째 주문번호 가져오기
 			String orderNo = dbVo.get(0).getOrderNo();
 
-			// 조건문에 필요한 첫번째 리뷰번호 입력
+			// 리스트에서 첫번째 리뷰번호 가져오기
 			String reviewNo = dbVo.get(0).getReviewNo();
 
 			// map 생성
 			HashMap<Integer, String> map = new HashMap<Integer, String>();
 			int i = 1;
-			String con = "";
-			int index = 30;
-			int y =61;
 			for (ReviewVo voList : dbVo) {
 
+				// 주문번호가 같을때만 출력
 				if (voList.getOrderNo().equals(orderNo)) {
+					// map의 key값에 i를 넣고 value 값을 주문번호로 설정
 					map.put(i, voList.getOrderNo());
+					// 콘솔에 리뷰 츌력 
 					System.out.println(i + ".꒰⑅•ᴗ•⑅꒱ " + voList.getNickName());
 					System.out.println(voList.getWriteDate());
+					// 평점 별모양으로 출력
 					System.out.print("평점: ");
 					switch (voList.getRating()) {
 					case 1 : System.out.println("☆☆☆☆★"); break;
@@ -273,12 +281,16 @@ public class ReviewController {
 					System.out.println("< 주문메뉴 >");
 					System.out.print(voList.getMenuName());
 
+					// 변한 리뷰번호를 변수에 새로 할당
 					reviewNo = voList.getReviewNo();
+					// 리뷰 한개당 i 1씩 증가
 					i++;
 
+					// 주문번호가 다를때 출력
 				} else if (!orderNo.equals(voList.getOrderNo())) {
 
-					System.out.print("/" + voList.getMenuName());
+					// 메뉴출력
+					System.out.print("," + voList.getMenuName());
 
 				}
 
@@ -329,7 +341,6 @@ public class ReviewController {
 
 			// 생성자에서 입력받은 주문번호 변수에 할당
 			String orderNo = map.get(num);
-			System.out.println(orderNo);
 			// vo객체에 매개변수의 값들 입력
 			ReviewVo vo = new ReviewVo();
 			vo.setOrderNo(orderNo);
@@ -399,5 +410,19 @@ public class ReviewController {
 		} catch (Exception e) {
 			System.err.println("\n존재하지 않는 리뷰 번호 입니다.");
 		}
+	}
+	
+	/**
+	 * 
+	 * @param reviewNo
+	 */
+	public void Whitereply(String reviewNo) {
+		
+		// 리뷰번호 vo에 입력받기
+		replyVo vo = new replyVo();
+		vo.setReviewNo(reviewNo);
+		
+		//
+		
 	}
 }
