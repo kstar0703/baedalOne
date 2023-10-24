@@ -17,7 +17,7 @@ public class PayController {
 	private final PayService service;
 
 	// 임시 사용자 넘버
-	private static final String USERNO = "2";
+	
 
 	// 임시 스캐너
 	Scanner sc = new Scanner(System.in);
@@ -27,7 +27,7 @@ public class PayController {
 	}
 
 	// 페이기능에서 사용할 기능 입력
-	public void selectPayMenu() {
+	public void selectPayMenu(String userNo) {
 
 		// 페이 페이지 출력
 		System.out.println("───────내 돈 관리────────");
@@ -41,10 +41,10 @@ public class PayController {
 		// 입력한 수에 따라 기능 실행
 		switch (inputNum) {
 		case "1":
-			selectChargePay();
+			selectChargePay(userNo);
 			break;
 		case "2":
-			DepositWithdrawalDetails(USERNO);
+			DepositWithdrawalDetails(userNo);
 			break;
 		case "3":
 			return;
@@ -52,12 +52,12 @@ public class PayController {
 	}
 
 	// 현재 잔액 불러오기
-	private int findBalance() {
+	private int findBalance(String userNo) {
 		int nowMoney = 0;// 이 변수에 담아서 리턴
 		try {
 
 			// 잔액을 불러와서 저장
-			nowMoney = service.findBalance(USERNO);
+			nowMoney = service.findBalance(userNo);
 
 			// 잔액이 음수일경우 오류 발생
 			if (nowMoney < 0) {
@@ -73,11 +73,11 @@ public class PayController {
 	}
 
 	// 페이충전 가기 전 잔액을 출력하고 충전 할지 뒤로 갈지 선택
-	private void selectChargePay() {
+	private void selectChargePay(String userNo) {
 		System.out.println("------페이 충전 여부-------");
 
 		// 현재 잔액 출력
-		findBalance();
+		findBalance(userNo);
 
 		// 사용자에게 입력받기
 		System.out.print("페이를 충전 하시겠습니까? (1. 충전하기 /2. 뒤로가기)");
@@ -86,7 +86,7 @@ public class PayController {
 		// 1이면 충전 페이지, 2면 돌아가기
 		switch (chargeYn) {
 		case "1":
-			chargePay();
+			chargePay(userNo);
 			break;
 		case "2":
 			return;
@@ -95,11 +95,11 @@ public class PayController {
 	}
 
 	// 페이 충전
-	private void chargePay() {
+	private void chargePay(String userNo) {
 		// 충전 금액에 정수형을 넣지 않았을 때 예외 처리
 		try {
 			System.out.println();
-			int nowMoney = findBalance();// 현재 금액 보여주고 nowMoney에 현재 금액 저장
+			int nowMoney = findBalance(userNo);// 현재 금액 보여주고 nowMoney에 현재 금액 저장
 
 			// 충전 금액 입력 받기
 			System.out.println("충전 할 금액을 입력하세요 : ");
@@ -113,18 +113,18 @@ public class PayController {
 
 			// pay테이블에 추가 할 내용 뭉치기(충전한 금액, 잔액)
 			PayVo vo = new PayVo();
-			vo.setUserNo(USERNO);
+			vo.setUserNo(userNo);
 			vo.setPay(chargeAmount);
 			vo.setBalance(afterMoney);
 
 			// 서비스 실행
-			int result = service.chargePay(USERNO, afterMoney, vo);
+			int result = service.chargePay(userNo, afterMoney, vo);
 
 			// 정상적으로 내역이 추가 될 경우
 			if (result == 1) {
 				System.out.println("충전이 완료 되었습니다.");
 				// 잔액 출력
-				findBalance();
+				findBalance(userNo);
 			} else {
 				// 내역이 추가 되지 않을경우 오류발생
 				throw new Exception();
@@ -134,7 +134,7 @@ public class PayController {
 			// 충전 금액에 정수를 입력 하지 않았을 경우
 			System.out.println("충전 금액을 정수형(예 : 20000)으로 입력 해 주세요.");
 			// 다시 실행
-			chargePay();
+			chargePay(userNo);
 		} catch (Exception e) {
 			// 페이 충전 오류
 			System.out.println("페이 충전 실패 ");
@@ -143,12 +143,12 @@ public class PayController {
 	}
 
 	// 입출금 내역
-	private void DepositWithdrawalDetails(String USERNO) {
+	private void DepositWithdrawalDetails(String userNo) {
 		try {
 			System.out.println("-----입출금 내역확인-------");
 
 			// 데이터
-			List<PayVo> voList = service.payList(USERNO);
+			List<PayVo> voList = service.payList(userNo);
 			// 결과
 			for (PayVo vo : voList) {
 				// 출금의 출처가 '충전'일때는 파랑 글씨로 출력
