@@ -89,7 +89,7 @@ public class PayController {
 			chargePay(userNo);
 			break;
 		case "2":
-			return;
+			selectPayMenu(userNo);
 		}
 
 	}
