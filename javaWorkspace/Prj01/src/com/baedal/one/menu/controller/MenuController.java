@@ -97,7 +97,6 @@ public class MenuController {
 			default : System.out.println("잘못된 명령입니다.\n");
 			}
 		}
-		
 	}
 
 	
@@ -144,7 +143,7 @@ public class MenuController {
 					}  else {
 						throw new Exception();
 					}
-					voList = menuService.menuList(MenuMain.storeNo);
+					voList = menuService.menuList(MenuMain.storeNo); //등록이 완료되면 객체?에 저장
 				}catch(Exception e) {
 					System.out.println("메뉴 등록에 실패하였습니다. 다시 시도해주세요.\n");
 					e.printStackTrace();
@@ -214,7 +213,6 @@ public class MenuController {
 	        e.printStackTrace();
 	    }
 	}
-
 	// 메뉴 번호를 이용하여 해당 메뉴 정보를 불러오는 메서드
 	public MenuVo getMenuByMenuNo(String menuNo) {
 	    for (MenuVo menu : voList) {
@@ -224,115 +222,6 @@ public class MenuController {
 	    }
 	    return null;
 	}
-
-	
-		
-//	
-//	/**
-//	 * 메뉴 수정 (번호로)
-//	 * 
-//	 * if문 두개
-//	 * 
-//	 */
-//	public void editMenu() {
-//		
-//		try {
-//			System.out.println("▼ 메뉴 수정 ");
-//			
-//			//데이터
-//			System.out.print("수정할 메뉴 번호 : ");		//번호
-//			String menuNo = MenuMain.SC.nextLine();
-//			System.out.print("수정할 메뉴 이름 : ");		//최종으로 수정하고 싶은 메뉴 이름
-//			String menuName = MenuMain.SC.nextLine();
-//			System.out.print("수정할 메뉴 가격 : ");		
-//			String menuPrice = MenuMain.SC.nextLine();
-//			
-//			MenuVo menuVo = new MenuVo();
-//			menuVo.setMenuNo(menuNo);
-//			menuVo.setMenuName(menuName);
-//			menuVo.setPrice(menuPrice);
-//			
-//			//서비스 호출
-//			int result = menuService.editMenu(menuVo);
-//			
-//			//결과처리
-//			if(result == 1) {
-//				System.out.println("메뉴 정보가 수정되었습니다.");
-//			} else {
-//				throw new Exception();
-//			}
-//		} catch(Exception e) {
-//			System.out.println("메뉴정보 수정 중 오류가 발생했습니다.");
-//			e.printStackTrace();
-//		}
-//		
-//	}
-	
-	
-//	/**
-//	 * 메뉴 수정 (번호로)
-//	 */
-//	public void editMenu() {
-//
-//	    try {
-//	        System.out.println("▼ 메뉴 수정 ");
-//
-//	        // 데이터
-//	        System.out.print("수정할 메뉴 번호 : "); // 번호
-//	        String menuNo = MenuMain.SC.nextLine();
-//	        
-//	        System.out.println("1. 메뉴 이름 수정");
-//	        System.out.println("2. 메뉴 가격 수정");
-//	        System.out.println("3. 메뉴 이름과 가격 수정");
-//	        System.out.print("수정할 옵션을 선택하세요: ");
-//	        int option = Integer.parseInt(MenuMain.SC.nextLine());
-//
-//	        String menuName = "";
-//	        String price = "";
-//	        
-//	        if (option == 1 || option == 3) {
-//	            System.out.print("수정할 메뉴 이름 : ");
-//	            menuName = MenuMain.SC.nextLine();
-//	        }
-//
-//	        if (option == 2 || option == 3) {
-//	            System.out.print("수정할 메뉴 가격 : ");
-//	            price = MenuMain.SC.nextLine();
-//	        }
-//	        
-//	        price = MenuMain.SC.nextLine();
-//
-//	    	MenuVo menuVo = new MenuVo();
-//	    	menuVo.setMenuNo(menuNo);
-//	    	menuVo.setMenuName(menuName);
-//
-//	    	if (price != null && !price.isEmpty()) {
-//	    	    menuVo.setPrice(price);
-//	    	}
-//
-////	        MenuVo menuVo = new MenuVo();
-////	        menuVo.setMenuNo(menuNo);
-////	        menuVo.setMenuName(menuName);
-////	        menuVo.setPrice(menuPrice);
-//
-//	        // 서비스 호출
-//	        int result = menuService.editMenu(menuVo);
-//
-//	        // 결과처리
-//	        if (result == 1) {
-//	            System.out.println("메뉴 정보가 수정되었습니다.");
-//	        } else {
-//	            System.out.println("메뉴 정보 수정에 실패했습니다.");
-//	        }
-//	    } catch (Exception e) {
-//	        System.out.println("메뉴 정보 수정 중 오류가 발생했습니다.");
-//	        e.printStackTrace();
-//	    }
-//	}
-//	
-//	
-//
-//	// 이후 서비스 호출 등의 코드...
 
 	
 	/**
@@ -365,7 +254,7 @@ public class MenuController {
 					MenuVo menuVo = new MenuVo();
 					menuVo.setMenuNo(menuNo);
 					menuVo.setDeleteYn("Y");	//deletr_yn을 Y로 설정
-					menuVo.setDeleteYn("N");	//deletr_yn을 N로 설정
+					menuVo.setSellYn("N");	//sell_yn을 N로 설정
 					
 					//서비스 호출
 					int result = menuService.deleteMenu(menuVo);
@@ -383,7 +272,7 @@ public class MenuController {
 					MenuVo menuVo2 = new MenuVo();
 					menuVo2.setMenuNo(menuNo);
 					menuVo2.setDeleteYn("N");
-					menuVo2.setDeleteYn("Y");
+					menuVo2.setSellYn("Y");
 					
 					int result2 = menuService.deleteMenu(menuVo2);
 					
@@ -440,7 +329,7 @@ public class MenuController {
 					MenuVo menuVo = new MenuVo();
 					menuVo.setMenuNo(menuNo);
 					menuVo.setDeleteYn("N");	//deletr_yn을 N로 설정
-					menuVo.setDeleteYn("Y");	//deletr_yn을 Y로 설정
+					menuVo.setSellYn("Y");	//sell_yn을 Y로 설정
 					
 					//서비스 호출
 					int result = menuService.rollbackDeleteMenu(menuVo);
@@ -458,7 +347,7 @@ public class MenuController {
 					MenuVo menuVo2 = new MenuVo();
 					menuVo2.setMenuNo(menuNo);
 					menuVo2.setDeleteYn("Y");
-					menuVo2.setDeleteYn("N");
+					menuVo2.setSellYn("N");
 					
 					int result2 = menuService.deleteMenu(menuVo2);
 					
@@ -512,42 +401,29 @@ public class MenuController {
 			if(voList.size() == 0) {
 				System.out.println("메뉴 정보가 없습니다.");
 			} else {
-				System.out.println("====================================================================================");
-				System.out.print("\t메뉴 번호");
-				System.out.print("\t | ");
-				System.out.print("\t메뉴 이름");
-				System.out.print("\t | ");
-				System.out.print("\t가격");
-				System.out.print("\t | ");
-				System.out.print("\t삭제 여부");
-				System.out.print("\t | ");
-				System.out.println("\t판매 여부");
+				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+				System.out.print("메뉴 번호 ");
+				System.out.print("| ");
+				System.out.print("메뉴 이름");
+				System.out.print(" | ");
+				System.out.print(" 가격 ");
+				System.out.print(" | ");
+				System.out.print("삭제 여부");
+				System.out.print(" | ");
+				System.out.println("판매 여부");
+				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 				for (MenuVo menuVo : voList) {
-					System.out.print("\t" + menuVo.getMenuNo());
-					System.out.print("\t | ");
-					System.out.print("\t" + menuVo.getMenuName());
-					System.out.print("\t | ");
-					System.out.print("\t" + menuVo.getPrice());
-					System.out.print("\t | ");
-					System.out.print("\t" + menuVo.getDeleteYn());
-					System.out.print("\t | ");
-					System.out.println("\t" + menuVo.getSellYn());
+					System.out.print("   " + menuVo.getMenuNo() + "  ");
+					System.out.print(" | ");
+					System.out.print(menuVo.getMenuName());
+					System.out.print(" | ");
+					System.out.print(menuVo.getPrice());
+					System.out.print(" | ");
+					System.out.print("  " + menuVo.getDeleteYn() + "  ");
+					System.out.print(" | ");
+					System.out.println("  " + menuVo.getSellYn() + "  ");
 				}
-				
-//				 // 대표 메뉴 여부 체크
-//                if (menuVo.isFeatured()) {
-//                    System.out.print(" (대표 메뉴)");
-//                }
-//
-//                // 인기 메뉴 여부 체크
-//                if (menuVo.isPopular()) {
-//                    System.out.print(" (인기 메뉴)");
-//                }
-//
-//                System.out.print(" | ");
-//                System.out.println(menuVo.getPrice());
-                
-				System.out.println("====================================================================================\n");
+				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓\n");
 			}
 			
 		}catch(Exception e) {
@@ -585,36 +461,37 @@ public class MenuController {
 			if(voDeleteList.size() == 0) {
 				System.out.println("삭제된 메뉴 정보가 없습니다.");
 			} else {
-				System.out.println("==========================================================================================");
-				System.out.print(" ");	//번호 부텨
-				System.out.print("\t | ");
-				System.out.print("\t메뉴 번호");
-				System.out.print("\t | ");
-				System.out.print("\t메뉴 이름");
-				System.out.print("\t | ");
-				System.out.print("\t삭제 여부");
-				System.out.print("\t | ");
-				System.out.print("\t노출 여부");
-				System.out.print("\t | ");
-				System.out.println("\t가격");
+				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+				System.out.print(" ");	//번호 부여
+				System.out.print("\t |");
+				System.out.print("    메뉴 번호");
+				System.out.print("    | ");
+				System.out.print("    메뉴 이름");
+				System.out.print("    | ");
+				System.out.print(" 가격 ");
+				System.out.print(" | ");
+				System.out.print("삭제 여부");
+				System.out.print(" | ");
+				System.out.println("노출 여부");
+				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 //				for (MenuVo menuVo : voDeleteList) {
 				for (int i = 0; i < voDeleteList.size(); i++) {
 					MenuVo menuVo = voDeleteList.get(i);
-					System.out.print(i + 1);
-					System.out.print("\t | ");
+					System.out.print("    " + (i + 1) + "   ");
+					System.out.print(" | ");
 					System.out.print("\t" + menuVo.getMenuNo());
-					System.out.print("\t | ");
+					System.out.print("\t| ");
 //					System.out.print(menuVo.getStoreNo());
 //					System.out.print(" | ");
-					System.out.print("\t" + menuVo.getMenuName());
+					System.out.print("    " + menuVo.getMenuName());
 					System.out.print("\t | ");
-					System.out.print("\t" + menuVo.getPrice());
-					System.out.print("\t | ");
-					System.out.print("\t" + menuVo.getDeleteYn());
-					System.out.print("\t | ");
-					System.out.println("\t" + menuVo.getSellYn());
+					System.out.print("" + menuVo.getPrice());
+					System.out.print(" |   ");
+					System.out.print("" + menuVo.getDeleteYn());
+					System.out.print("   | ");
+					System.out.println("   " + menuVo.getSellYn());
 				}
-				System.out.println("==========================================================================================\n");
+				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓\n");
 			}
 			voList = menuService.menuList(MenuMain.storeNo);
 		} catch(Exception e) {
