@@ -9,7 +9,7 @@ import com.baedal.one.cart.dto.CheckQuantityDto;
 import com.baedal.one.cart.dto.MenuInfoDto;
 import com.baedal.one.cart.vo.CartListVo;
 import com.baedal.one.cart.vo.CartVo;
-import com.kh.app.jdbc.JDBCTemplate;
+import com.baedal.one.jdbcTemplate.JDBCTemplate;
 
 public class CartService {
 
