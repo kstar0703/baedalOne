@@ -91,7 +91,6 @@ public class ReviewService {
 		
 		return result;
 	}
-
 	
 	// 리뷰 수정 
 	public int updateReview(ReviewVo vo) throws Exception {
@@ -113,6 +112,7 @@ public class ReviewService {
 		return result;
 	}
 
+	// 답변작성 
 	public int writeReply(ReplyVo vo) throws Exception {
 		
 		// conn생성

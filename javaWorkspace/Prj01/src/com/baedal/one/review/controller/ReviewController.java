@@ -89,13 +89,26 @@ public class ReviewController {
 	}
 
 	/**
-	 * 매장 모든 리뷰 조회하기 
-	 * SELECT NICKNAME , TO_CHAR(WRITE_DATE,'YYYY-MM-DD hh24:mi') AS
-	 * WRITE_DATE , CONTENT,MENU_NAME , R.ORDER_NO , R.STORE_NO , R.REVIEW_NO FROM
-	 * REVIEW R JOIN ORDERS O ON R.ORDER_NO = O.ORDER_NO JOIN MEMBER MB ON O.USER_NO
-	 * = MB.MEMBER_NO RIGHT JOIN CART_LIST C ON O.CART_NO = C.CART_NO JOIN MENU M ON
-	 * C.MENU_NO = M.MENU_NO WHERE R.STORE_NO = ? AND R.DELETE_YN = 'N' ORDER BY
-	 * R.REVIEW_NO DESC
+	 * 매장 모든 리뷰 조회하기
+	 * SELECT MB.NICKNAME
+	 * , REVIEW_RATING
+	 * , TO_CHAR(R.WRITE_DATE,'YYYY-MM-DD hh24:mi') AS WRITE_DATE 
+	 * , R.CONTENT 
+	 * , TO_CHAR(RP.WRITE_DATE,'YYYY-MM-DD hh24:mi') AS REPLY_WRITE_DATE
+	 * , RP.CONTENT REPLY_CONTENT
+	 * , RP.REPLY_NO 
+	 * , M.MENU_NAME 
+	 * , R.ORDER_NO 
+	 * , R.STORE_NO  
+	 * , R.REVIEW_NO 
+	 * FROM REVIEW R  
+	 * LEFT JOIN REPLY RP ON R.REVIEW_NO = RP.REVIEW_NO 
+	 * JOIN ORDERS O ON R.ORDER_NO = O.ORDER_NO  
+	 * JOIN MEMBER MB ON O.USER_NO = MB.MEMBER_NO  
+	 * RIGHT JOIN CART_LIST C ON O.CART_NO = C.CART_NO  
+	 * JOIN MENU M ON C.MENU_NO = M.MENU_NO  
+	 * WHERE R.STORE_NO = ?
+	 * ORDER BY R.REVIEW_NO;
 	 * 
 	 * @param storeNo
 	 */
@@ -108,8 +121,7 @@ public class ReviewController {
 			// vo객체에 매장번호 입력
 			vo.setStoreNo(storeNo);
 
-			// 리플라이 vo가져오기
-			
+			// map생성
 			Map<String, String> menuNameMap = new HashMap<>();
 			Map<Integer, String> reviewNoMap = new HashMap<>();
 			
@@ -133,11 +145,17 @@ public class ReviewController {
 				
 				// distinct로 중복제거
 				List<ReviewVo> newReviewVoList = reviewVoList.stream().distinct().collect(Collectors.toList());
+				List<ReplyVo> newReplyVoList = replyVoList.stream().distinct().collect(Collectors.toList());
 				
-				int x = 1;
+				if(newReviewVoList.size() == 0) {
+					System.out.println("");
+					return null;
+				}
+				
+				int x = 0;
 				for(ReviewVo r : newReviewVoList) {
-					reviewNoMap.put(x,r.getOrderNo());
-					System.out.println(reviewNoMap.get(x));
+					reviewNoMap.put(x+1,r.getOrderNo());
+					System.out.println(reviewNoMap.get(x+1));
 					System.out.println(r);
 					switch (r.getRating()) {
 					case "1": System.out.println("☆☆☆☆★"); break;
@@ -147,10 +165,10 @@ public class ReviewController {
 					case "5": System.out.println("★★★★★"); break;
 					}
 					System.out.println(menuNameMap.get(r.getOrderNo()));
-					if(replyVoList.get(x-1).getContent() == null) {
+					if(newReplyVoList.get(x).getContent() == null) {
 						System.out.println("");
 					}else {
-						System.out.println(replyVoList.get(x-1).getContent());
+						System.out.println(newReplyVoList.get(x).getContent());
 					}
 					x++;
 				}
@@ -163,12 +181,25 @@ public class ReviewController {
 
 	/**
 	 * 회원 모든 리뷰 조회하기 
-	 * SELECT NICKNAME , TO_CHAR(WRITE_DATE,'YYYY-MM-DD hh24:mi') AS
-	 * WRITE_DATE , CONTENT ,MENU_NAME , R.ORDER_NO , R.STORE_NO , R.REVIEW_NO FROM
-	 * REVIEW R JOIN ORDERS O ON R.ORDER_NO = O.ORDER_NO JOIN MEMBER MB ON O.USER_NO
-	 * = MB.MEMBER_NO RIGHT JOIN CART_LIST C ON O.CART_NO = C.CART_NO JOIN MENU M ON
-	 * C.MENU_NO = M.MENU_NO WHERE O.USER_NO = ? AND R.DELETE_YN = 'N' ORDER BY
-	 * R.REVIEW_N
+	 * SELECT MB.NICKNAME
+	 * , REVIEW_RATING
+	 * , TO_CHAR(R.WRITE_DATE,'YYYY-MM-DD hh24:mi') AS WRITE_DATE 
+	 * , R.CONTENT 
+	 * , TO_CHAR(RP.WRITE_DATE,'YYYY-MM-DD hh24:mi') AS REPLY_WRITE_DATE
+	 * , RP.CONTENT REPLY_CONTENT
+	 * , RP.REPLY_NO 
+	 * , M.MENU_NAME 
+	 * , R.ORDER_NO 
+	 * , R.STORE_NO  
+	 * , R.REVIEW_NO 
+	 * FROM REVIEW R  
+	 * LEFT JOIN REPLY RP ON R.REVIEW_NO = RP.REVIEW_NO 
+	 * JOIN ORDERS O ON R.ORDER_NO = O.ORDER_NO  
+	 * JOIN MEMBER MB ON O.USER_NO = MB.MEMBER_NO  
+	 * RIGHT JOIN CART_LIST C ON O.CART_NO = C.CART_NO  
+	 * JOIN MENU M ON C.MENU_NO = M.MENU_NO  
+	 * WHERE O.USER_NO = ?
+	 * ORDER BY R.REVIEW_NO
 	 * 
 	 * @param userNo
 	 */
@@ -182,7 +213,6 @@ public class ReviewController {
 		vo.setUserNo(userNo);
 
 		// 리플라이 vo가져오기
-		
 		Map<String, String> menuNameMap = new HashMap<>();
 		Map<Integer, String> orderNoMap = new HashMap<>();
 		
@@ -206,6 +236,12 @@ public class ReviewController {
 			
 			// distinct로 중복제거
 			List<ReviewVo> newReviewVoList = reviewVoList.stream().distinct().collect(Collectors.toList());
+			List<ReplyVo> newReplyVoList = replyVoList.stream().distinct().collect(Collectors.toList());
+			
+			if(newReviewVoList.size() == 0) {
+				System.out.println("");
+				return;
+			}
 			
 			int x = 1;
 			for(ReviewVo r : newReviewVoList) {
@@ -220,10 +256,10 @@ public class ReviewController {
 				case "5": System.out.println("★★★★★"); break;
 				}
 				System.out.println(menuNameMap.get(r.getOrderNo()));
-				if(replyVoList.get(x-1).getContent() == null) {
+				if(newReplyVoList.get(x-1).getContent() == null) {
 					System.out.println("");
 				}else {
-					System.out.println(replyVoList.get(x-1).getContent());
+					System.out.println(newReplyVoList.get(x-1).getContent());
 				}
 				x++;
 			}
@@ -343,6 +379,11 @@ public class ReviewController {
 	 */
 	public void WriteReply(Map<Integer, String> reviewNoMap) {
 
+		if(reviewNoMap == null) {
+			System.out.println("");
+			return;
+		}
+		
 		System.out.println("\n1. 답변작성");
 		System.out.println("2. 뒤로가기");
 		System.out.print("번호를 입력하세요: ");
@@ -358,8 +399,9 @@ public class ReviewController {
 			return;
 		}
 
-		System.out.println("답변하실 리뷰의 번호를 입력하세요: ");
+		System.out.println("\n답변하실 리뷰의 번호를 입력하세요: ");
 		int x = Main.SC.nextInt();
+		Main.SC.nextLine();
 		
 		try {
 			// 리뷰번호 vo에 입력
@@ -381,7 +423,7 @@ public class ReviewController {
 				throw new Exception();
 			}
 			System.out.println("\n답변 작성 완료!");
-		} catch (java.sql.SQLIntegrityConstraintViolationException e) {
+		} catch (java.sql.SQLIntegrityConstraintViolationException e) {			
 			System.err.println("\n이미 작성된 답변입니다.");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -389,6 +431,5 @@ public class ReviewController {
 		}
 
 	}
-
 
 }//class
