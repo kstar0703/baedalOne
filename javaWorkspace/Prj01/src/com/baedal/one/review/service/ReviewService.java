@@ -54,21 +54,21 @@ public class ReviewService {
 
 		return reRpVoList;
 	}
-
+	
 	// 유저 모든 리뷰 조회
-	public ArrayList<ReviewVo> userReview(String userNo) throws Exception {
+	public ArrayList<ReviewReplyVo> userReview(String userNo) throws Exception {
 
-		// conn
-		Connection conn = JDBCTemplate.getConnection();
+			// conn
+			Connection conn = JDBCTemplate.getConnection();
 
-		// dao호출
-		ArrayList<ReviewVo> voList = dao.userReview(conn, userNo);
+			// dao호출
+			ArrayList<ReviewReplyVo> reRpVoList = dao.userReview(conn,userNo);
 
-		// close
-		JDBCTemplate.close(conn);
+			// close
+			JDBCTemplate.close(conn);
 
-		return voList;
-	}
+			return reRpVoList;
+		}
 
 	// 리뷰삭제
 	public int deleteReview(ReviewVo vo) throws Exception{

@@ -78,12 +78,12 @@ public class ReviewDao {
 
 		return reRpVoList;
 	}
-
+	
 	// 유저 모든 리뷰 조회
-	public ArrayList<ReviewVo> userReview(Connection conn, String userNo) throws Exception {
+	public ArrayList<ReviewReplyVo> userReview(Connection conn, String userNo) throws Exception {
 
 		// sql
-		String sql = "SELECT NICKNAME , TO_CHAR(WRITE_DATE,'YYYY-MM-DD hh24:mi') AS WRITE_DATE , CONTENT ,MENU_NAME, R.ORDER_NO, R.STORE_NO, R.REVIEW_NO, R.REVIEW_RATING FROM REVIEW R  JOIN ORDERS O ON R.ORDER_NO = O.ORDER_NO  JOIN MEMBER MB ON O.USER_NO = MB.MEMBER_NO  RIGHT JOIN CART_LIST C ON O.CART_NO = C.CART_NO  JOIN MENU M ON C.MENU_NO = M.MENU_NO WHERE O.USER_NO = ? AND R.DELETE_YN = 'N' ORDER BY R.REVIEW_NO";
+		String sql = "SELECT MB.NICKNAME , REVIEW_RATING , TO_CHAR(R.WRITE_DATE,'YYYY-MM-DD hh24:mi') AS WRITE_DATE  , R.CONTENT  , TO_CHAR(RP.WRITE_DATE,'YYYY-MM-DD hh24:mi') AS REPLY_WRITE_DATE , RP.CONTENT REPLY_CONTENT , RP.REPLY_NO  , M.MENU_NAME  , R.ORDER_NO  , R.STORE_NO   , R.REVIEW_NO  FROM REVIEW R   LEFT JOIN REPLY RP ON R.REVIEW_NO = RP.REVIEW_NO  JOIN ORDERS O ON R.ORDER_NO = O.ORDER_NO   JOIN MEMBER MB ON O.USER_NO = MB.MEMBER_NO   RIGHT JOIN CART_LIST C ON O.CART_NO = C.CART_NO   JOIN MENU M ON C.MENU_NO = M.MENU_NO WHERE O.USER_NO = ? ORDER BY R.REVIEW_NO";
 
 		// pstmt
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -93,23 +93,35 @@ public class ReviewDao {
 		ResultSet rs = pstmt.executeQuery();
 
 		// 디비 정보 담을 리스트생성
-		ArrayList<ReviewVo> voList = new ArrayList<ReviewVo>();
-
+		ArrayList<ReviewReplyVo> reRpVoList = new ArrayList<ReviewReplyVo>();
+		
 		while (rs.next()) {
 
-			ReviewVo dbVo = new ReviewVo();
-			dbVo.setStoreNo(rs.getString("STORE_NO"));
-			dbVo.setOrderNo(rs.getString("ORDER_NO"));
-			dbVo.setNickName(rs.getString("NICKNAME"));
-			dbVo.setWriteDate(rs.getNString("WRITE_DATE"));
-			dbVo.setContent(rs.getNString("CONTENT"));
-			dbVo.setMenuName(rs.getString("MENU_NAME"));
-			dbVo.setReviewNo(rs.getString("REVIEW_NO"));
-			dbVo.setRating(rs.getString("REVIEW_RATING"));
-			voList.add(dbVo);
+			ReviewVo reviewVo = new ReviewVo();
+			reviewVo.setStoreNo(rs.getString("STORE_NO"));
+			reviewVo.setOrderNo(rs.getString("ORDER_NO"));
+			reviewVo.setNickName(rs.getString("NICKNAME"));
+			reviewVo.setWriteDate(rs.getNString("WRITE_DATE"));
+			reviewVo.setContent(rs.getNString("CONTENT"));
+			reviewVo.setMenuName(rs.getString("MENU_NAME"));
+			reviewVo.setReviewNo(rs.getString("REVIEW_NO"));
+			reviewVo.setRating(rs.getString("REVIEW_RATING"));
+			
+			ReplyVo replyVo = new ReplyVo();
+			replyVo.setContent(rs.getString("REPLY_NO"));
+			replyVo.setContent(rs.getString("REVIEW_NO"));
+			replyVo.setContent(rs.getString("CONTENT"));
+			replyVo.setContent(rs.getString("REPLY_WRITE_DATE"));
+			
+			ReviewReplyVo reRpVo = new ReviewReplyVo();
+			reRpVo.setReplyVo(replyVo);
+			reRpVo.setReviewVo(reviewVo);
+			
+			reRpVoList.add(reRpVo);
+			
 		}
 
-		return voList;
+		return reRpVoList;
 	}
 
 	// 리뷰삭제
