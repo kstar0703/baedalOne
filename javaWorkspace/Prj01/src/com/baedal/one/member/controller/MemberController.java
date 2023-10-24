@@ -126,10 +126,9 @@ public class MemberController {
 					System.out.println("2.로그아웃");
 					System.out.println("3.회원정보 수정하기");
 					System.out.println("4.내 돈 관리");
-					System.out.println("5.리뷰 작성하기");
-					System.out.println("6.리뷰 조회하기");
-					System.out.println("7.주문내역 확인하기");
-					System.out.println("8.원하는 매장 선택");
+					System.out.println("5.리뷰 조회하기");
+					System.out.println("6.주문내역 확인하기");
+					System.out.println("7.원하는 매장 선택");
 					System.out.println("9.뒤로 가기");
 
 					ReviewController rc= new ReviewController();
@@ -142,10 +141,9 @@ public class MemberController {
 					case "2" : logout();break;
 					case "3" : changeMemberInfo();break;
 					case "4" : pcm.selectPayMenu(dbVo.getMemberNo());break;
-					case "5" : rc.writeReview(num, num, num);break;
-					case "6" : rc.userReview(num);break;
-					case "7" : ioc.showOder(dbVo.getMemberNo());;break;
-					case "8" : sc.showStoreForMemberManager();break;
+					case "5" : rc.userReview(dbVo.getMemberNo());break;
+					case "6" : ioc.showOder(dbVo.getMemberNo());;break;
+					case "7" : sc.showStoreForMemberManager();break;
 					case "9" : return;
 
 					default : System.out.println("그런 매뉴 없음");
@@ -238,7 +236,7 @@ public class MemberController {
 			
 			MemberVo vo = new MemberVo();
 			vo.setPwd(oldPwd);
-//			vo.setMemberNo();
+//			vo.setMemberNo(dbVo.getMemberNo());
 			
 			//서비스
 			int result = ms.changePwd(vo,newPwd);
