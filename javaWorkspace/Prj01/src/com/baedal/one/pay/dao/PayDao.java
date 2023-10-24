@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.baedal.one.jdbcTemplate.JDBCTemplate;
 import com.baedal.one.pay.vo.PayVo;
-import com.kh.app.jdbc.JDBCTemplate;
 
 public class PayDao {
 	// 잔액 찾기

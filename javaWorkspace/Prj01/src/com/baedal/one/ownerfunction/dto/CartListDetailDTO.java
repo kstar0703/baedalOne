@@ -1,19 +1,19 @@
 package com.baedal.one.ownerfunction.dto;
 
-public class OwnerCartListDetailDTO {
-	private String storeName;
-	private String orderDate;
-	private String menuName;
-	private String quantity;
+public class CartListDetailDTO {
+	private String storeName; //매장이름
+	private String orderDate; //주문날짜
+	private String menuName; //메뉴이름
+	private String quantity; //
 	private String price;
 	private String totalPrice;
 	
-	public OwnerCartListDetailDTO() {
+	public CartListDetailDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public OwnerCartListDetailDTO(String storeName, String orderDate, String menuName, String quantity, String price,
+	public CartListDetailDTO(String storeName, String orderDate, String menuName, String quantity, String price,
 			String totalPrice) {
 		super();
 		this.storeName = storeName;
