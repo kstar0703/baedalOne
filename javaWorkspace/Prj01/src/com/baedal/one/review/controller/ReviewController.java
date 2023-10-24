@@ -425,6 +425,8 @@ public class ReviewController {
 			System.out.println("\n답변 작성 완료!");
 		} catch (java.sql.SQLIntegrityConstraintViolationException e) {			
 			System.err.println("\n이미 작성된 답변입니다.");
+		} catch (java.util.InputMismatchException e) {
+			System.out.println("번호를 입력해주세요.");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("\n답변 작성중 디비 연결 실패..");
