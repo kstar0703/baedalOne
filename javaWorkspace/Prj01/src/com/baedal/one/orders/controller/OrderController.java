@@ -248,7 +248,12 @@ public class OrderController {
 	private boolean isOpen(int openTime, int closeTime) {
 		int currentHour = LocalDateTime.now().getHour();
 		if(openTime == closeTime) return true;
-		if(openTime > closeTime) closeTime += 24;
+		if(openTime > closeTime) {
+			if(closeTime >= currentHour) {
+				currentHour += 24;
+			}
+			closeTime += 24;	
+		}
 		return currentHour >= openTime && currentHour < closeTime ? true : false;
 	}
 }

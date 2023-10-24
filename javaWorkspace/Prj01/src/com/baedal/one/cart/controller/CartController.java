@@ -145,7 +145,6 @@ public class CartController {
 				throw new Exception();
 		} catch (Exception e) {
 			System.err.println("장바구니 담기 실패");
-			e.printStackTrace();
 		} 
 	}
 	
@@ -189,7 +188,6 @@ public class CartController {
 					} else throw new Exception();
 				} catch (Exception e) {
 					System.out.println("장바구니 리스트 삭제 실패 ");
-					e.printStackTrace();
 				}
 				break;
 			case "n":
@@ -206,7 +204,12 @@ public class CartController {
 	private boolean isOpen(int openTime, int closeTime) {
 		int currentHour = LocalDateTime.now().getHour();
 		if(openTime == closeTime) return true;
-		if(openTime > closeTime) closeTime += 24;
+		if(openTime > closeTime) {
+			if(closeTime >= currentHour) {
+				currentHour += 24;
+			}
+			closeTime += 24;	
+		}
 		return currentHour >= openTime && currentHour < closeTime ? true : false;
 	}
 }
