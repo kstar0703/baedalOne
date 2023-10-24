@@ -8,7 +8,6 @@ public class OwnerOdersVo {
 	private String oderDate;
 	private String totalPrice;
 	private String menuName;
-	
 	private String totalQuantity;
 
 	public OwnerOdersVo() {

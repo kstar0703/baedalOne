@@ -2,8 +2,8 @@ package com.baedal.one.ownerfunction.controller;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 
+import com.baedal.one.Main;
 import com.baedal.one.ownerfunction.dto.OwnerCartListDetailDTO;
 import com.baedal.one.ownerfunction.dto.OwnerOdersVo;
 import com.baedal.one.ownerfunction.service.OwnerOdersService;
@@ -17,13 +17,11 @@ import com.baedal.one.ownerfunction.service.OwnerOdersService;
 public class OwnerOdersController {
 
 	private final OwnerOdersService service;
-	private final Scanner sc;// 임시 스캐너
 	public OwnerCartListDetailDTO detailDto;// 상세 주문 내역을 담을 객체
 
 	public OwnerOdersController() {
 		detailDto = new OwnerCartListDetailDTO();
 		service = new OwnerOdersService();
-		sc = new Scanner(System.in);
 	}
 
 	// 간편 주문 내역
@@ -72,7 +70,7 @@ public class OwnerOdersController {
 
 			// 간편보기 내역중 상세히 확인하고픈 주문 입력
 			System.out.print("상세목록을 보고싶은 내역을 입력하세요 : ");
-			int input = sc.nextInt();
+			int input = Main.SC.nextInt();
 
 			// 확인하고픈 주문의 '장바구니번호'를 구함
 			String nowCartNo = map.get(input);
