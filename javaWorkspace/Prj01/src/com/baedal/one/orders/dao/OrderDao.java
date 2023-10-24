@@ -209,7 +209,13 @@ public class OrderDao {
 		return result;
 	}
 	
-	
+	/**
+	 * 결제 비밀번호 체크하기 위해서 가져오는 메소드
+	 * @param memberNo
+	 * @param conn
+	 * @return
+	 * @throws Exception
+	 */
 	public String getAmountPwd(String memberNo, Connection conn) throws Exception {
 		query = "SELECT AMOUNT_PWD FROM MEMBER WHERE MEMBER_NO = ?";
 		PreparedStatement pstmt = conn.prepareStatement(query);
@@ -231,7 +237,7 @@ public class OrderDao {
 	 * @throws Exception 
 	 */
 	public OrdersVo getRecentOrder(String memberNo, Connection conn) throws Exception {
-		query = "SELECT ORDER_NO , TO_CHAR(ORDER_DATE, 'YYYY\"년\" MM\"월\" DD\"일\" HH24\"시\" MM\"분\"') ORDER_DATE , TOTAL_PRICE , MENU_NAME , TOTAL_QUANTITY-1 TOTAL_QUANTITY FROM ORDERS WHERE USER_NO = ? ORDER BY 2 DESC FETCH FIRST 1 ROWS ONLY";
+		query = "SELECT ORDER_NO , TO_CHAR(ORDER_DATE, 'YYYY\"년\" MM\"월\" DD\"일\" HH24\"시\" MI\"분\"') ORDER_DATE , TOTAL_PRICE , MENU_NAME , TOTAL_QUANTITY-1 TOTAL_QUANTITY FROM ORDERS WHERE USER_NO = ? ORDER BY 1 DESC FETCH FIRST 1 ROWS ONLY";
 		PreparedStatement pstmt = conn.prepareStatement(query);
 		pstmt.setString(1, memberNo);
 		ResultSet rs = pstmt.executeQuery();
