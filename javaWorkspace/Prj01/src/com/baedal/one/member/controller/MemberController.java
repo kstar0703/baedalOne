@@ -3,15 +3,18 @@ package com.baedal.one.member.controller;
 import java.util.Scanner;
 
 import com.baedal.one.Main;
+import com.baedal.one.inquiryOrder.controller.InquiryOrderController;
 import com.baedal.one.member.service.MemberService;
 import com.baedal.one.member.vo.MemberVo;
 import com.baedal.one.pay.controller.PayController;
 import com.baedal.one.review.controller.ReviewController;
+import com.baedal.one.store.controller.StoreController;
 
 public class MemberController {
 	
 	//멤버변수 == 필드
 	private final MemberService ms;
+	private String getMemberVo;
 	
 	//기본 생성자
 	public MemberController() {
@@ -131,17 +134,18 @@ public class MemberController {
 
 					ReviewController rc= new ReviewController();
 					PayController pcm = new PayController();
-					
+					StoreController sc = new StoreController();
+					InquiryOrderController ioc = new InquiryOrderController();
 					num = Main.SC.nextLine();
 					switch(num) {
 					case "1" : quit();break;
 					case "2" : logout();break;
 					case "3" : changeMemberInfo();break;
-//					case "4" : pcm.selectPayMenu();break;
+					case "4" : pcm.selectPayMenu(dbVo.getMemberNo());break;
 					case "5" : rc.writeReview(num, num, num);break;
 					case "6" : rc.userReview(num);break;
-					case "7" : System.out.println("주문내역 확인하기 메소드 불러오기");break;
-					case "8" : System.out.println("원하는 매장 선택 메소드 불러오기");break;
+					case "7" : ioc.showOder(dbVo.getMemberNo());;break;
+					case "8" : sc.showStoreForMemberManager();break;
 					case "9" : return;
 
 					default : System.out.println("그런 매뉴 없음");
@@ -230,9 +234,11 @@ public class MemberController {
 			System.out.println("기존 비번:");
 			String oldPwd = Main.SC.nextLine();
 			
+			
+			
 			MemberVo vo = new MemberVo();
 			vo.setPwd(oldPwd);
-			vo.setMemberNo(dbvo.getMemberVo);
+//			vo.setMemberNo();
 			
 			//서비스
 			int result = ms.changePwd(vo,newPwd);
