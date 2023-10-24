@@ -19,7 +19,7 @@ public class StoreDao {
 	 * 매장 정보 출력(점주)
 	 * 수정 변경 및 삭제 재활용 가능
 	 */
-	public List<StoreVo> showStoreInfo(Connection conn, String loginOwnerNo) throws Exception {
+	public List<StoreVo> showOwnerStore(Connection conn, String loginOwnerNo) throws Exception {
 	    
 		//sql
 		String sql = "SELECT S.STORE_NO,S.CATEGORY_NO,S.OWNER_NO,S.STORE_NAME,S.STORE_PHONE,S.STORE_ADDRESS,TO_CHAR(ENROLL_DATE,'YYYY-MM-DD') AS ENROLL_DATE,S.CLOSE_YN,S.OPENTIME,S.CLOSETIME,C.CATEGORY_NAME FROM STORE S JOIN STORE_CATEGORY C ON S.CATEGORY_NO = C.CATEGORY_NO WHERE OWNER_NO = ?";
@@ -58,33 +58,33 @@ public class StoreDao {
 	 * 수정 변경 및 삭제 재활용 가능
 	 */
 
-	public StoreVo chooseStore(Connection conn, StoreVo storeVo) throws Exception {
-		//sql
-		String sql = "SELECT S.STORE_NO,S.CATEGORY_NO,S.OWNER_NO,S.STORE_NAME,S.STORE_PHONE,S.STORE_ADDRESS,TO_CHAR(ENROLL_DATE,'YYYY-MM-DD') AS ENROLL_DATE,S.CLOSE_YN,S.OPENTIME,S.CLOSETIME,C.CATEGORY_NAME FROM STORE S JOIN STORE_CATEGORY C ON S.CATEGORY_NO = C.CATEGORY_NO WHERE STORE_NO = '?'";
-		
-		//pstmt
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, storeVo.getStoreNO());
-		
-		//rs
-		ResultSet rs = pstmt.executeQuery();
-		StoreVo vo = null;
-		
-		if(rs.next()) {
-				vo = new StoreVo(rs.getString("STORE_NO"),rs.getString("CATEGORY_NO"),rs.getString("OWNER_NO"),
-						rs.getString("STORE_NAME"),rs.getString("STORE_PHONE")
-						,rs.getString("STORE_ADDRESS"),rs.getString("ENROLL_DATE"),
-						rs.getString("CLOSE_YN"),rs.getString("OPENTIME")
-						,rs.getString("CLOSETIME"),rs.getString("CATEGORY_NAME"));
-		}
-		
-		JDBCTemplate.close(pstmt);
-		JDBCTemplate.close(rs);
-		
-		
-		
-		return vo;
-	}
+//	public StoreVo chooseStore(Connection conn, StoreVo storeVo) throws Exception {
+//		//sql
+//		String sql = "SELECT S.STORE_NO,S.CATEGORY_NO,S.OWNER_NO,S.STORE_NAME,S.STORE_PHONE,S.STORE_ADDRESS,TO_CHAR(ENROLL_DATE,'YYYY-MM-DD') AS ENROLL_DATE,S.CLOSE_YN,S.OPENTIME,S.CLOSETIME,C.CATEGORY_NAME FROM STORE S JOIN STORE_CATEGORY C ON S.CATEGORY_NO = C.CATEGORY_NO WHERE STORE_NO = '?'";
+//		
+//		//pstmt
+//		PreparedStatement pstmt = conn.prepareStatement(sql);
+//		pstmt.setString(1, storeVo.getStoreNO());
+//		
+//		//rs
+//		ResultSet rs = pstmt.executeQuery();
+//		StoreVo vo = null;
+//		
+//		if(rs.next()) {
+//				vo = new StoreVo(rs.getString("STORE_NO"),rs.getString("CATEGORY_NO"),rs.getString("OWNER_NO"),
+//						rs.getString("STORE_NAME"),rs.getString("STORE_PHONE")
+//						,rs.getString("STORE_ADDRESS"),rs.getString("ENROLL_DATE"),
+//						rs.getString("CLOSE_YN"),rs.getString("OPENTIME")
+//						,rs.getString("CLOSETIME"),rs.getString("CATEGORY_NAME"));
+//		}
+//		
+//		JDBCTemplate.close(pstmt);
+//		JDBCTemplate.close(rs);
+//		
+//		
+//		
+//		return vo;
+//	}
 	
 	/**
 	 * 카테고리 목록 출력 - 매장등록시 사용 , 구매자 검색 할때 사용
@@ -215,7 +215,7 @@ public class StoreDao {
 	 * 폐점 하기
 	 */
 
-	public int shoutDownStore(Connection conn, StoreVo vo, String password) throws Exception {
+	public int shutDownStore(Connection conn, StoreVo vo, String password) throws Exception {
 
 		//sql
 		String sql = "UPDATE STORE SET CLOSE_YN = 'Y' WHERE STORE_NO = ? AND CLOSE_YN ='N'";

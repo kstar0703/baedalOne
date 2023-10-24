@@ -22,13 +22,13 @@ public class StoreService {
 	 * 매장 정보 출력(점주)
 	 * 수정 변경 및 삭제 재활용 가능
 	 */
-	public List<StoreVo> showStoreInfo(String loginOwnerNo) throws Exception {
+	public List<StoreVo> showOwnerStore(String loginOwnerNo) throws Exception {
 		
 		//conn
 		Connection conn = JDBCTemplate.getConnection();
 		
 		//dao
-		List<StoreVo> list = dao.showStoreInfo(conn,loginOwnerNo);
+		List<StoreVo> list = dao.showOwnerStore(conn,loginOwnerNo);
 		
 		//close
 		conn.close();
@@ -37,23 +37,6 @@ public class StoreService {
 	}
 
 
-	/**
-	 * 가게 선택 (점주)
-	 * 수정 변경 및 삭제 재활용 가능
-	 */
-	public StoreVo chooseStore(StoreVo storeVo) throws Exception {
-		
-		//conn
-		Connection conn = JDBCTemplate.getConnection();
-		
-		//dao
-		StoreVo vo = dao.chooseStore(conn,storeVo); 
-		
-		//close
-		conn.close();
-		
-		return vo;
-	}
 
 	/**
 	 * 카테고리 목록 출력 - 매장등록시 사용 , 구매자 검색 할때 사용
@@ -134,14 +117,14 @@ public class StoreService {
 	 * 매장 폐업 
 	 * @throws Exception 
 	 */
-	public int shoutDownStore(StoreVo vo, String password) throws Exception {
+	public int shutDownStore(StoreVo vo, String password) throws Exception {
 		
 		// conn
 		Connection conn = JDBCTemplate.getConnection();
 		
 		// dao
 		
-		int result = dao.shoutDownStore(conn,vo,password);
+		int result = dao.shutDownStore(conn,vo,password);
 		
 		// tx
 		if(result ==1) {

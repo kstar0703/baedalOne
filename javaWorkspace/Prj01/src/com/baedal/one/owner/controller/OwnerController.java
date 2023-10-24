@@ -38,7 +38,7 @@ public class OwnerController {
 		
 		switch (beforeLoginChooseNum) {
 		case "1" : join(); break;
-		case "2" : login(); afterLoginselecMenu(); break;
+		case "2" : login(); break;
 		case "9" :  return;
 		case "0" : System.exit(0); break; 
 		default : System.out.println("잘못누르셨습니다 다시 입력하세요"); break; 
@@ -66,7 +66,7 @@ public class OwnerController {
 		String afterLoginchooseNum = Main.SC.nextLine();
 	
 		switch (afterLoginchooseNum) {
-		case "1" : storeController.storeSelectMenu(); break;
+		case "1" : storeController.selectMenuBeforeSelectStore(); break;
 		case "2" : showStoreInfo(); break;
 		case "3" : changePwd(); break;
 		case "4" : logout(); break;
@@ -168,10 +168,11 @@ public class OwnerController {
 		}
 		System.out.println("로그인 성공!");
 		
+		afterLoginselecMenu();
+		
 		
 		}catch (Exception e) {
 			System.out.println("로그인 실패");
-			beforeLoginselectMenu();
 			e.printStackTrace();
 		}
 	
@@ -248,7 +249,6 @@ public class OwnerController {
 		} catch (Exception e) {
 			System.out.println("비밀번호 변경 실패...");
 			e.printStackTrace();
-			System.exit(0);	
 		}
 		
 	}
@@ -274,7 +274,7 @@ public class OwnerController {
 				System.out.println("가입일자 : " + vo.getEnrollDate());
 				
 				// 가게정보 호출 출력
-				storeController.showStoreNameCategory();
+				storeController.showOwnerStore();
 				
 			} catch (Exception e) {
 					System.out.println("유저 정보 출력 실패");
@@ -298,9 +298,11 @@ public class OwnerController {
 			
 			// #OwnerTestMain.LoginOwner --> Main.LoginOwner 변수 변경
 			OwnerTestMain.LoginOwner = null;
-			
 			System.out.println("로그아웃 성공!");
+			
+			//# 오류 예상 코드긴 한데 일단 실험해보자
 			beforeLoginselectMenu();
+			
 			}catch (Exception e) {
 				System.out.println("로그아웃 실패;");
 			}
@@ -332,7 +334,9 @@ public class OwnerController {
 				if(result !=1) {
 					throw new Exception();
 				}
+				
 				System.out.println("회원탈퇴 성공ㅠ");
+				OwnerTestMain.LoginOwner = null;
 				beforeLoginselectMenu();
 				
 				
