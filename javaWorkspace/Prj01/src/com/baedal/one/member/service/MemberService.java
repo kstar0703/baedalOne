@@ -3,9 +3,10 @@ package com.baedal.one.member.service;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import com.baedal.one.jdbcTemplate.JDBCTemplate;
 import com.baedal.one.member.dao.MemberDao;
 import com.baedal.one.member.vo.MemberVo;
-import com.kh.app.jdbc.JDBCTemplate;
+
 
 public class MemberService {
 	
@@ -66,26 +67,27 @@ public class MemberService {
 		int result = dao.quit(conn,no);
 		
 		//tx
-		if(result == 1 ) {
+		if(result == 1) {
 			JDBCTemplate.commit(conn);
 		}else {
 			JDBCTemplate.rollback(conn);
 		}
 		
-		
 		//close
 		JDBCTemplate.close(conn);
 		
 		return result;
-	
+		
 	}
+		
 
-	public int changePwd(MemberVo vo) {
+	public int changePwd(MemberVo vo, String newPwd) {
 		//conn
 		Connection conn = JDBCTemplate.getConnection();
 		
 		//DAO
-		int result = dao.changePwd(conn,)
+		int result = dao.changePwd(conn,newPwd, vo);
+		
 		//tx
 		
 		//close
