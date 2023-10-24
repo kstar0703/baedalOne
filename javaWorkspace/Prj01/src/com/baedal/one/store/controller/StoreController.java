@@ -4,19 +4,22 @@ import java.util.List;
 import com.baedal.one.Main;
 import com.baedal.one.menu.controller.MenuController;
 import com.baedal.one.owner.OwnerTestMain;
+import com.baedal.one.ownerfunction.controller.OwnerOdersController;
+import com.baedal.one.ownerfunction.controller.SalesController;
 import com.baedal.one.store.dto.StoreCategoryDto;
 import com.baedal.one.store.service.StoreService;
 import com.baedal.one.store.vo.StoreVo;
-
 public class StoreController {
 	
 	private StoreService service;
 	private MenuController menuController;
 	private StoreVo storeVo;
+	private OwnerOdersController ownerOdersController;
 	
 	
 	public StoreController() {
-		
+		menuController = new MenuController();
+		ownerOdersController = new OwnerOdersController();
 		service = new StoreService();
 		menuController = new MenuController();
 	}
@@ -56,6 +59,7 @@ public class StoreController {
 	 */
 	
 	public void selectMenuAfterSelectStore(StoreVo vo) {
+		SalesController salesController = new SalesController(vo.getStoreNO());
 		while(true) {
 			//
 			System.out.println("=====" +vo.getStoreName() + "관리 =====");
@@ -73,11 +77,11 @@ public class StoreController {
 			String selectNum = Main.SC.nextLine();
 			
 			switch (selectNum) {
-			case "1" : showStoreInfo(vo);
-			case "2" : changeStoreInfo(vo); // 메뉴 변경시 이전 메소드 호출    
-			case "3" : System.out.println("매장 메뉴 수정 송희님 메소드"); break;
-			case "4" : System.out.println("주문내역 조회 ---> 내가 만들꺼"); break;
-			case "5" : System.out.println("매출 조회 ---> 범렬님"); break;
+			case "1" : showStoreInfo(vo); break;
+			case "2" : changeStoreInfo(vo); break;
+			case "3" : menuController.findPwd(vo.getStoreNO()); break; // 송희님
+			case "4" : ownerOdersController.showOders(vo.getStoreNO()); break; // 범렬님
+			case "5" : salesController.showMonthSales(vo.getStoreNO()); break; // 범렬님
 			case "6" : System.out.println("리뷰 조회 ---> 병욱님"); break;
 			case "7" : shutDownStore(vo); // 폐업시 이전 메소드 호출하게
 			case "9" : return; 
