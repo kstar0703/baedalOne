@@ -5,8 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.baedal.one.jdbcTemplate.JDBCTemplate;
 import com.baedal.one.member.vo.MemberVo;
-import com.kh.app.jdbc.JDBCTemplate;
+
 
 public class MemberDao {
 
@@ -34,7 +35,7 @@ public class MemberDao {
 	//로그인
 	public MemberVo login(Connection conn, MemberVo vo) throws Exception {
 		//sql
-		String sql = "SELECT * fROM MEMBER WHERE ID = ? AND PWD = ?";
+		String sql = "SELECT * fROM MEMBER WHERE ID = ? AND PWD = ? AND QUIT_YN = 'N'";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, vo.getId());
 		pstmt.setString(2, vo.getPwd());
@@ -43,11 +44,13 @@ public class MemberDao {
 		//rs
 		MemberVo dbVo = null;
 		if(rs.next()) {
+			String dbMemberNo =rs.getString("MEMBER_NO");
 			String dbId = rs.getString("ID");
 			String dbPwd = rs.getString("PwD");
 			String dbNickName = rs.getString("NICKNAME");
 			
 			dbVo = new MemberVo();
+			dbVo.setMemberNo(dbMemberNo);
 			dbVo.setId(dbId);
 			dbVo.setPwd(dbPwd);
 			dbVo.setNickName(dbNickName);
@@ -65,15 +68,27 @@ public class MemberDao {
 	public int quit(Connection conn, String no) throws Exception {
 		
 		//SQL
-		String sql = "UPDATE MEMBER SET DEL_YN = 'Y', MODIFY_DATE = SYSDATE WHERE MEMBER_NO = ? ";
+		String sql = "UPDATE MEMBER SET QUIT_YN = 'Y', UPDATE_DATE = SYSDATE WHERE MEMBER_NO = ?";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1,no);
+		int result = pstmt.executeUpdate();
 		
 		//rs
+		JDBCTemplate.close(pstmt);
 		
-		return 0;
+		return result;
+		
 	}
 
-	
+	public int changePwd(Connection conn,String newPwd, MemberVo vo) throws Exception {
+		
+		//SQL
+		String sql = "UPDATE MEMBER SET PWD = ?, UPDATE_DATE = SYSDATE  WHERE MEMBER_NO = ? AND PWD = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, newPwd);
+		pstmt.setString(2, vo.getMemberNo());
+		pstmt.setString(3, vo.getPwd());
+		
+	}
 	
 }

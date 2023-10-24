@@ -107,11 +107,14 @@ public class MemberController {
 			//서비스
 			MemberVo dbVo = ms.login(vo);
 			
+			Main.loginMember= dbVo;
+			
 			//결과
 			if(dbVo == null) {
 				throw new Exception();
 				
-			}
+			}	
+			    
 				System.out.println("로그인 성공");
 				
 				String num;
@@ -134,7 +137,7 @@ public class MemberController {
 					case "1" : quit();break;
 					case "2" : logout();break;
 					case "3" : changeMemberInfo();break;
-					case "4" : pcm.selectPayMenu();break;
+//					case "4" : pcm.selectPayMenu();break;
 					case "5" : rc.writeReview(num, num, num);break;
 					case "6" : rc.userReview(num);break;
 					case "7" : System.out.println("주문내역 확인하기 메소드 불러오기");break;
@@ -158,11 +161,12 @@ public class MemberController {
 	public void quit() {
 		try {
 			System.out.println("-----회원탈퇴-----");
-			
+			System.out.println(Main.loginMember);
 			//로그인여부 검사
 			if(Main.loginMember == null ) {
 				throw new Exception("다시 로그인을 하고 회원탈퇴를 시도하세요");
 			}
+			
 			//데이터
 		    String no = Main.loginMember.getMemberNo();
 		    
@@ -227,12 +231,17 @@ public class MemberController {
 			String oldPwd = Main.SC.nextLine();
 			
 			MemberVo vo = new MemberVo();
-			vo.setPwd(pwd);
-			
+			vo.setPwd(oldPwd);
+			vo.setMemberNo(dbvo.getMemberVo);
 			
 			//서비스
-			int result = ms.changePwd(vo);
+			int result = ms.changePwd(vo,newPwd);
 			
+			//결과
+			if(result != 1) {
+				throw new Exception();
+			}
+			System.out.println("비밀 번호 변경 성공!");
 			
 		}catch(Exception e) {
 			System.out.println("비밀번호 변경 실패");
