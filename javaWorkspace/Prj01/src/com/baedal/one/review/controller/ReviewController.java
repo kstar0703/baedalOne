@@ -184,7 +184,7 @@ public class ReviewController {
 		// 리플라이 vo가져오기
 		
 		Map<String, String> menuNameMap = new HashMap<>();
-		Map<Integer, String> reviewNoMap = new HashMap<>();
+		Map<Integer, String> orderNoMap = new HashMap<>();
 		
 		try {
 			// 서비스 호출하기
@@ -209,8 +209,8 @@ public class ReviewController {
 			
 			int x = 1;
 			for(ReviewVo r : newReviewVoList) {
-				reviewNoMap.put(x,r.getOrderNo());
-				System.out.println(reviewNoMap.get(x));
+				orderNoMap.put(x,r.getOrderNo());
+				System.out.println(orderNoMap.get(x));
 				System.out.println(r);
 				switch (r.getRating()) {
 				case "1": System.out.println("☆☆☆☆★"); break;
@@ -227,11 +227,20 @@ public class ReviewController {
 				}
 				x++;
 			}
+			System.out.println("--------------------------------------------");
+			System.out.println("1. 리뷰 수정 / 2.  리뷰삭제 / 3. 뒤로가기");
+			String num = Main.SC.nextLine();
+			switch (num) {
+			case "1" : updateReview(orderNoMap,userNo); break;
+			case "2" : DeleteReview(orderNoMap,userNo); break;
+			case "3" : break;
+			default: System.out.println("\n잘못된 입력입니다.");
+			}
 		} catch (java.lang.IndexOutOfBoundsException e) {
 			System.err.println("\n작성된 리뷰가 없습니다.");
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("리뷰 조회 실패...");
+			System.out.println("\n리뷰 조회 실패...");
 		}
 	}
 
@@ -241,7 +250,7 @@ public class ReviewController {
 	 * @param map
 	 * @param userNo
 	 */
-	public void updateReview(HashMap<Integer, String> map, String userNo) {
+	public void updateReview(Map<Integer, String> map, String userNo) {
 
 		try {
 			// 데이터 입력받기
@@ -292,17 +301,17 @@ public class ReviewController {
 	 * @param map
 	 * @param userNo
 	 */
-	public void DeleteReview(HashMap<Integer, String> map, String userNo) {
+	public void DeleteReview(Map<Integer, String> map, String userNo) {
 
 		try {
 			// 데이터 입력받기
 			System.out.println("\n===== 리뷰삭제 =====");
 			System.out.print("\n삭제할 리뷰에 번호를 입력해주세요: ");
-			int reviewNo = Main.SC.nextInt();
+			int num = Main.SC.nextInt();
 
 			// vo 객체에 입력받은 값 입력
 			ReviewVo vo = new ReviewVo();
-			vo.setReviewNo(map.get(reviewNo));
+			vo.setOrderNo(map.get(num));
 			vo.setUserNo(userNo);
 
 			// service 호출
