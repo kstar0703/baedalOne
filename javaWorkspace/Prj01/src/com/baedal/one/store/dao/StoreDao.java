@@ -1,20 +1,16 @@
 package com.baedal.one.store.dao;
 
-import java.nio.channels.SelectableChannel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.baedal.one.jdbcTemplate.JDBCTemplate;
 import com.baedal.one.owner.OwnerTestMain;
 import com.baedal.one.store.dto.StoreCategoryDto;
-import com.baedal.one.store.testMain.StoreTestMain;
 import com.baedal.one.store.vo.StoreVo;
 
-import oracle.jdbc.driver.OracleConversionInputStreamInternal;
 
 public class StoreDao {
 
@@ -235,6 +231,81 @@ public class StoreDao {
 		int result = pstmt.executeUpdate();
 		
 		return result;
+	}
+	
+	/**
+	 *  전체 매장 조회
+	 *  매장 선택 메소드 재활용
+	 * @throws Exception 
+	 * 
+	 */
+
+	public List<StoreVo> showAllStore(Connection conn) throws Exception {
+		
+		//sql
+				String sql = "SELECT S.STORE_NO,S.CATEGORY_NO,S.OWNER_NO,S.STORE_NAME,S.STORE_PHONE,S.STORE_ADDRESS,TO_CHAR(ENROLL_DATE,'YYYY-MM-DD') AS ENROLL_DATE,S.CLOSE_YN,S.OPENTIME,S.CLOSETIME,C.CATEGORY_NAME FROM STORE S JOIN STORE_CATEGORY C ON S.CATEGORY_NO = C.CATEGORY_NO ";
+				
+				//psmt
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				
+				
+				//rs
+				ResultSet rs = pstmt.executeQuery();
+				
+				List<StoreVo> list = new ArrayList<StoreVo>();
+				while(rs.next()) {
+						list.add(new StoreVo(
+								rs.getString("STORE_NO"),
+								rs.getString("CATEGORY_NO"),rs.getString("OWNER_NO")
+								,rs.getString("STORE_NAME"),rs.getString("STORE_PHONE")
+								,rs.getString("STORE_ADDRESS"),rs.getString("ENROLL_DATE"),
+								rs.getString("CLOSE_YN"),rs.getString("OPENTIME")
+								,rs.getString("CLOSETIME"),rs.getString("CATEGORY_NAME")));
+						
+				}
+				
+				JDBCTemplate.close(pstmt);
+				JDBCTemplate.close(rs);
+				
+				
+				//결과
+				return list;
+	}
+	/**
+	 * 매장 조회
+	 * 카테고리 검색 조회
+	 * 매장 선택 메소드 재활용
+	 * @throws Exception 
+	 * @throws Exception 
+	 */
+	public List<StoreVo> showCategoryStore(Connection conn, String categoryNum) throws Exception {
+		//sql
+		String sql = "SELECT S.STORE_NO,S.CATEGORY_NO,S.OWNER_NO,S.STORE_NAME,S.STORE_PHONE,S.STORE_ADDRESS,TO_CHAR(ENROLL_DATE,'YYYY-MM-DD') AS ENROLL_DATE,S.CLOSE_YN,S.OPENTIME,S.CLOSETIME,C.CATEGORY_NAME FROM STORE S JOIN STORE_CATEGORY C ON S.CATEGORY_NO = C.CATEGORY_NO WHERE C.CATEGORY_NO = ?";
+		
+		//pstmt
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1,categoryNum );
+		
+		//rs
+		ResultSet rs = pstmt.executeQuery();
+		
+		List<StoreVo> list = new ArrayList<StoreVo>();
+		while(rs.next()) {
+				list.add(new StoreVo(
+						rs.getString("STORE_NO"),
+						rs.getString("CATEGORY_NO"),rs.getString("OWNER_NO")
+						,rs.getString("STORE_NAME"),rs.getString("STORE_PHONE")
+						,rs.getString("STORE_ADDRESS"),rs.getString("ENROLL_DATE"),
+						rs.getString("CLOSE_YN"),rs.getString("OPENTIME")
+						,rs.getString("CLOSETIME"),rs.getString("CATEGORY_NAME")));
+				
+		}
+		
+		JDBCTemplate.close(pstmt);
+		JDBCTemplate.close(rs);
+		
+		
+		return null;
 	}
 	
 	

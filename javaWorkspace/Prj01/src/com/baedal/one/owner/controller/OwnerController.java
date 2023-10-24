@@ -1,25 +1,11 @@
 package com.baedal.one.owner.controller;
 
-import java.awt.desktop.QuitEvent;
-import java.lang.reflect.Member;
-import java.nio.channels.SelectableChannel;
-import java.security.PublicKey;
-import java.security.Provider.Service;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
-
-import javax.imageio.metadata.IIOMetadataFormatImpl;
 
 import com.baedal.one.Main;
-import com.baedal.one.cart.TestMain;
 import com.baedal.one.owner.OwnerTestMain;
 import com.baedal.one.owner.service.OwnerService;
 import com.baedal.one.owner.vo.OwnerVo;
 import com.baedal.one.store.controller.StoreController;
-import com.baedal.one.store.service.StoreService;
 
 public class OwnerController {
 	
@@ -34,7 +20,7 @@ public class OwnerController {
 	}
 	
 	/**
-	 * 
+	 * 로그인전 메뉴 
 	 */
 	public void beforeLoginselectMenu() {
 		
@@ -52,8 +38,8 @@ public class OwnerController {
 		
 		switch (beforeLoginChooseNum) {
 		case "1" : join(); break;
-		case "2" : login(); afterLoginselecMenu();  break;
-		case "9" : OwnerTestMain.LoginOwner = null; return;
+		case "2" : login(); afterLoginselecMenu(); break;
+		case "9" :  return;
 		case "0" : System.exit(0); break; 
 		default : System.out.println("잘못누르셨습니다 다시 입력하세요"); break; 
 		}
@@ -61,19 +47,19 @@ public class OwnerController {
 		}
 	
 	/**
-	 * 
+	 * 로그인 이후 메뉴
 	 */
 	public void afterLoginselecMenu() { 
 		while(true) {
 			
 		System.out.println("=====메뉴를 선택하세요=====");	
 			
-		System.out.println("1. 매장 관리 선택 ");
+		System.out.println("1. 매장 관리 및 확인 ");
 		System.out.println("2. 유저정보 확인");
 		System.out.println("3. 비밀번호 변경");
 		System.out.println("4. 로그아웃");
 		System.out.println("5. 회원탈퇴 ");
-		System.out.println("6. 뒤로가기");
+		System.out.println("9. 뒤로가기");
 		System.out.println("0. 종료");
 		
 		// 로그인 이후
@@ -85,7 +71,7 @@ public class OwnerController {
 		case "3" : changePwd(); break;
 		case "4" : logout(); break;
 		case "5" : quit(); break;
-		case "6" : return; 
+		case "9" : OwnerTestMain.LoginOwner = null; return; 
 		case "0" : System.exit(0); break;
 		}
 		}
@@ -192,8 +178,6 @@ public class OwnerController {
 		
 	}
 	
-	 
-	 
 	/**
 	 * 비밀번호 변경
 	 */
@@ -264,8 +248,7 @@ public class OwnerController {
 		} catch (Exception e) {
 			System.out.println("비밀번호 변경 실패...");
 			e.printStackTrace();
-			System.exit(0);
-			
+			System.exit(0);	
 		}
 		
 	}

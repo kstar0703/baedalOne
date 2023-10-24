@@ -156,4 +156,52 @@ public class StoreService {
 		return result;
 	}
 
+	/**
+	 *  전체 매장 조회
+	 *  매장 선택 메소드 재활용
+	 * @throws Exception 
+	 */
+
+	public List<StoreVo> showAllStore() throws Exception {
+		
+		// conn
+		Connection conn = JDBCTemplate.getConnection();
+		
+		//dao
+		
+		List<StoreVo> list = dao.showAllStore(conn);
+		
+		//close
+		conn.close();
+		
+		return list;
+	}
+	
+	/**
+	 * 매장 조회
+	 * 카테고리 검색 조회
+	 * 매장 선택 메소드 재활용
+	 * @throws Exception 
+	 */
+
+	public List<StoreVo> showCategoryStore(String categoryNum) throws Exception {
+		
+		// conn
+		Connection conn = JDBCTemplate.getConnection();
+		
+		//dao
+		
+		List<StoreVo> list = dao.showCategoryStore(conn,categoryNum);
+		
+		//close
+		conn.close();
+		
+		return list;
+		
+		
+	}
+
+
+	
+
 }

@@ -13,7 +13,7 @@ public class StoreVo {
 	private String ownerNo;
 	private String storeName;
 	private String storePhone;
-	private String storeADDRESS;
+	private String storeAddress;
 	private String enrollDate;
 	private String closeYn;
 	private String openTime;
@@ -31,7 +31,7 @@ public class StoreVo {
 		this.ownerNo = ownerNo;
 		this.storeName = storeName;
 		this.storePhone = storePhone;
-		this.storeADDRESS = storeADDRESS;
+		this.storeAddress = storeADDRESS;
 		this.enrollDate = enrollDate;
 		this.closeYn = closeYn;
 		this.openTime = openTime;
@@ -48,7 +48,7 @@ public class StoreVo {
 		this.ownerNo = ownerNo;
 		this.storeName = storeName;
 		this.storePhone = storePhone;
-		this.storeADDRESS = storeADDRESS;
+		this.storeAddress = storeADDRESS;
 		this.enrollDate = enrollDate;
 		this.closeYn = closeYn;
 		this.openTime = openTime;
@@ -149,7 +149,7 @@ public class StoreVo {
 
 
 	public String getStoreADDRESS() {
-		return storeADDRESS;
+		return storeAddress;
 	}
 
 
@@ -157,7 +157,7 @@ public class StoreVo {
 
 
 	public void setStoreADDRESS(String storeADDRESS) {
-		this.storeADDRESS = storeADDRESS;
+		this.storeAddress = storeADDRESS;
 	}
 
 
@@ -227,7 +227,7 @@ public class StoreVo {
 	@Override
 	public String toString() {
 		return "StoreVo [storeNO=" + storeNO + ", categoryNO=" + categoryNO + ", ownerNo=" + ownerNo + ", storeName="
-				+ storeName + ", storePhone=" + storePhone + ", storeADDRESS=" + storeADDRESS + ", enrollDate="
+				+ storeName + ", storePhone=" + storePhone + ", storeADDRESS=" + storeAddress + ", enrollDate="
 				+ enrollDate + ", closeYn=" + closeYn + ", openTime=" + openTime + ", closeTime=" + closeTime
 				+ ", categoryName=" + categoryName + "]";
 	}
