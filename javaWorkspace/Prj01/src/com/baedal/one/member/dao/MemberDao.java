@@ -88,6 +88,12 @@ public class MemberDao {
 		pstmt.setString(1, newPwd);
 		pstmt.setString(2, vo.getMemberNo());
 		pstmt.setString(3, vo.getPwd());
+		int result = pstmt.executeUpdate();
+		
+		//rs
+		JDBCTemplate.close(pstmt);
+		
+		return result;
 		
 	}
 	

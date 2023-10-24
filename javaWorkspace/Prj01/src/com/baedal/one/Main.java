@@ -5,8 +5,7 @@ import java.util.Scanner;
 import com.baedal.one.member.controller.MemberController;
 import com.baedal.one.member.vo.MemberVo;
 import com.baedal.one.owner.controller.OwnerController;
-import com.kh.app.jdbc.JDBCTemplate;
-
+import com.baedal.one.jdbcTemplate.JDBCTemplate;
 public class Main {
 	
 	public static MemberVo loginMember;

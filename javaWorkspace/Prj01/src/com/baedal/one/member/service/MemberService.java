@@ -81,7 +81,7 @@ public class MemberService {
 	}
 		
 
-	public int changePwd(MemberVo vo, String newPwd) {
+	public int changePwd(MemberVo vo, String newPwd) throws Exception {
 		//conn
 		Connection conn = JDBCTemplate.getConnection();
 		
@@ -89,9 +89,16 @@ public class MemberService {
 		int result = dao.changePwd(conn,newPwd, vo);
 		
 		//tx
+		if(result == 1) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
 		
 		//close
-		return 0;
+		JDBCTemplate.close(conn);
+		
+		return result;
 	}
 
 	
