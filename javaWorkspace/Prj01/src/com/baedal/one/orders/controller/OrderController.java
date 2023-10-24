@@ -61,6 +61,9 @@ public class OrderController {
 		}
 	}
 	
+	/**
+	 * 결제하기 화면
+	 */
 	private void selectOption() {
 		while(true) {
 			//내 장바구니 리스트 보여주기
@@ -89,6 +92,10 @@ public class OrderController {
 			}
 		}
 	}
+	
+	/**
+	 * 상품 삭제하는 메소드
+	 */
 	private void deleteCartList() {
 		String num = "";
 		while(true) {
@@ -153,7 +160,7 @@ public class OrderController {
 	}
 
 	/**
-	 * 결제하기
+	 * 결제하기 전 화면 
 	 */
 	private void printPayInfo() {
 		
@@ -201,6 +208,11 @@ public class OrderController {
 		}
 	}
 
+	/**
+	 * 결제 기능
+	 * @param newOrder
+	 * @param money
+	 */
 	private void pay(OrdersVo newOrder, int money) {
 		 try {
 			System.out.print("결제 비밀번호를 입력하세요: ");
@@ -227,7 +239,10 @@ public class OrderController {
 		}
 	}
 	
-	
+	/**
+	 * 결제한 내역 영수증 형태로 보여주는 화면
+	 * @param recentOrder
+	 */
 	private void printRecentOrder(OrdersVo recentOrder) {
 		System.out.println("----------------------------------");
 		System.out.println("\t    결제 내역");
@@ -245,6 +260,12 @@ public class OrderController {
 		System.out.println();
 	}
 
+	/**
+	 * 매장 영업중인지 체크하는 메소드
+	 * @param openTime
+	 * @param closeTime
+	 * @return
+	 */
 	private boolean isOpen(int openTime, int closeTime) {
 		int currentHour = LocalDateTime.now().getHour();
 		if(openTime == closeTime) return true;

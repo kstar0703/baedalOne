@@ -17,6 +17,13 @@ public class CartDao {
 
 	private String query;
 	
+	/**
+	 * 판매 가능한 메뉴리스트 가져오는 메소드
+	 * @param storeNo
+	 * @param conn
+	 * @return
+	 * @throws Exception
+	 */
 	public List<MenuInfoDto> getMenuInfo(String storeNo, Connection conn) throws Exception {
 		query ="SELECT M.MENU_NO, S.STORE_NAME, M.MENU_NAME, M.PRICE, SUBSTR(S.OPENTIME, 1, 2) OPENTIME, SUBSTR(S.CLOSETIME, 1, 2) CLOSETIME FROM MENU M INNER JOIN STORE S ON M.STORE_NO = S.STORE_NO WHERE M.STORE_NO = ? AND M.DELETE_YN = 'N' AND M.SELL_YN = 'Y'";
 
@@ -86,12 +93,6 @@ public class CartDao {
 		return result;
 	}
 
-
-	public int emptyStoreNo(String cartNo, Connection conn) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 	/**
 	 * 신규 장바구니 생성
 	 * @param newCart 신규 장바구니 객체
@@ -110,7 +111,13 @@ public class CartDao {
 		return result;
 	}
 
-
+	/**
+	 * 수량 추가
+	 * @param newCartList
+	 * @param conn
+	 * @return
+	 * @throws Exception
+	 */
 	public int addMenu(CartListVo newCartList, Connection conn) throws Exception {
 		query = "INSERT INTO CART_LIST(CART_LIST_NO, CART_NO, MENU_NO, QUANTITY) VALUES (SEQ_CART_LIST.NEXTVAL, ?, ?, ?)";
 		
@@ -125,7 +132,14 @@ public class CartDao {
 		return result;
 	}
 
-
+	/**
+	 * 장바구니 같은 물건 담을 시 수량 갱신하기
+	 * @param cartNo
+	 * @param storeNo
+	 * @param conn
+	 * @return
+	 * @throws Exception
+	 */
 	public int updateStoreNo(String cartNo, String storeNo, Connection conn) throws Exception{
 		query = "UPDATE CART SET STORE_NO = ? WHERE CART_NO = ?";
 		PreparedStatement pstmt = conn.prepareStatement(query);
@@ -138,6 +152,13 @@ public class CartDao {
 		return result;
 	}
 
+	/**
+	 * 기존의 장바구니 가져오는 메소드
+	 * @param newCartList
+	 * @param conn
+	 * @return
+	 * @throws Exception
+	 */
 	public CheckQuantityDto getCartList(CartListVo newCartList, Connection conn) throws Exception {
 		query = "SELECT  COUNT(MENU_NO) COUNT, SUM(QUANTITY) QUANTITY FROM CART_LIST WHERE CART_NO = ? AND MENU_NO = ?";
 		

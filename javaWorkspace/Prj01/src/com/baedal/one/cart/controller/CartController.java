@@ -22,7 +22,7 @@ public class CartController {
 	}
 
 	/**
-	 * 장바구니에 담기 or 결제기능
+	 * 장바구니에 담기 or 결제기능 선택 화면
 	 * @param storeNo 매장 번호 필요
 	 */
 	public void selectOption(String storeNo) {
@@ -49,11 +49,7 @@ public class CartController {
 	}
 
 	/**
-	 * 장바구니 기능
-	 * 고려해야 될 사항
-	 * 장바구니를 새로 생성하는가?
-	 * 기존 장바구니에 물품이 있는데 다른 매장의 메뉴를 골랐는가? - V
-	 * 매장이 영업중인가?
+	 * 장바구니에 담기
 	 * @param storeNo 매장 번호
 	 * @param memberNo 일반 사용자 번호
 	 */
@@ -201,6 +197,12 @@ public class CartController {
 		return isDelete;
 	}
 	
+	/**
+	 * 매장이 영업중인지 검사하는 매소드
+	 * @param openTime
+	 * @param closeTime
+	 * @return
+	 */
 	private boolean isOpen(int openTime, int closeTime) {
 		int currentHour = LocalDateTime.now().getHour();
 		if(openTime == closeTime) return true;

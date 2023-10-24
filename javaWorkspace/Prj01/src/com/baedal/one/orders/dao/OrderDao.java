@@ -209,7 +209,13 @@ public class OrderDao {
 		return result;
 	}
 	
-	
+	/**
+	 * 결제 비밀번호 체크하기 위해서 가져오는 메소드
+	 * @param memberNo
+	 * @param conn
+	 * @return
+	 * @throws Exception
+	 */
 	public String getAmountPwd(String memberNo, Connection conn) throws Exception {
 		query = "SELECT AMOUNT_PWD FROM MEMBER WHERE MEMBER_NO = ?";
 		PreparedStatement pstmt = conn.prepareStatement(query);
