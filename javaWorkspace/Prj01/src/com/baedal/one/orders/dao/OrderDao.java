@@ -7,10 +7,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.baedal.one.jdbcTemplate.JDBCTemplate;
 import com.baedal.one.orders.dto.CartListDto;
 import com.baedal.one.orders.vo.OrdersVo;
 import com.baedal.one.pay.vo.PayVo;
-import com.kh.app.jdbc.JDBCTemplate;
+
 
 public class OrderDao {
 
