@@ -39,7 +39,7 @@ public class MemberController {
 			default : System.out.println("그런 매뉴 없음");
 			}
 			
-		}while(num.equals(8));
+		}while(num.equals(9));
 		
 	}//selectMember
 
@@ -193,15 +193,73 @@ public class MemberController {
 	
 	//회원정보 수정하기
 	public void changeMemberInfo() {
-		System.out.println("-----회원정보 수정하기-----");
-		System.out.println("1.비밀번호 수정하기");
-		System.out.println("2.닉네임 수정하기");
-		System.out.println("3.회원주소 수정하기");
-		System.out.println("4.전화번호 수정하기");
-		System.out.println("5.결제 비밀번호 수정하기");
+		System.out.println("-----회원정보 변경하기-----");
+		System.out.println("1.비밀번호 변경하기");
+		System.out.println("2.닉네임 변경하기");
+		System.out.println("3.회원주소 변경하기");
+		System.out.println("4.전화번호 변경하기");
+		System.out.println("5.결제 비밀번호 변경하기");
+		
+		String num = Main.SC.nextLine();
+		switch(num) {
+		case "1" : changePwd();break;
+		case "2" : changeNickName();break;
+		case "3" : changeAdress();break;
+		case "4" : changePhone();break;
+		case "5" : changeAmountPwd();break;
+		case "9" : return;
+
+		default : System.out.println("그런 매뉴 없음");
+		}
 	}
+		
+		
+
+
+	public void changePwd() {
+		try {
+			System.out.println("비밀번호 변경하기");
 			
+			//데이터
+			System.out.println("신규 비번");
+			String newPwd = Main.SC.nextLine();
+			System.out.println("기존 비번:");
+			String oldPwd = Main.SC.nextLine();
+			
+			MemberVo vo = new MemberVo();
+			vo.setPwd(pwd);
+			
+			
+			//서비스
+			int result = ms.changePwd(vo);
+			
+			
+		}catch(Exception e) {
+			System.out.println("비밀번호 변경 실패");
+			e.printStackTrace();
+		}
+		
+		
+	}
 	
+	public void changeNickName() {
+		
+		
+	}
+	
+	public void changeAdress() {
+		
+		
+	}
+
+	public void changePhone() {
+		
+		
+	}
+
+	public void changeAmountPwd() {
+		
+	}
 	
 	
 }//class

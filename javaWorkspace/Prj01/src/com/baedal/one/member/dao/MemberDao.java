@@ -72,7 +72,8 @@ public class MemberDao {
 		//rs
 		
 		return 0;
-
 	}
+
+	
 	
 }

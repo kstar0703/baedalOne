@@ -79,18 +79,17 @@ public class MemberService {
 		return result;
 	
 	}
-	
-	//비밀번호수정
-	public MemberVo changePwd() {
-		
+
+	public int changePwd(MemberVo vo) {
 		//conn
+		Connection conn = JDBCTemplate.getConnection();
 		
 		//DAO
-		
+		int result = dao.changePwd(conn,)
 		//tx
 		
 		//close
-		
+		return 0;
 	}
 
 	
