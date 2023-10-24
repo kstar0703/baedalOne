@@ -2,14 +2,13 @@ package com.baedal.one.review.service;
 
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+import com.baedal.one.jdbcTemplate.JDBCTemplate;
 import com.baedal.one.review.dao.ReviewDao;
-import com.baedal.one.review.vo.ReviewVo;
-import com.baedal.one.review.vo.ReviewReplyVo;
 import com.baedal.one.review.vo.ReplyVo;
-import com.kh.app.jdbc.JDBCTemplate;
+import com.baedal.one.review.vo.ReviewReplyVo;
+import com.baedal.one.review.vo.ReviewVo;
 
 public class ReviewService {
 
@@ -42,18 +41,18 @@ public class ReviewService {
 	}
 
 	// 매장 모든 리뷰조회
-	public ArrayList<ReviewVo> storeReview(ReviewVo vo ) throws Exception {
+	public ArrayList<ReviewReplyVo> storeReview(ReviewVo vo) throws Exception {
 
 		// conn
 		Connection conn = JDBCTemplate.getConnection();
 
 		// dao호출
-		ArrayList<ReviewVo> voList = dao.storeReview(vo, conn);
+		ArrayList<ReviewReplyVo> reRpVoList = dao.storeReview(vo, conn);
 
 		// close
 		JDBCTemplate.close(conn);
 
-		return voList;
+		return reRpVoList;
 	}
 
 	// 유저 모든 리뷰 조회
