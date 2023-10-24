@@ -2,7 +2,9 @@ package com.baedal.one.store.controller;
 
 import java.util.List;
 import com.baedal.one.Main;
+import com.baedal.one.cart.controller.CartController;
 import com.baedal.one.menu.controller.MenuController;
+import com.baedal.one.menu.vo.MenuVo;
 import com.baedal.one.owner.OwnerTestMain;
 import com.baedal.one.ownerfunction.controller.OwnerOdersController;
 import com.baedal.one.ownerfunction.controller.SalesController;
@@ -15,6 +17,7 @@ public class StoreController {
 	private MenuController menuController;
 	private StoreVo storeVo;
 	private OwnerOdersController ownerOdersController;
+	private final CartController cartController;
 	
 	
 	public StoreController() {
@@ -22,6 +25,7 @@ public class StoreController {
 		ownerOdersController = new OwnerOdersController();
 		service = new StoreService();
 		menuController = new MenuController();
+		cartController = new CartController();
 	}
 	
 	/**
@@ -147,6 +151,7 @@ public class StoreController {
 			System.out.println("매장 정보 변경 실패");
 		}
 		System.out.println("매장 정보 변경 성공");
+		selectMenuBeforeSelectStore();
 		
 	}
 	
@@ -232,7 +237,7 @@ public class StoreController {
 			if(result !=1) {
 				throw new Exception(); 
 			}
-			
+			System.out.println("매장 등록 성공!!");
 			//성공시 이전 화면 강제 호출
 			selectMenuBeforeSelectStore();
 			
@@ -240,7 +245,7 @@ public class StoreController {
 			System.out.println("매장등록 실패");
 			e.printStackTrace();
 		}
-		System.out.println("매장 등록 성공!!");
+		
 	}
 	
 	
@@ -416,8 +421,6 @@ public class StoreController {
 		
 		List<StoreVo> storeList =null;
 		try {
-		
-
 			
 			// service 호출
 			 storeList = service.showAllStore();
@@ -476,6 +479,7 @@ public class StoreController {
 	 *  유저 매장 선택 메소드
 	 */
 	public void showStoreForMemberManager() {
+		StoreVo selectStoreVo = null;
 		while(true) {
 		System.out.println("1. 전체 매장 조회");
 		System.out.println("2. 카테고리별 조회");
@@ -486,7 +490,23 @@ public class StoreController {
 		String selectNum = Main.SC.nextLine();
 		
 		switch (selectNum) {
-		case "1" : selectStore(showAllStore()); break;
+		case "1" : 
+			while (true) {
+				selectStoreVo = selectStore(showAllStore()); 
+				showStoreInfo(selectStoreVo);
+				List<MenuVo> menuList = menuController.menuList(selectStoreVo.getStoreNO());
+				System.out.println("원하는 작업을 선택하세요");
+				System.out.println("1. 메뉴 주문하러 이동");
+				System.out.println("2. 뒤로가기");
+				
+				String select = Main.SC.nextLine();
+				
+				switch(select) {
+				case"1": cartController.selectOption(selectStoreVo.getStoreNO()); break;
+				case"2": return;
+				default: System.out.println("다시 입력하세요"); break;
+				}
+			}
 		case "2" : selectStore(showCategoryStore(selectCategory(showCategory()))); break;  // <-- 극혐코드 
 		case "9" : System.out.println("이전 메소드 호출");  //# 
 		case "0" : System.exit(0); 
