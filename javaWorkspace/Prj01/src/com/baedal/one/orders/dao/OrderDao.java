@@ -231,7 +231,7 @@ public class OrderDao {
 	 * @throws Exception 
 	 */
 	public OrdersVo getRecentOrder(String memberNo, Connection conn) throws Exception {
-		query = "SELECT ORDER_NO , TO_CHAR(ORDER_DATE, 'YYYY\"년\" MM\"월\" DD\"일\" HH24\"시\" MM\"분\"') ORDER_DATE , TOTAL_PRICE , MENU_NAME , TOTAL_QUANTITY-1 TOTAL_QUANTITY FROM ORDERS WHERE USER_NO = ? ORDER BY 1 DESC FETCH FIRST 1 ROWS ONLY";
+		query = "SELECT ORDER_NO , TO_CHAR(ORDER_DATE, 'YYYY\"년\" MM\"월\" DD\"일\" HH24\"시\" MI\"분\"') ORDER_DATE , TOTAL_PRICE , MENU_NAME , TOTAL_QUANTITY-1 TOTAL_QUANTITY FROM ORDERS WHERE USER_NO = ? ORDER BY 1 DESC FETCH FIRST 1 ROWS ONLY";
 		PreparedStatement pstmt = conn.prepareStatement(query);
 		pstmt.setString(1, memberNo);
 		ResultSet rs = pstmt.executeQuery();
