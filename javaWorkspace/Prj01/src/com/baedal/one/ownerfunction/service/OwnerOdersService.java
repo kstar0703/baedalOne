@@ -3,10 +3,10 @@ package com.baedal.one.ownerfunction.service;
 import java.sql.Connection;
 import java.util.List;
 
+import com.baedal.one.jdbcTemplate.JDBCTemplate;
 import com.baedal.one.ownerfunction.dao.OwnerOdersDao;
-import com.baedal.one.ownerfunction.dto.OwnerCartListDetailDTO;
+import com.baedal.one.ownerfunction.dto.CartListDetailDTO;
 import com.baedal.one.ownerfunction.dto.OwnerOdersVo;
-import com.kh.app.jdbc.JDBCTemplate;
 
 public class OwnerOdersService {
 	private final OwnerOdersDao dao;
@@ -38,14 +38,36 @@ public class OwnerOdersService {
 
 	}
 
-	public List<OwnerCartListDetailDTO> oderDetails(String nowCartNo) throws Exception {
+	public List<CartListDetailDTO> oderDetails(String nowCartNo) throws Exception {
 		// conn
 		Connection conn = JDBCTemplate.getConnection();
 		// DAO
-		List<OwnerCartListDetailDTO> dtoList = dao.oderDetails(conn, nowCartNo);
+		List<CartListDetailDTO> dtoList = dao.oderDetails(conn, nowCartNo);
 		// close
 		JDBCTemplate.close(conn);
 		return dtoList;
+	}
+
+	public List<OwnerOdersVo> userOderList(String userNo) throws Exception {
+		// conn
+		Connection conn = JDBCTemplate.getConnection();
+		// DAO
+		List<OwnerOdersVo> voList = dao.userOderList(conn, userNo);
+
+		// close
+		JDBCTemplate.close(conn);
+
+		return voList;
+	}
+
+	public String nowStoreName(String cartNo) throws Exception {
+		// conn
+		Connection conn = JDBCTemplate.getConnection();
+		// DAO
+		String storeName = dao.nowStoreName(conn, cartNo);
+		// close
+		JDBCTemplate.close(conn);
+		return storeName;
 	}
 
 }

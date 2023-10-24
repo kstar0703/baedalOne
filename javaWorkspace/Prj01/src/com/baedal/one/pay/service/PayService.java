@@ -1,12 +1,11 @@
 package com.baedal.one.pay.service;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
+import com.baedal.one.jdbcTemplate.JDBCTemplate;
 import com.baedal.one.pay.dao.PayDao;
 import com.baedal.one.pay.vo.PayVo;
-import com.kh.app.jdbc.JDBCTemplate;
 
 public class PayService {
 	private final PayDao dao;
@@ -39,7 +38,7 @@ public class PayService {
 	}
 
 	// 페이 충전하기 (멤버 테이블에 잔액 수정, 페이테이블 튜플 추가)
-	public int chargePay(String userno, String afterMoney, PayVo vo) throws SQLException {
+	public int chargePay(String userno, String afterMoney, PayVo vo) throws Exception {
 		Connection conn = JDBCTemplate.getConnection();
 		// 멤버 테이블에 잔액 UPDATE
 		int result1 = dao.chargePay(conn, userno, afterMoney);

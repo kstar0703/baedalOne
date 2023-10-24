@@ -132,7 +132,13 @@ public class SalesController {
 		System.out.println("이달 평균 매출 : " + monthPrice/lastDay +"원");
 		
 		System.out.print("확인을 완료 하였다면 '1'을 입력해주세요 : ");
+		String input = Main.SC.nextLine();
 		
+		if (input.equals("1")) {
+			return;
+		}else {
+			
+		}
 	}
 	
 
