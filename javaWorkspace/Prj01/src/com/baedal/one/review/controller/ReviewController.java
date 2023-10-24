@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
@@ -47,7 +48,8 @@ public class ReviewController {
 
 			int rating = Integer.parseInt(num);
 			if (rating < 6 && rating > 0) {
-				vo.setRating(rating); // 평점 입력
+				String strNum= String.valueOf(rating);
+				vo.setRating(strNum); // 평점 입력
 			} else {
 				throw new Exception();
 			}
@@ -98,7 +100,7 @@ public class ReviewController {
 	 * @param storeNo
 	 */
 	public void storeReview(String storeNo) {
-		try {
+		
 			System.out.println("\n--------------리뷰 조회---------------");
 
 			ReviewVo vo = new ReviewVo();
@@ -108,138 +110,45 @@ public class ReviewController {
 			System.out.println();
 
 			// 리플라이 vo가져오기
-			List<ReplyVo> replyVoList = checkReply(storeNo);
+//			List<ReplyVo> replyVoList = checkReply(storeNo);
 			
-			// 서비스 호출하기
-			ArrayList<ReviewVo> dbVo = service.storeReview(vo);
-
-			// 조건문에 필요한 첫번째 주문번호 입력
-			String orderNo = dbVo.get(0).getOrderNo();
-
-			// 조건문에 필요한 첫번째 리뷰번호 입력
-			String reviewNo = dbVo.get(0).getReviewNo();
-
-			// Map 생성
-			HashMap<Integer, String> map = new HashMap<Integer, String>();
-
-			// 조건문에 필요한 변수에 1 할당
-			int i = 1;
-			for (ReviewVo voList : dbVo) {
-
-				// 오더번호가 같을때만 출력
-				if (voList.getOrderNo().equals(orderNo)) {
-
-					// map의 key값에 i를 넣고 value 값을 오더번호로 설정
-					map.put(i, voList.getReviewNo());
-
-					// 콘솔 꾸미기
-					System.out.println(i + ".꒰⑅•ᴗ•⑅꒱ " + voList.getNickName());
-					System.out.println(voList.getWriteDate());
-					System.out.print("평점: ");
-					switch (voList.getRating()) {
-					case 1:
-						System.out.println("☆☆☆☆★");
-						break;
-					case 2:
-						System.out.println("☆☆☆★★");
-						break;
-					case 3:
-						System.out.println("☆☆★★★");
-						break;
-					case 4:
-						System.out.println("☆★★★★");
-						break;
-					case 5:
-						System.out.println("★★★★★");
-						break;
-					}
-					System.out.println();
-					System.out.println(voList.getContent());
-					System.out.println();
-					System.out.println("< 주문메뉴 >");
-					System.out.print(voList.getMenuName());
-
-					// 주문번호에 ""를 넣어 값을 다르게 만듬
-					orderNo = "";
-
-					// 리뷰 한개당 i 1씩 증가
-					i++;
-
-					// 리뷰번호가 달라질때 출력
-				} else if (!voList.getReviewNo().equals(reviewNo)) {
-
-					// map의 key값에 i를 넣고 value 값을 오더번호로 설정
-					map.put(i, voList.getReviewNo());
-
-					try {
-						System.out.println("\n\n-------------사장님 답변---------------");
-						System.out.println("\n"+replyVoList.get(i-2).getContent());
-					}catch (Exception e) {
-						System.out.println("");
-					}
-					
-					
-					// 콘솔 꾸미기
-					System.out.println();
-					System.out.println("\n---------------------------------");
-					System.out.println();
-					System.out.println(i + ".꒰⑅•ᴗ•⑅꒱ " + voList.getNickName());
-					System.out.println(voList.getWriteDate());
-					System.out.print("평점: ");
-					switch (voList.getRating()) {
-					case 1:
-						System.out.println("☆☆☆☆★");
-						break;
-					case 2:
-						System.out.println("☆☆☆★★");
-						break;
-					case 3:
-						System.out.println("☆☆★★★");
-						break;
-					case 4:
-						System.out.println("☆★★★★");
-						break;
-					case 5:
-						System.out.println("★★★★★");
-						break;
-					}
-					System.out.println();
-					System.out.println(voList.getContent());
-					System.out.println();
-					System.out.println("< 주문메뉴 >");
-					System.out.print(voList.getMenuName());
-
-					// 변한 리뷰번호를 변수에 새로 할당
-					reviewNo = voList.getReviewNo();
-
-					// 리뷰 한개당 i 1씩 증가
-
-					i++;
-
-					// 오더번호가 다를때 출력
-				} else {
-
-					// 메뉴출력
-					System.out.print("/" + voList.getMenuName());
-
-				}
-
-			}
+			Map<String, String> menuNameMap = new HashMap<>();
+			
 			try {
-				System.out.println("\n\n-------------사장님 답변---------------");
-				System.out.println("\n"+replyVoList.get(i-2).getContent());
+				// 서비스 호출하기
+				ArrayList<ReviewReplyVo> reRpVoList = service.storeReview(vo);
+				
+				List<ReplyVo> replyVoList = new ArrayList<ReplyVo>();
+				List<ReviewVo> reviewVoList = new ArrayList<ReviewVo>();
+				
+				//ReviewVo 타입의 리스트 생성후 reRpVoList에 ReviewVo를 입력
+				for(ReviewReplyVo r  : reRpVoList) {
+					reviewVoList.add(r.getReviewVo());
+				}
+				
+				for(ReviewVo r : reviewVoList) {
+					menuNameMap.put(r.getOrderNo(), menuNameMap.getOrDefault(r.getOrderNo(), "")+", "+r.getMenuName());
+				}
+				
+				List<ReviewVo> newReviewVoList = reviewVoList.stream().distinct().collect(Collectors.toList());
+				
+				int x = 0;
+				for(ReviewVo r : newReviewVoList) {
+					System.out.println(r);
+					System.out.println(menuNameMap.get(r.getOrderNo()));
+					
+				}
+				
 			}catch (Exception e) {
-				System.out.println("");
+				e.printStackTrace();
 			}
-
-			// 예외처리
-		} catch (java.lang.IndexOutOfBoundsException e) {
-			System.err.println("리뷰가 없습니다.");
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("리뷰 조회 실패...");
-		}
+			
+			
+			
 	}
+
+			
+			
 
 	/**
 	 * 회원 모든 리뷰 조회하기 
