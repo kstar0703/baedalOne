@@ -105,7 +105,7 @@ public class ReviewDao {
 			dbVo.setContent(rs.getNString("CONTENT"));
 			dbVo.setMenuName(rs.getString("MENU_NAME"));
 			dbVo.setReviewNo(rs.getString("REVIEW_NO"));
-			dbVo.setRating(rs.getInt("REVIEW_RATING"));
+			dbVo.setRating(rs.getString("REVIEW_RATING"));
 			voList.add(dbVo);
 		}
 
@@ -144,6 +144,7 @@ public class ReviewDao {
 		return result;
 	}
 
+	// 점주 댓글작성
 	public int writeReply(ReplyVo vo, Connection conn) throws Exception {
 
 		// sql
@@ -157,39 +158,6 @@ public class ReviewDao {
 		JDBCTemplate.close(pstmt);
 
 		return result;
-	}
-
-
-	public List<ReplyVo> checkReply(String storeNo, Connection conn) throws Exception {
-		
-		String sql = "SELECT RE.CONTENT, RE.REPLY_NO, RE.REVIEW_NO FROM REPLY RE JOIN REVIEW R ON RE.REVIEW_NO = R.REVIEW_NO WHERE R.STORE_NO = ?";
-		
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, storeNo);
-		ResultSet rs = pstmt.executeQuery();
-		
-		List<ReplyVo> voList = new ArrayList<ReplyVo>();
-		
-		while(rs.next()) {
-			
-			String replyNO = rs.getString("REPLY_NO");
-			String reviewNo = rs.getString("REVIEW_NO");
-			String content = rs.getNString("CONTENT");
-			
-			ReplyVo vo = new ReplyVo();
-			
-			vo.setContent(content);
-			vo.setReplyNo(replyNO);
-			vo.setReviewNo(reviewNo);
-			
-			voList.add(vo);
-			
-		}
-		
-		JDBCTemplate.close(pstmt);
-		JDBCTemplate.close(rs);
-		
-		return voList;
 	}
 
 }

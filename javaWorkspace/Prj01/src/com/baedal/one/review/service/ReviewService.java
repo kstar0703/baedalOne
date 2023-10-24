@@ -133,18 +133,5 @@ public class ReviewService {
 		
 		return result;
 	}
-
-	
-	public List<ReplyVo> checkReply(String storeNo) throws Exception {
-		
-		Connection conn = JDBCTemplate.getConnection();
-		
-		List<ReplyVo> voList = dao.checkReply(storeNo,conn);
-		
-		JDBCTemplate.close(conn);
-		
-		return voList;
-	}
-
 	
 }

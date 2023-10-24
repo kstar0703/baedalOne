@@ -99,7 +99,7 @@ public class ReviewController {
 	 * 
 	 * @param storeNo
 	 */
-	public void storeReview(String storeNo) {
+	public Map<Integer, String> storeReview(String storeNo) {
 		
 			System.out.println("\n--------------리뷰 조회---------------");
 
@@ -107,12 +107,11 @@ public class ReviewController {
 
 			// vo객체에 매장번호 입력
 			vo.setStoreNo(storeNo);
-			System.out.println();
 
 			// 리플라이 vo가져오기
-//			List<ReplyVo> replyVoList = checkReply(storeNo);
 			
 			Map<String, String> menuNameMap = new HashMap<>();
+			Map<Integer, String> reviewNoMap = new HashMap<>();
 			
 			try {
 				// 서비스 호출하기
@@ -121,30 +120,45 @@ public class ReviewController {
 				List<ReplyVo> replyVoList = new ArrayList<ReplyVo>();
 				List<ReviewVo> reviewVoList = new ArrayList<ReviewVo>();
 				
-				//ReviewVo 타입의 리스트 생성후 reRpVoList에 ReviewVo를 입력
+				// ReviewVo 타입의 리스트 생성후 reRpVoList에 ReviewVo를 입력
 				for(ReviewReplyVo r  : reRpVoList) {
 					reviewVoList.add(r.getReviewVo());
+					replyVoList.add(r.getReplyVo());
 				}
 				
+				// 메뉴만 따로 출력하여 맵에 저장
 				for(ReviewVo r : reviewVoList) {
 					menuNameMap.put(r.getOrderNo(), menuNameMap.getOrDefault(r.getOrderNo(), "")+", "+r.getMenuName());
 				}
 				
+				// distinct로 중복제거
 				List<ReviewVo> newReviewVoList = reviewVoList.stream().distinct().collect(Collectors.toList());
 				
-				int x = 0;
+				int x = 1;
 				for(ReviewVo r : newReviewVoList) {
+					reviewNoMap.put(x,r.getOrderNo());
+					System.out.println(reviewNoMap.get(x));
 					System.out.println(r);
+					switch (r.getRating()) {
+					case "1": System.out.println("☆☆☆☆★"); break;
+					case "2": System.out.println("☆☆☆★★"); break;
+					case "3": System.out.println("☆☆★★★"); break;
+					case "4": System.out.println("☆★★★★"); break;
+					case "5": System.out.println("★★★★★"); break;
+					}
 					System.out.println(menuNameMap.get(r.getOrderNo()));
-					
+					if(replyVoList.get(x-1).getContent() == null) {
+						System.out.println("");
+					}else {
+						System.out.println(replyVoList.get(x-1).getContent());
+					}
+					x++;
 				}
 				
 			}catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-			
-			
+			return reviewNoMap;
 	}
 
 			
@@ -431,32 +445,5 @@ public class ReviewController {
 
 	}
 
-	/**
-	 * 답변조회
-	 * SELECT RE.CONTENT, RE.REPLY_NO, RE.REVIEW_NO
-	 * FROM REPLY RE
-	 * JOIN REVIEW R ON RE.REVIEW_NO = R.REVIEW_NO
-	 * WHERE R.STORE_NO = 1;
-	 * @param storeNo
-	 * @return
-	 */
-	public List<ReplyVo> checkReply(String storeNo) {
-		List<ReplyVo> voList = null;
-		try {
-			voList = service.checkReply(storeNo);
-			
-			if(voList.get(0) == null) {
-				throw new Exception();
-			}
-			System.out.println(voList.get(0).getContent());
-			return voList;
-		}catch (SQLException e) {
-			System.out.println("");
-		}catch (Exception e) {
-			System.out.println("");
-		}
-		return voList;
-		
-	}
 
 }//class
