@@ -15,17 +15,12 @@ public class MenuController {
 	//필드
 	private final MenuService menuService;
 	private static final String OWNERNO = "1";
-	public static List<MenuVo> voList ;
+	public List<MenuVo> voList ;
 	
 	//기본 생성자
 	public MenuController() {
 		menuService = new MenuService();
-		try {
-			voList = menuService.menuList(MenuMain.storeNo);
-		} catch (Exception e) {
-			System.out.println("전체 메뉴 리스트 불러오기 실패");
-			e.printStackTrace();
-		}
+		
 	}
 	
 	/**
@@ -389,13 +384,18 @@ public class MenuController {
 	 * ORDER BY MENU_NO ASC
 	 * 
 	 */
-	public void menuList(String storeNo) {
+	public List<MenuVo> menuList(String storeNo) {
 		
 		try {
 			System.out.println("--- 메뉴 전체 목록 조회---");
 			
 			//서비스 호출
-			
+			try {
+				voList = menuService.menuList(storeNo);
+			} catch (Exception e) {
+				System.out.println("전체 메뉴 리스트 불러오기 실패");
+				e.printStackTrace();
+			}
 			
 			//결과처리
 			if(voList.size() == 0) {
@@ -430,7 +430,7 @@ public class MenuController {
 			System.out.println("메뉴 리스트 조회 실패");
 			e.printStackTrace();
 		}
-		
+		return voList;
 	}
 	
 	
