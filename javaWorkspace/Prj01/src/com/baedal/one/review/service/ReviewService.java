@@ -42,18 +42,18 @@ public class ReviewService {
 	}
 
 	// 매장 모든 리뷰조회
-	public ArrayList<ReviewReplyVo> storeReview(ReviewReplyVo reRpVo) throws Exception {
+	public ArrayList<ReviewVo> storeReview(ReviewVo vo ) throws Exception {
 
 		// conn
 		Connection conn = JDBCTemplate.getConnection();
 
 		// dao호출
-		ArrayList<ReviewReplyVo> reRpVoList = dao.storeReview(reRpVo, conn);
+		ArrayList<ReviewVo> voList = dao.storeReview(vo, conn);
 
 		// close
 		JDBCTemplate.close(conn);
 
-		return reRpVoList;
+		return voList;
 	}
 
 	// 유저 모든 리뷰 조회
@@ -133,6 +133,18 @@ public class ReviewService {
 		JDBCTemplate.close(conn);
 		
 		return result;
+	}
+
+	
+	public List<ReplyVo> checkReply(String storeNo) throws Exception {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		List<ReplyVo> voList = dao.checkReply(storeNo,conn);
+		
+		JDBCTemplate.close(conn);
+		
+		return voList;
 	}
 
 	
