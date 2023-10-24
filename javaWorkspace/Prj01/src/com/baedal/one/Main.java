@@ -30,7 +30,7 @@ public class Main {
 			String num = Main.SC.nextLine();
 			switch(num) {
 			case "1" : mc.selectMember(); break;
-			case "2" : oc.selectMenu(); break;
+//			case "2" : oc.selectMenu(); break;
 			case "9" : return;
 			default : System.out.println("잘못 입력하셨습니다.");
 			}
