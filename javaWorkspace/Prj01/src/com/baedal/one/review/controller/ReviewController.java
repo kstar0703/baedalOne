@@ -27,7 +27,7 @@ public class ReviewController {
 	}
 
 	/**
-	 * 리뷰 작성 
+	 * 리뷰 작성 ok 
 	 * INSERT INTO REVIEW (REVIEW_NO, STORE_NO, ORDER_NO, CONTENT, USER_NO)
 	 * VALUES (SEQ_REVIEW.NEXTVAL,?,?,?,?)
 	 * 
@@ -113,8 +113,6 @@ public class ReviewController {
 	 * @param storeNo
 	 */
 	public Map<Integer, String> storeReview(String storeNo) {
-		
-			System.out.println("\n--------------리뷰 조회---------------");
 
 			ReviewVo vo = new ReviewVo();
 
@@ -154,9 +152,16 @@ public class ReviewController {
 				
 				int x = 0;
 				for(ReviewVo r : newReviewVoList) {
-					reviewNoMap.put(x+1,r.getOrderNo());
-					System.out.println(reviewNoMap.get(x+1));
-					System.out.println(r);
+					
+					// 리뷰번호 반환값 
+					reviewNoMap.put(x+1,r.getReviewNo());
+					
+					System.out.println("\n-------------------리뷰 조회--------------------");
+					System.out.print(x+1+".");
+					System.out.print("\u001B[32m"+" ꒰⑅•ᴗ•⑅꒱ "+"\u001B[0m");
+					System.out.println("\u001B[32m"+r.getNickName()+"\u001B[0m");
+					System.out.println("작성일자: "+r.getWriteDate());
+					System.out.print("별점: ");
 					switch (r.getRating()) {
 					case "1": System.out.println("☆☆☆☆★"); break;
 					case "2": System.out.println("☆☆☆★★"); break;
@@ -164,15 +169,20 @@ public class ReviewController {
 					case "4": System.out.println("☆★★★★"); break;
 					case "5": System.out.println("★★★★★"); break;
 					}
-					System.out.println(menuNameMap.get(r.getOrderNo()));
-					if(newReplyVoList.get(x).getContent() == null) {
+					System.out.println("리뷰내용: "+r.getContent());
+					System.out.println("주문메뉴: "+menuNameMap.get(r.getOrderNo()).substring(2));
+					if(newReplyVoList.get(x).getContent() == null || newReplyVoList.get(x).getDeleteYn().equals("Y")) {
 						System.out.println("");
 					}else {
-						System.out.println(newReplyVoList.get(x).getContent());
+						System.out.println("\n-------------------답변 조회--------------------");
+						System.out.println(x+1+"."+"\u001B[32m (̨̡˙ꈊ˙)̧̢\u001B[0m"+" \u001B[32m사장님\u001B[0m");
+						System.out.println("작성일자: "+newReplyVoList.get(x).getReplyWriteDate());
+						System.out.println("답변내용: "+newReplyVoList.get(x).getContent());
+						System.out.println();
 					}
 					x++;
 				}
-				
+				System.out.println("----------------------------------------------");
 			}catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -204,8 +214,6 @@ public class ReviewController {
 	 * @param userNo
 	 */
 	public void userReview(String userNo) {
-		
-		System.out.println("\n--------------리뷰 조회---------------");
 
 		ReviewVo vo = new ReviewVo();
 
@@ -239,15 +247,21 @@ public class ReviewController {
 			List<ReplyVo> newReplyVoList = replyVoList.stream().distinct().collect(Collectors.toList());
 			
 			if(newReviewVoList.size() == 0) {
-				System.out.println("");
+				System.out.println("\n작성된 리뷰가 없습니다.");
 				return;
 			}
-			
-			int x = 1;
+			int x = 0;
 			for(ReviewVo r : newReviewVoList) {
-				orderNoMap.put(x,r.getOrderNo());
-				System.out.println(orderNoMap.get(x));
-				System.out.println(r);
+				
+				// 오더번호 반환값 
+				orderNoMap.put(x+1,r.getOrderNo());
+				
+				System.out.println("\n-------------------리뷰 조회--------------------");
+				System.out.print(x+1+".");
+				System.out.print("\u001B[32m"+" ꒰⑅•ᴗ•⑅꒱ "+"\u001B[0m");
+				System.out.println("\u001B[32m"+r.getNickName()+"\u001B[0m");
+				System.out.println("작성일자: "+r.getWriteDate());
+				System.out.print("별점: ");
 				switch (r.getRating()) {
 				case "1": System.out.println("☆☆☆☆★"); break;
 				case "2": System.out.println("☆☆☆★★"); break;
@@ -255,17 +269,23 @@ public class ReviewController {
 				case "4": System.out.println("☆★★★★"); break;
 				case "5": System.out.println("★★★★★"); break;
 				}
-				
-				System.out.println(menuNameMap.get(r.getOrderNo()));
-				if(newReplyVoList.get(x-1).getContent() == null || newReplyVoList.get(-1).getDeleteYn().equals("Y")) {
+				System.out.println("리뷰내용: "+r.getContent());
+				System.out.println("주문메뉴: "+menuNameMap.get(r.getOrderNo()).substring(2));
+				if(newReplyVoList.get(x).getContent() == null || newReplyVoList.get(x).getDeleteYn().equals("Y")) {
 					System.out.println("");
 				}else {
-					System.out.println(newReplyVoList.get(x-1).getContent());
+					System.out.println("\n-------------------답변 조회--------------------");
+					System.out.println(x+1+"."+"\u001B[32m (̨̡˙ꈊ˙)̧̢\u001B[0m"+" \u001B[32m사장님\u001B[0m");
+					System.out.println("작성일자: "+newReplyVoList.get(x).getReplyWriteDate());
+					System.out.println("답변내용: "+newReplyVoList.get(x).getContent());
+					System.out.println();
 				}
 				x++;
 			}
-			System.out.println("--------------------------------------------");
+			System.out.println(orderNoMap.get(1));
+			System.out.println("----------------------------------------------");
 			System.out.println("1. 리뷰 수정 / 2.  리뷰삭제 / 3. 뒤로가기");
+			System.out.print("번호를 입력하세요: ");
 			String num = Main.SC.nextLine();
 			switch (num) {
 			case "1" : updateReview(orderNoMap,userNo); break;
@@ -291,7 +311,6 @@ public class ReviewController {
 
 		try {
 			// 데이터 입력받기
-			System.out.println("\n===== 리뷰수정 =====");
 			System.out.print("\n수정할 리뷰의 번호를 입력하세요: ");
 			int num = Main.SC.nextInt();
 			System.out.print("\n\n수정할 내용을 입력하세요: ");
@@ -342,7 +361,6 @@ public class ReviewController {
 
 		try {
 			// 데이터 입력받기
-			System.out.println("\n===== 리뷰삭제 =====");
 			System.out.print("\n삭제할 리뷰에 번호를 입력해주세요: ");
 			int num = Main.SC.nextInt();
 
@@ -406,23 +424,8 @@ public class ReviewController {
 			System.out.println("");
 			return;
 		}
-		
-		System.out.println("\n1. 답변작성");
-		System.out.println("2. 뒤로가기");
-		System.out.print("번호를 입력하세요: ");
-		String num = Main.SC.nextLine();
 
-		switch (num) {
-		case "1":
-			break;
-		case "2":
-			return;
-		default:
-			System.out.println("\n잘못된 입력입니다.");
-			return;
-		}
-
-		System.out.println("\n답변하실 리뷰의 번호를 입력하세요: ");
+		System.out.print("\n답변하실 리뷰의 번호를 입력하세요: ");
 		int x = Main.SC.nextInt();
 		Main.SC.nextLine();
 		
@@ -471,7 +474,7 @@ public class ReviewController {
 			return;
 		}
 		
-		System.out.println("\n수정하실 답변의 번호를 입력하세요: ");
+		System.out.print("\n수정하실 답변의 번호를 입력하세요: ");
 		int x = Main.SC.nextInt();
 		Main.SC.nextLine();
 		
@@ -492,14 +495,14 @@ public class ReviewController {
 
 			// 결과집합
 			if (result != 1) {
+				System.err.println("해당 답변이 존재하지 않습니다.");
 				throw new Exception();
 			}
 			System.out.println("\n답변 수정완료!");
 		} catch (java.util.InputMismatchException e) {
 			System.out.println("\n번호를 입력해주세요.");
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("\n답변 수정중 디비 연결 실패..");
+			e.getMessage();
 		}
 		
 	}
@@ -510,7 +513,8 @@ public class ReviewController {
 	 */
 	public void deleteReply(Map<Integer, String> reviewNoMap) {
 		
-		System.out.println("\n정말 삭제하시겠습니까? \n네/아니요");
+		System.out.println("\n정말 삭제하시겠습니까? (네 or 아니요)");
+		System.out.print("입력하세요: ");
 		String yn = Main.SC.nextLine();
 		
 		switch (yn) {
@@ -519,7 +523,7 @@ public class ReviewController {
 		default: System.out.println("\n잘못된 입력입니다.");
 		}
 		
-		System.out.print("삭제하실 답변의 번호를 입력하세요: ");
+		System.out.print("\n삭제하실 답변의 번호를 입력하세요: ");
 		int num = Main.SC.nextInt();
 		Main.SC.nextLine();
 		
@@ -534,13 +538,14 @@ public class ReviewController {
 
 			// 결과집합
 			if (result != 1) {
+				System.err.println("\n해당 답변이 존재하지 않습니다.");
 				throw new Exception();
 			}
 			System.err.println("\n답변 삭제완료!");
 		} catch (java.util.InputMismatchException e) {
 			System.err.println("\n번호를 입력해주세요.");
 		} catch (Exception e) {
-			System.err.println("\n답변이 존재하지 않습니다.");
+			e.getMessage();
 		}
 	}
 }//class

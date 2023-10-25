@@ -63,7 +63,7 @@ public class ReviewDao {
 			reviewVo.setRating(rs.getString("REVIEW_RATING"));
 			
 			ReplyVo replyVo = new ReplyVo();
-			replyVo.setDeleteYn("REPLY_DELETE_YN");
+			replyVo.setDeleteYn(rs.getString("REPLY_DELETE_YN"));
 			replyVo.setReplyNo(rs.getString("REPLY_NO"));			
 			replyVo.setReviewNo(rs.getString("REVIEW_NO"));
 			replyVo.setContent(rs.getString("REPLY_CONTENT"));
@@ -110,7 +110,7 @@ public class ReviewDao {
 			reviewVo.setRating(rs.getString("REVIEW_RATING"));
 			
 			ReplyVo replyVo = new ReplyVo();
-			replyVo.setDeleteYn("REPLY_DELETE_YN");
+			replyVo.setDeleteYn(rs.getString("REPLY_DELETE_YN"));
 			replyVo.setReplyNo(rs.getString("REPLY_NO"));			
 			replyVo.setReviewNo(rs.getString("REVIEW_NO"));
 			replyVo.setContent(rs.getString("REPLY_CONTENT"));
@@ -182,7 +182,7 @@ public class ReviewDao {
 	// 답변 수정 
 	public int modifyReply(ReplyVo vo, Connection conn) throws Exception {
 		
-		String sql = "UPDATE REPLY SET CONTENT = ? WHERE REVIEW_NO = ?";
+		String sql = "UPDATE REPLY SET CONTENT = ? WHERE REVIEW_NO = ? AND DELETE_YN = 'N'";
 
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, vo.getContent());
@@ -198,7 +198,7 @@ public class ReviewDao {
 	// 답변 삭제 
 	public int deleteReply(ReplyVo vo, Connection conn) throws Exception {
 		
-		String sql = "UPDATE REPLY SET DELETE_YN = 'Y' WHERE REVIEW_NO = ?";
+		String sql = "UPDATE REPLY SET DELETE_YN = 'Y' WHERE REVIEW_NO = ? AND DELETE_YN = 'N'";
 
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 
