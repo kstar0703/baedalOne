@@ -34,7 +34,7 @@ public class OwnerDao {
 		
 	
 	//sql
-	String sql = "SELECT * FROM OWNER WHERE OWNER_ID =? AND OWNER_PWD =? AND QUIT_YN = 'N'";
+	String sql = "SELECT OWNER_NO,OWNER_ID,OWNER_PWD,TO_CHAR(ENROLL_DATE,'YYYY-MM-DD') FROM OWNER WHERE OWNER_ID =? AND OWNER_PWD =? AND QUIT_YN = 'N'";
 	PreparedStatement pstmt = conn.prepareStatement(sql);
 	pstmt.setString(1, vo.getOwnerId());
 	pstmt.setString(2, vo.getOwnerPwd());
