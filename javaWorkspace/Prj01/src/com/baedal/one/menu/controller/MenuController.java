@@ -396,37 +396,29 @@ public class MenuController {
 			if(voList.size() == 0) {
 				System.out.println("메뉴 정보가 없습니다.");
 			} else {
-				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 				System.out.print("\t메뉴 번호 ");
 				System.out.print("\t | ");
 				System.out.print("\t메뉴 이름");
 				System.out.print("\t | ");
-				System.out.print("\t가격 ");
-				System.out.print("\t | ");
-				System.out.print("\t삭제 여부");
-				System.out.print("\t | ");
-				System.out.println("\t판매 여부");
-				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+				System.out.println("\t가격 ");
+				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 				for (MenuVo menuVo : voList) {
 					System.out.print("\t" + menuVo.getMenuNo() + "  ");
 					System.out.print("\t | ");
 					System.out.print("\t" + menuVo.getMenuName());
 					System.out.print("\t | ");
-					System.out.print("\t" + menuVo.getPrice());
-					System.out.print("\t | ");
-					System.out.print("\t" + menuVo.getDeleteYn() + "  ");
-					System.out.print(" | ");
-					System.out.println("\t" + menuVo.getSellYn() + "  ");
+					System.out.println("\t" + menuVo.getPrice());
 				}
-				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓\n");
+				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓\n");
 			}
-			
 		}catch(Exception e) {
 			System.out.println("메뉴 리스트 조회 실패");
 			e.printStackTrace();
+			
 		}
 	}
-	
+		
 	
 	/**
 	 *  메뉴 삭제 리스트
@@ -455,7 +447,7 @@ public class MenuController {
 			if(voDeleteList.size() == 0) {
 				System.out.println("삭제된 메뉴 정보가 없습니다.");
 			} else {
-				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 				System.out.print(" ");	//번호 부여
 				System.out.print("\t |");
 				System.out.print("    메뉴 번호");
@@ -467,25 +459,22 @@ public class MenuController {
 				System.out.print("삭제 여부");
 				System.out.print(" | ");
 				System.out.println("노출 여부");
-				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
-//				for (MenuVo menuVo : voDeleteList) {
+				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 				for (int i = 0; i < voDeleteList.size(); i++) {
 					MenuVo menuVo = voDeleteList.get(i);
 					System.out.print("    " + (i + 1) + "   ");
 					System.out.print(" | ");
 					System.out.print("\t" + menuVo.getMenuNo());
 					System.out.print("\t| ");
-//					System.out.print(menuVo.getStoreNo());
-//					System.out.print(" | ");
 					System.out.print("    " + menuVo.getMenuName());
 					System.out.print("\t | ");
 					System.out.print("" + menuVo.getPrice());
-					System.out.print(" |   ");
-					System.out.print("" + menuVo.getDeleteYn());
-					System.out.print("   | ");
+					System.out.print(" | ");
+					System.out.print("  " + menuVo.getDeleteYn());
+					System.out.print("    | ");
 					System.out.println("   " + menuVo.getSellYn());
 				}
-				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓\n");
+				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓\n");
 			}
 			voList = menuService.menuList(MenuMain.storeNo);
 		} catch(Exception e) {
