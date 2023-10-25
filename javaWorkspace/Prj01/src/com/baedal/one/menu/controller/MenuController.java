@@ -14,7 +14,6 @@ public class MenuController {
 	
 	//필드
 	private final MenuService menuService;
-	private static final String OWNERNO = "1";
 	public List<MenuVo> voList ;
 	
 	//기본 생성자
@@ -33,7 +32,7 @@ public class MenuController {
 	 * WHERE OWNER_NO = ?
 	 * 
 	 */
-	public void findPwd(String storeNo) {
+	public void findPwd(String storeNo, String ownerNo) {
 		
 		//입력할 비밀번호
 		String nowPwd = "";
@@ -42,7 +41,7 @@ public class MenuController {
 		boolean isTruePwd = false;
 		
 		try {
-			ownerPwd = menuService.findPwd(OWNERNO);
+			ownerPwd = menuService.findPwd(ownerNo);
 			
 			while(!isTruePwd) {
 				System.out.print("점주 비밀번호 입력 : ");
@@ -170,7 +169,9 @@ public class MenuController {
 	        
 	        // 데이터 입력 받기
 	        System.out.print("수정할 메뉴 번호 : ");
-	        String menuNo = MenuMain.SC.nextLine();
+	        String input = MenuMain.SC.nextLine();
+	        
+	        String menuNo = voList.get(Integer.parseInt(input)-1).getMenuNo();
 	        
 	        // 메뉴 번호를 이용하여 해당 메뉴 정보를 불러옴
 	        MenuVo menuVo = getMenuByMenuNo(menuNo);
@@ -396,21 +397,23 @@ public class MenuController {
 			if(voList.size() == 0) {
 				System.out.println("메뉴 정보가 없습니다.");
 			} else {
-				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
-				System.out.print("\t메뉴 번호 ");
-				System.out.print("\t | ");
+				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+				System.out.print(" 메뉴 번호 ");
+				System.out.print(" | ");
 				System.out.print("\t메뉴 이름");
 				System.out.print("\t | ");
 				System.out.println("\t가격 ");
-				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
-				for (MenuVo menuVo : voList) {
-					System.out.print("\t" + menuVo.getMenuNo() + "  ");
+				System.out.println("────────────────────────────────────────────────────────────────────────");
+				for (int i = 0; i < voList.size(); i++) {
+					MenuVo menuVo = voList.get(i);
+					System.out.print("   " + (i + 1) + "  ");
+//					System.out.print(" " + menuVo.getMenuNo() + "  ");
 					System.out.print("\t | ");
 					System.out.print("\t" + menuVo.getMenuName());
 					System.out.print("\t | ");
 					System.out.println("\t" + menuVo.getPrice());
 				}
-				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓\n");
+				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓\n");
 			}
 		}catch(Exception e) {
 			System.out.println("메뉴 리스트 조회 실패");
@@ -459,7 +462,7 @@ public class MenuController {
 				System.out.print("삭제 여부");
 				System.out.print(" | ");
 				System.out.println("노출 여부");
-				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+				System.out.println("────────────────────────────────────────────────────────────────────────");
 				for (int i = 0; i < voDeleteList.size(); i++) {
 					MenuVo menuVo = voDeleteList.get(i);
 					System.out.print("    " + (i + 1) + "   ");
