@@ -35,7 +35,7 @@ public class OwnerOdersController {
 				throw new Exception();
 			}
 		} catch (Exception e) {
-			System.out.println("매장 이름 가져오기 실패");
+			return null;
 		}
 		return storeName;
 	}
@@ -47,6 +47,9 @@ public class OwnerOdersController {
 
 				// 상세 내역 객체에 매장 이름 저장
 				detailDto.setStoreName(findStoreName(storeNo));
+				if(detailDto.getStoreName().equals(null)) {
+					return;
+				}
 				System.out.println("──────────────────" + detailDto.getStoreName() + "<간편 주문 목록 조회>──────────────────");
 
 				// 간편내역을 담을 리스트를 만들어서 튜플을 담음
@@ -114,7 +117,6 @@ public class OwnerOdersController {
 			return;
 		} catch (Exception e) {
 			// DB문제가 있을때
-			e.printStackTrace();
 			return;
 		}
 	}

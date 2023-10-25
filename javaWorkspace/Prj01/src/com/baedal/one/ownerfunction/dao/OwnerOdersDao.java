@@ -96,7 +96,6 @@ public class OwnerOdersDao {
 		if (rs.next()) {
 			storeName = rs.getString("STORE_NAME");
 		} else {
-			System.out.println("DAO 문제");
 		}
 		// close
 		JDBCTemplate.close(rs);

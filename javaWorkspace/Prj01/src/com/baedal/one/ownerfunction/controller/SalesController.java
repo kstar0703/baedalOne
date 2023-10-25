@@ -23,7 +23,12 @@ public class SalesController {
 			while(true) {
 
 				int monthPrice = 0;
+				if(storeName.equals(null)) {
+					System.out.println("등록된 주문이 없습니다. ");
+					throw new NullPointerException();
+				}
 				System.out.println("──────────────────────────────────────────────────────");
+				
 				System.out.println(storeName + "의 월 매출");
 				
 				//inputYear(년도) 입력
@@ -53,6 +58,8 @@ public class SalesController {
 				//year와 month를 합쳐서 inputDate로 바꾸기
 				String inputDate = inputYear + "-" + inputMonth;
 				
+				
+				
 				//입력받은 년도의 월에 판매 된 판매금액을 모두 더해서 monthPrice에 저장한다.
 				for (OwnerOdersVo vo : voList) {
 					if (vo.getOderDate().contains(inputDate)) {
@@ -80,8 +87,10 @@ public class SalesController {
 
 			
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (NullPointerException e) {
+			System.out.println("주문된 내역이 없습니다. ");
+		}catch (Exception e) {
+			System.out.println("실패");
 		}
 
 	}
