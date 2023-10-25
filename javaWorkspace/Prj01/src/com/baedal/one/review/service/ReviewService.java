@@ -154,4 +154,24 @@ public class ReviewService {
 		return result;
 	}
 
+	// 답변 삭제
+	public int deleteReply(ReplyVo vo) throws Exception {
+
+		// conn
+		Connection conn = JDBCTemplate.getConnection();
+
+		// dao
+		int result = dao.deleteReply(vo, conn);
+
+		if (result == 1) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		// close
+		JDBCTemplate.close(conn);
+
+		return result;
+	}
+
 }

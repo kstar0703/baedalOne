@@ -4,7 +4,10 @@ import java.util.Objects;
 
 public class ReplyVo {
 	
-	public ReplyVo(String replyWriteDate, String replyNo, String reviewNo, String content) {
+	
+
+	public ReplyVo(String deleteYn, String replyWriteDate, String replyNo, String reviewNo, String content) {
+		this.deleteYn = deleteYn;
 		this.replyWriteDate = replyWriteDate;
 		this.replyNo = replyNo;
 		this.reviewNo = reviewNo;
@@ -15,11 +18,19 @@ public class ReplyVo {
 		
 	}
 
+	String deleteYn;
 	String replyWriteDate;
 	String replyNo;
 	String reviewNo;
 	String content;
-	
+	public String getDeleteYn() {
+		return deleteYn;
+	}
+
+	public void setDeleteYn(String deleteYn) {
+		this.deleteYn = deleteYn;
+	}
+
 	public String getReplyWriteDate() {
 		return replyWriteDate;
 	}
@@ -54,13 +65,13 @@ public class ReplyVo {
 
 	@Override
 	public String toString() {
-		return "ReplyVo [replyWriteDate=" + replyWriteDate + ", replyNo=" + replyNo + ", reviewNo=" + reviewNo
-				+ ", content=" + content + "]";
+		return "ReplyVo [deleteYn=" + deleteYn + ", replyWriteDate=" + replyWriteDate + ", replyNo=" + replyNo
+				+ ", reviewNo=" + reviewNo + ", content=" + content + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(content, replyNo, replyWriteDate, reviewNo);
+		return Objects.hash(content, deleteYn, replyNo, replyWriteDate, reviewNo);
 	}
 
 	@Override
@@ -72,8 +83,11 @@ public class ReplyVo {
 		if (getClass() != obj.getClass())
 			return false;
 		ReplyVo other = (ReplyVo) obj;
-		return Objects.equals(content, other.content) && Objects.equals(replyNo, other.replyNo)
-				&& Objects.equals(replyWriteDate, other.replyWriteDate) && Objects.equals(reviewNo, other.reviewNo);
+		return Objects.equals(content, other.content) && Objects.equals(deleteYn, other.deleteYn)
+				&& Objects.equals(replyNo, other.replyNo) && Objects.equals(replyWriteDate, other.replyWriteDate)
+				&& Objects.equals(reviewNo, other.reviewNo);
 	}
+	
+	
 	
 }
