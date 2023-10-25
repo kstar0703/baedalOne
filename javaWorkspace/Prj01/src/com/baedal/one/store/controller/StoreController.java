@@ -480,55 +480,58 @@ public class StoreController {
 	 */
 	public void showStoreForMemberManager() {
 		StoreVo selectStoreVo = null;
-		while(true) {
-		System.out.println("1. 전체 매장 조회");
-		System.out.println("2. 카테고리별 조회");
-		System.out.println("9. 뒤로가기");
-		System.out.println("0. 종료");
-		
-		System.out.print("번호를 선택 하세요");
-		String selectNum = Main.SC.nextLine();
-		
-		switch (selectNum) {
-		case "1" : 
-			while (true) {
-				selectStoreVo = selectStore(showAllStore()); 
-				showStoreInfo(selectStoreVo);
-				List<MenuVo> menuList = menuController.menuList(selectStoreVo.getStoreNO());
-				System.out.println("원하는 작업을 선택하세요");
-				System.out.println("1. 메뉴 주문하러 이동");
-				System.out.println("2. 뒤로가기");
-				
-				String select = Main.SC.nextLine();
-				
-				switch(select) {
-				case"1": cartController.selectOption(selectStoreVo.getStoreNO()); break;
-				case"2": return;
-				default: System.out.println("다시 입력하세요"); break;
-				}
+		while (true) {
+			System.out.println("1. 전체 매장 조회");
+			System.out.println("2. 카테고리별 조회");
+			System.out.println("9. 뒤로가기");
+			System.out.println("0. 종료");
+
+			System.out.print("번호를 선택 하세요");
+			String selectNum = Main.SC.nextLine();
+
+			switch (selectNum) {
+			case "1":
+					selectStoreVo = selectStore(showAllStore());
+					printStoreDetailInfo(selectStoreVo);
+					break;
+			case "2":
+				selectStoreVo = selectStore(showCategoryStore(selectCategory(showCategory())));
+				printStoreDetailInfo(selectStoreVo);
+				break; // <-- 극혐코드
+			case "9":
+				System.out.println("이전 메소드 호출"); // #
+			case "0":
+				System.exit(0);
+			default:
+				System.out.println("잘못 입력했습니다 다시 입력하세요");
 			}
-		case "2" : selectStore(showCategoryStore(selectCategory(showCategory()))); break;  // <-- 극혐코드 
-		case "9" : System.out.println("이전 메소드 호출");  //# 
-		case "0" : System.exit(0); 
-		default : System.out.println("잘못 입력했습니다 다시 입력하세요");
 		}
-}
-		
-		
-		
-		
 	}
 	
-	
-	
-	
-	
-	
-	
-}
-	
-	
+	private void printStoreDetailInfo(StoreVo storeVo) {
+		while (true) {
+		showStoreInfo(storeVo);
+		menuController.menuList(storeVo.getStoreNO());
+		System.out.println("원하는 작업을 선택하세요");
+		System.out.println("1. 메뉴 주문하러 이동");
+		System.out.println("2. 뒤로가기");
 
+		String select = Main.SC.nextLine();
+
+		switch (select) {
+		case "1":
+			cartController.selectOption(storeVo.getStoreNO());
+			break;
+		case "2":
+			return;
+		default:
+			System.out.println("다시 입력하세요");
+			break;
+		}
+		}
+	}
+
+}
 	
 	
 	

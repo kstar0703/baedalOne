@@ -65,7 +65,7 @@ public class CartController {
 		//장바구니가 없을 경우 새로 생성
 		try {
 			try {
-				myCart = cartService.getMyCart(TestMain.memberNo);
+				myCart = cartService.getMyCart(Main.loginMember.getMemberNo());
 				if(myCart == null) throw new NullPointerException("장바구니를 새로 생성합니다");
 			} catch (NullPointerException e) {
 				System.err.println(e.getMessage());
@@ -151,11 +151,11 @@ public class CartController {
 	 * @throws Exception
 	 */
 	public CartVo createNewCart(String storeNo) throws Exception {
-		CartVo newCart = new CartVo(TestMain.memberNo, storeNo);
+		CartVo newCart = new CartVo(Main.loginMember.getMemberNo(), storeNo);
 		CartVo findCart = null;
 		int result = cartService.createNewCart(newCart);	
 		if(result == 1) {
-			findCart = cartService.getMyCart(TestMain.memberNo);					 
+			findCart = cartService.getMyCart(Main.loginMember.getMemberNo());					 
 		} else 
 			throw new Exception("장바구니 신규 생성 실패");
 		return findCart;

@@ -33,7 +33,7 @@ public class OrderController {
 	 */
 	private void getCartList() {
 		try {
-			cartList = orderService.getCartList(TestMain.memberNo);
+			cartList = orderService.getCartList(Main.loginMember.getMemberNo());
 			
 			if(cartList.size() == 0) {
 				System.out.println("장바구니에 담은 상품이 없습니다");
@@ -155,7 +155,6 @@ public class OrderController {
 			else throw new Exception();
 		} catch (Exception e) {
 			System.err.println("상품 수량 수정 실패");
-			e.printStackTrace();
 		}
 	}
 
@@ -168,7 +167,7 @@ public class OrderController {
 			System.out.println("------------결제 하기------------");
 			try {
 				//페이 가져오기
-				int money = orderService.getMoneyById(TestMain.memberNo);
+				int money = orderService.getMoneyById(Main.loginMember.getMemberNo());
 				
 				int totalPrice = 0;
 				int totalQuantity = 0;
@@ -190,7 +189,7 @@ public class OrderController {
 						
 						switch(select) {
 						case"y": 
-							OrdersVo newOrder = new OrdersVo(TestMain.memberNo, cartList.get(0).getCartNo(), totalPrice, cartList.get(0).getMenuName(), totalQuantity);
+							OrdersVo newOrder = new OrdersVo(Main.loginMember.getMemberNo(), cartList.get(0).getCartNo(), totalPrice, cartList.get(0).getMenuName(), totalQuantity);
 							pay(newOrder, money); 
 							break;
 						case"n": System.out.println("뒤로 이동합니다"); return;
@@ -218,7 +217,7 @@ public class OrderController {
 			System.out.print("결제 비밀번호를 입력하세요: ");
 			String amountPwd = Main.SC.nextLine();
 			
-			String findAmountPwd = orderService.getAmountPwd(TestMain.memberNo);
+			String findAmountPwd = orderService.getAmountPwd(Main.loginMember.getMemberNo());
 			OrdersVo recentOrder = null;
 			if(amountPwd.equals(findAmountPwd)) {
 				recentOrder = orderService.pay(newOrder, money);				
@@ -235,7 +234,6 @@ public class OrderController {
 			printRecentOrder(recentOrder);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
-			e.printStackTrace();
 		}
 	}
 	

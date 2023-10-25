@@ -305,7 +305,7 @@ public class StoreDao {
 		JDBCTemplate.close(rs);
 		
 		
-		return null;
+		return list;
 	}
 	
 	
