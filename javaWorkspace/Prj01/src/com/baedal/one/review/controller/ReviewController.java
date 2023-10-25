@@ -313,6 +313,7 @@ public class ReviewController {
 			// 데이터 입력받기
 			System.out.print("\n수정할 리뷰의 번호를 입력하세요: ");
 			int num = Main.SC.nextInt();
+			Main.SC.nextLine();
 			System.out.print("\n\n수정할 내용을 입력하세요: ");
 			Main.SC.nextLine();
 			String content = Main.SC.nextLine();
@@ -363,6 +364,7 @@ public class ReviewController {
 			// 데이터 입력받기
 			System.out.print("\n삭제할 리뷰에 번호를 입력해주세요: ");
 			int num = Main.SC.nextInt();
+			Main.SC.nextLine();
 
 			// vo 객체에 입력받은 값 입력
 			ReviewVo vo = new ReviewVo();
