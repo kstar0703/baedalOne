@@ -26,6 +26,7 @@ public class Main {
 			System.out.println("1.MEMBER");
 			System.out.println("2.OWNER");
 			System.out.println("9.프로그램 종료");
+			System.out.print("번호를 선택하세요:");
 			
 			//원하는 유형 선택
 			String num = Main.SC.nextLine();

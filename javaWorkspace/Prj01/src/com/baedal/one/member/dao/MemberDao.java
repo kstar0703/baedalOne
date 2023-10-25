@@ -96,5 +96,20 @@ public class MemberDao {
 		return result;
 		
 	}
+
+	public int changeNickName(Connection conn, String newNick, MemberVo vo) throws Exception {
+		//SQL
+		String sql = "UPDATE MEMBER SET NICKNAME = ?, UPDATE_DATE = SYSDATE  WHERE MEMBER_NO = ? AND NICKNAME = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, newNick);
+		pstmt.setString(2, vo.getMemberNo());
+		pstmt.setString(3, vo.getNickName());
+		int result = pstmt.executeUpdate();
+		
+		//rs
+		JDBCTemplate.close(pstmt);
+		
+		return result;
+	}
 	
 }
