@@ -67,7 +67,11 @@ public class StoreController {
 	
 	public void selectMenuAfterSelectStore(StoreVo vo) {
 		SalesController salesController = new SalesController(vo.getStoreNO());
+		
 		while(true) {
+			if(storeVo ==null) {
+				break;
+			}
 			//
 			System.out.println("=====" +vo.getStoreName() + "관리 =====");
 			System.out.println("1. 매장 정보 조회");
@@ -90,7 +94,7 @@ public class StoreController {
 			case "4" : ownerOdersController.showOders(vo.getStoreNO()); break; // 범렬님
 			case "5" : salesController.showMonthSales(vo.getStoreNO()); break; // 범렬님
 			case "6" : reviewController.selectReply(reviewController.storeReview(vo.getStoreNO()));  break;
-			case "7" : shutDownStore(vo); // 폐업시 이전 메소드 호출하게
+			case "7" : shutDownStore(vo); return;
 			case "9" : return; 
 			case "0" : System.exit(0); break;
 			default : System.out.println("다시 입력 하세요.");
@@ -181,6 +185,7 @@ public class StoreController {
 			throw new Exception();
 		}
 		System.out.println("매장 폐업 성공");
+		storeVo =null;
 		
 		// 강제로 이전 화면 호출
 		selectMenuBeforeSelectStore();
@@ -241,7 +246,7 @@ public class StoreController {
 				throw new Exception(); 
 			}
 			System.out.println("매장 등록 성공!!");
-			//성공시 이전 화면 강제 호출
+			//성공시 이전 화면 강제 호출 ### 수정
 			selectMenuBeforeSelectStore();
 			
 		}catch (Exception e) {
