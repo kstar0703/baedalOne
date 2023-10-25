@@ -28,7 +28,7 @@ public class MemberController {
 	public void selectMember() {
 		
 		String num;
-		do {
+		while(true) {
 			System.out.println("1.회원가입");
 			System.out.println("2.로그인");
 			System.out.println("9.뒤로 가기");
@@ -45,7 +45,7 @@ public class MemberController {
 			default : System.out.println("그런 매뉴 없음");
 			}
 			
-		}while(num.equals(9));
+		}
 		
 	}//selectMember
 
@@ -64,7 +64,7 @@ public class MemberController {
 			String nickName = Main.SC.nextLine();
 			System.out.println("회원주소:");
 			String address = Main.SC.nextLine();
-			System.out.println("전화번호(010-XXXX-XXXX):");
+			System.out.println("전화번호(010-XXXX-XXXX)를 형식에 맞추어 입력해주세요:");
 			String phone = Main.SC.nextLine();
 			System.out.println("결제 비밀번호(6자리):");
 			String amountPwd = Main.SC.nextLine();
@@ -124,7 +124,7 @@ public class MemberController {
 				System.out.println("로그인 성공");
 				
 				String num;
-				do {
+				while(true) {
 					System.out.println("1.회원탈퇴");
 					System.out.println("2.로그아웃");
 					System.out.println("3.회원정보 수정하기");
@@ -141,21 +141,20 @@ public class MemberController {
 					InquiryOrderController ioc = new InquiryOrderController();
 					num = Main.SC.nextLine();
 					switch(num) {
-					case "1" : quit();break;
-					case "2" : logout();break;
+					case "1" : quit();return;
+					case "2" : logout();return;
 					case "3" : changeMemberInfo();break;
 					case "4" : pcm.selectPayMenu(dbVo.getMemberNo());break;
 					case "5" : rc.userReview(dbVo.getMemberNo());break;
 					case "6" : ioc.showOder(dbVo.getMemberNo());;break;
 					case "7" : sc.showStoreForMemberManager();break;
 					case "8" : oc.printMyCartList(); break;
-					
 					case "9" : return;
 
 					default : System.out.println("그런 매뉴 없음");
 					}
 					
-				}while(!num.equals("9") || !num.equals("1") || !num.equals("2"));
+				}
 					
 		}catch(Exception e) {
 			System.out.println("로그인 실패");
@@ -233,16 +232,15 @@ public class MemberController {
 			System.out.println("비밀번호 변경하기");
 			
 			//데이터
-			System.out.println("신규 비번");
-			String newPwd = Main.SC.nextLine();
 			System.out.println("기존 비번:");
+			
 			String oldPwd = Main.SC.nextLine();
-			
-			
+			System.out.println("신규 비번:");
+			String newPwd = Main.SC.nextLine();
 			
 			MemberVo vo = new MemberVo();
 			vo.setPwd(oldPwd);
-//			vo.setMemberNo(dbVo.getMemberNo());
+			vo = Main.loginMember ;
 			
 			//서비스
 			int result = ms.changePwd(vo,newPwd);
@@ -251,7 +249,7 @@ public class MemberController {
 			if(result != 1) {
 				throw new Exception();
 			}
-			System.out.println("비밀 번호 변경 성공!");
+			System.out.println("비밀번호 변경 성공!");
 			
 		}catch(Exception e) {
 			System.out.println("비밀번호 변경 실패");
