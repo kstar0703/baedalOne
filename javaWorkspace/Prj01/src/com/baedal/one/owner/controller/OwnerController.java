@@ -38,7 +38,10 @@ public class OwnerController {
 		
 		switch (beforeLoginChooseNum) {
 		case "1" : join(); break;
-		case "2" : login(); break;
+		case "2" : login(); if(Main.loginOwner !=null) {
+			afterLoginselecMenu();
+		}
+		break;
 		case "9" :  return;
 		case "0" : System.exit(0); break; 
 		default : System.out.println("잘못누르셨습니다 다시 입력하세요"); break; 
@@ -51,6 +54,7 @@ public class OwnerController {
 	 */
 	public void afterLoginselecMenu() { 
 		while(true) {
+			
 			
 		System.out.println("=====메뉴를 선택하세요=====");	
 			
@@ -69,8 +73,8 @@ public class OwnerController {
 		case "1" : storeController.selectMenuBeforeSelectStore(); break;
 		case "2" : showStoreInfo(); break;
 		case "3" : changePwd(); break;
-		case "4" : logout(); break;
-		case "5" : quit(); break;
+		case "4" : logout(); return; 
+		case "5" : quit(); return; 
 		case "9" : Main.loginOwner = null; return; 
 		case "0" : System.exit(0); break;
 		}
@@ -126,14 +130,6 @@ public class OwnerController {
 			
 			System.out.println("=====로그인=====");
 			
-			/**
-			 * 이부분 수정 해야함 (테스트 코드 사용)
-			 * 
-			 * if(Main.LoginOwner !=null){
-			 * System.out.println("=====이미 접속중 입니다======");
-			 * return;
-			 * }
-			 */
 			if(Main.loginOwner !=null) {
 				throw new Exception("=====이미 접속중 입니다=====");
 				
@@ -152,15 +148,7 @@ public class OwnerController {
 		
 		// 서비스 호출
 		OwnerVo ownerLoginInfo = ownerService.login(vo);
-		
 		Main.loginOwner = ownerLoginInfo;
-		/**
-		 * 
-		 *  
-		 *  Main.LoginOwner = ownerLoginInfo; ---> 요걸로 변경 해야함
-		 *  테스트 코드 사용
-		 *
-		 */
 		
 		//결과
 		if(ownerLoginInfo==null) {
@@ -168,16 +156,13 @@ public class OwnerController {
 		}
 		System.out.println("로그인 성공!");
 		
-		afterLoginselecMenu();
-		
 		
 		}catch (Exception e) {
 			System.out.println("로그인 실패");
 			e.printStackTrace();
 		}
-	
-		
 	}
+	
 	
 	/**
 	 * 비밀번호 변경
@@ -187,11 +172,9 @@ public class OwnerController {
 		
 		try {
 		// 검사
-		// *OwnerTestMain --> Main.loginOwner 변경
 		if(Main.loginOwner ==null) {
 			throw new Exception("로그인 하고 회원변경 시도하세요");
 		}
-		// *OwnerTestMain --> Main.loginOwner 변경
 			
 		/*
 		 *  시도횟수 
@@ -260,7 +243,6 @@ public class OwnerController {
 			System.out.println("===== 유저 정보 =====");
 			
 			try {
-				// #Main.LoginOwner --> 변경
 				if(Main.loginOwner == null) {
 					throw new Exception();
 				}
@@ -300,9 +282,6 @@ public class OwnerController {
 			Main.loginOwner = null;
 			System.out.println("로그아웃 성공!");
 			
-			//# 오류 예상 코드긴 한데 일단 실험해보자
-			beforeLoginselectMenu();
-			
 			}catch (Exception e) {
 				System.out.println("로그아웃 실패;");
 			}
@@ -314,7 +293,6 @@ public class OwnerController {
 		 */
 		public void quit() {
 			try {
-				// # Main.loginOwner --> Main.LoginOwner 변수 변경
 				if(Main.loginOwner ==null) {
 					System.out.println("로그인 상태가 아닙니다");
 				}
@@ -337,23 +315,12 @@ public class OwnerController {
 				
 				System.out.println("회원탈퇴 성공ㅠ");
 				Main.loginOwner = null;
-				beforeLoginselectMenu();
-				
 				
 			} catch (Exception e) {
-				System.out.println("회원탈퇴 실패");
-				
+				System.out.println("회원탈퇴 실패");			
 				e.printStackTrace();
-				
-			}		
+				}		
 		}
-		
-	
-		
-		
-		
-		
-	
 }
 	
 	
