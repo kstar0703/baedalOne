@@ -45,7 +45,7 @@ public class OwnerController {
 		break;
 		case "9" :  return;
 		case "0" : System.exit(0); break; 
-		default : System.out.println("잘못누르셨습니다 다시 입력하세요"); break; 
+		default : System.out.println("\u001B[31m잘못누르셨습니다 다시 입력하세요\u001B[0m"); break; 
 		}
 			}	
 		}
@@ -55,9 +55,11 @@ public class OwnerController {
 	 */
 	public void afterLoginselecMenu() { 
 		while(true) {
-			
-			
-		System.out.println("=====메뉴를 선택하세요=====");	
+			if (Main.loginOwner ==null) {
+				return;	
+			}
+	
+		System.out.println("------------ 메뉴를 선택하세요 ------------");	
 			
 		System.out.println("1. 매장 관리 및 확인 ");
 		System.out.println("2. 유저정보 확인");
@@ -67,6 +69,7 @@ public class OwnerController {
 		System.out.println("9. 뒤로가기");
 		System.out.println("0. 종료");
 		
+		System.out.println("--------------------------------------");
 		// 로그인 이후
 		System.out.print("\u001B[36m번호를 선택하세요 : \u001B[0m");
 		String afterLoginchooseNum = Main.SC.nextLine();
@@ -79,6 +82,7 @@ public class OwnerController {
 		case "5" : quit(); return; 
 		case "9" : Main.loginOwner = null; return; 
 		case "0" : System.exit(0); break;
+		default : System.out.println("\u001B[31m잘못누르셨습니다 다시 입력하세요\u001B[0m"); break;
 		}
 		}
 	}
@@ -114,11 +118,13 @@ public class OwnerController {
 		//결과 처리
 		if(result !=1) {
 			throw new Exception();
-		} System.out.println("회원가입 성공");
+		}
+		System.out.println();
+		System.out.println("회원가입 성공!!");
 		System.out.println("--------------------------------------");
 	} catch (Exception e) {
-		System.out.println("회원가입 실패 ...");
-		e.printStackTrace();
+		System.out.println();
+		System.out.println("\u001B[31m 회원가입 실패  \u001B[0m");
 	}
 		
 	}
@@ -137,12 +143,11 @@ public class OwnerController {
 				throw new Exception("-------- 이미 접속중 입니다 --------");
 				
 			}
-			
 		// 데이터
-		System.out.println();
-		System.out.print("아이디 : ");
+		
+		System.out.print("\u001B[36m아이디 : \u001B[0m");
 		String id = Main.SC.nextLine();
-		System.out.print("패스워드 : ");
+		System.out.print("\u001B[36m패스워드 : \u001B[0m");
 		String pwd = Main.SC.nextLine();
 		
 		OwnerVo vo = new OwnerVo();
@@ -164,7 +169,8 @@ public class OwnerController {
 		
 		
 		}catch (Exception e) {
-			System.out.println("로그인 실패");
+			System.out.println();
+			System.out.println("\u001B[31m로그인 실패\u001B[0m");
 		}
 	}
 	
@@ -198,22 +204,22 @@ public class OwnerController {
 				throw new Exception("비밀번호가 3회 틀려 로그아웃 됩니다");
 			}
 			
-			System.out.print("기존 비밀번호를 입력하세요 : ");
+			System.out.print("\u001B[36m기존 비밀번호를 입력하세요 : \u001B[0m");
 			String originalPwd = Main.SC.nextLine();
 			if(originalPwd.equals(Main.loginOwner.getOwnerPwd()))  {
 				break;
 			}else {
-				System.out.println("기존 비밀번호와 다릅니다.");
+				System.out.println("\u001B[31m기존 비밀번호와 다릅니다\u001B[0m");
 				tryLoginCnt++;
 			}
 		}
 			String changPwd ="";
 			//데이터
 			while(true) {
-			System.out.print("변경 할 비밀번호를 입력하세요 : ");
+				System.out.print("\u001B[36m변경 할 비밀번호를 입력하세요 : \u001B[0m");
 			changPwd = Main.SC.nextLine();
 			if(changPwd.equals(Main.loginOwner.getOwnerPwd())) {
-				System.out.println("동일한 비밀번호 입니다");
+				System.out.print("\u001B[31m동일한 비밀번호 입니다\u001B[0m");
 				System.out.println("다시 입력하세요");
 			}else {
 				break;
@@ -235,7 +241,7 @@ public class OwnerController {
 			
 			
 		} catch (Exception e) {
-			System.out.println("비밀번호 변경 실패...");
+			System.out.print("\u001B[31m비밀번호 변경 실패\u001B[0m");
 			e.printStackTrace();
 		}
 		
@@ -264,7 +270,8 @@ public class OwnerController {
 				storeController.showOwnerStore();
 				
 			} catch (Exception e) {
-					System.out.println("유저 정보 출력 실패");
+				System.out.println();
+				System.out.print("\u001B[31m 유저 정보 출력 실패\u001B[0m");
 					e.printStackTrace();
 			}
 			
@@ -285,10 +292,11 @@ public class OwnerController {
 			
 			// #Main.loginOwner --> Main.LoginOwner 변수 변경
 			Main.loginOwner = null;
+			System.out.println();
 			System.out.println("로그아웃 성공!");
 			
 			}catch (Exception e) {
-				System.out.println("로그아웃 실패;");
+				System.out.print("\u001B[31m로그아웃 실패\u001B[0m");
 			}
 		}
 		
@@ -303,13 +311,20 @@ public class OwnerController {
 					System.out.println("로그인 상태가 아닙니다");
 				}
 				
+				while(true) {
+				
 				// 비밀번호 입력 및 확인 
-				System.out.print("탈퇴하려면 비밀번호를 입력하세요 : ");
+				System.out.print("\u001B[36m기존 비밀번호 입력하세요 : \u001B[0m");
 				String pwd = Main.SC.nextLine();
 				
 				if(!Main.loginOwner.getOwnerPwd().equals(pwd)) {
-					System.out.println("틀린 비밀번호 입니다");
+					System.out.println("\u001B[31m틀린 비밀번호 입니다\u001B[0m");
+					System.out.println("다시 입력하세요");
+				}else {
+					break;
 				}
+				}
+				
 				
 				//서비스
 				int result = ownerService.quit();
@@ -319,7 +334,7 @@ public class OwnerController {
 					throw new Exception();
 				}
 				
-				System.out.println("회원탈퇴 성공ㅠ");
+				System.out.println("회원탈퇴 성공 ㅠ_ㅠ");
 				Main.loginOwner = null;
 				
 			} catch (Exception e) {

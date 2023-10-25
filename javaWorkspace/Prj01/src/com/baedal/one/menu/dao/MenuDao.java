@@ -111,7 +111,7 @@ public class MenuDao {
 	public List<MenuVo> menuList(String storeNo, Connection conn) throws Exception {
 		
 		//sql
-		String sql = "SELECT MENU_NO, MENU_NAME, PRICE, DELETE_YN, SELL_YN FROM MENU WHERE STORE_NO = ? ORDER BY MENU_NO ASC";
+		String sql = "SELECT MENU_NO, MENU_NAME, PRICE, DELETE_YN, SELL_YN FROM MENU WHERE STORE_NO = ? AND DELETE_YN ='N' ORDER BY MENU_NO ASC";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, storeNo);
 		ResultSet rs = pstmt.executeQuery();

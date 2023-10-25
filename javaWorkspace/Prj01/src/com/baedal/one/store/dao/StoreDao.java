@@ -163,6 +163,11 @@ public class StoreDao {
 		
 		
 		// 이름조건 확인
+		if(changeVo.getStoreName().length()==0 && changeVo.getStorePhone().length() ==0 && changeVo.getStoreADDRESS().length() ==0 
+			&&changeVo.getOpenTime().length() ==0 && changeVo.getCloseTime().length() ==0	) {
+			throw new Exception();
+		}
+		
 		if(changeVo.getStoreName().length()==0) {
 			pstmt.setString(1, vo.getStoreName());
 		}else {

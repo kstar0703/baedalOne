@@ -238,7 +238,9 @@ public class MenuController {
 		try {
 			//데이터
 			System.out.print("매뉴 번호 : ");
-			String menuNo = Main.SC.nextLine();
+	        String input = MenuMain.SC.nextLine();
+	        
+	        String menuNo = voList.get(Integer.parseInt(input)-1).getMenuNo();
 			
 			System.out.println("메뉴를 삭제하시겠습니까? (Y / N) ");
 			answer = MenuMain.SC.nextLine().toLowerCase();
@@ -309,7 +311,9 @@ public class MenuController {
 		try {
 			//데이터
 			System.out.print("매뉴 번호 : ");
-			String menuNo = Main.SC.nextLine();
+	        String input = MenuMain.SC.nextLine();
+	        
+	        String menuNo = voList.get(Integer.parseInt(input)-1).getMenuNo();
 			
 			System.out.println("삭제한 메뉴를 복구하시겠습니까? (Y / N) ");
 			answer = MenuMain.SC.nextLine().toLowerCase();
