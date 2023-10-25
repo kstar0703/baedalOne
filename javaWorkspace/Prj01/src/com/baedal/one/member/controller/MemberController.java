@@ -6,6 +6,7 @@ import com.baedal.one.Main;
 import com.baedal.one.inquiryOrder.controller.InquiryOrderController;
 import com.baedal.one.member.service.MemberService;
 import com.baedal.one.member.vo.MemberVo;
+import com.baedal.one.orders.controller.OrderController;
 import com.baedal.one.pay.controller.PayController;
 import com.baedal.one.review.controller.ReviewController;
 import com.baedal.one.store.controller.StoreController;
@@ -14,11 +15,13 @@ public class MemberController {
 	
 	//멤버변수 == 필드
 	private final MemberService ms;
+	private final OrderController oc;
 	private String getMemberVo;
 	
 	//기본 생성자
 	public MemberController() {
 		ms = new MemberService();
+		oc = new OrderController();
 	}
 
 	//사용자 회원가입/로그인/뒤로 가기 중 선택하기
@@ -129,6 +132,7 @@ public class MemberController {
 					System.out.println("5.리뷰 조회하기");
 					System.out.println("6.주문내역 확인하기");
 					System.out.println("7.원하는 매장 선택");
+					System.out.println("8.장바구니 조회하기");
 					System.out.println("9.뒤로 가기");
 
 					ReviewController rc= new ReviewController();
@@ -144,12 +148,14 @@ public class MemberController {
 					case "5" : rc.userReview(dbVo.getMemberNo());break;
 					case "6" : ioc.showOder(dbVo.getMemberNo());;break;
 					case "7" : sc.showStoreForMemberManager();break;
+					case "8" : oc.printMyCartList(); break;
+					
 					case "9" : return;
 
 					default : System.out.println("그런 매뉴 없음");
 					}
 					
-				}while(num.equals(9));
+				}while(!num.equals("9") || !num.equals("1") || !num.equals("2"));
 					
 		}catch(Exception e) {
 			System.out.println("로그인 실패");

@@ -8,6 +8,7 @@ import com.baedal.one.menu.vo.MenuVo;
 import com.baedal.one.owner.OwnerTestMain;
 import com.baedal.one.ownerfunction.controller.OwnerOdersController;
 import com.baedal.one.ownerfunction.controller.SalesController;
+import com.baedal.one.review.controller.ReviewController;
 import com.baedal.one.store.dto.StoreCategoryDto;
 import com.baedal.one.store.service.StoreService;
 import com.baedal.one.store.vo.StoreVo;
@@ -18,6 +19,7 @@ public class StoreController {
 	private StoreVo storeVo;
 	private OwnerOdersController ownerOdersController;
 	private final CartController cartController;
+	private final ReviewController reviewController;
 	
 	
 	public StoreController() {
@@ -26,6 +28,7 @@ public class StoreController {
 		service = new StoreService();
 		menuController = new MenuController();
 		cartController = new CartController();
+		reviewController = new ReviewController();
 	}
 	
 	/**
@@ -86,7 +89,7 @@ public class StoreController {
 			case "3" : menuController.findPwd(vo.getStoreNO()); break; // 송희님
 			case "4" : ownerOdersController.showOders(vo.getStoreNO()); break; // 범렬님
 			case "5" : salesController.showMonthSales(vo.getStoreNO()); break; // 범렬님
-			case "6" : System.out.println("리뷰 조회 ---> 병욱님"); break;
+			case "6" : reviewController.selectReply(reviewController.storeReview(vo.getStoreNO()));  break;
 			case "7" : shutDownStore(vo); // 폐업시 이전 메소드 호출하게
 			case "9" : return; 
 			case "0" : System.exit(0); break;
@@ -204,7 +207,7 @@ public class StoreController {
 			System.out.println("카테고리를 선택하세요");
 			String categoryNum = selectCategory(showCategory());
 			// 점주번호
-			String ownerNo = OwnerTestMain.LoginOwner.getOwnerNo();
+			String ownerNo = Main.loginOwner.getOwnerNo();
 			
 			System.out.println("#예)02-0000-0101# 12자리");
 			System.out.print("매장 전화번호 : ");
@@ -348,7 +351,7 @@ public class StoreController {
 		try {
 		
 			// 오너 번호변경 OwnerTest.LoginOwner.getOwnerNo -->Main.LoginOwer
-			String loginOwnerNo = OwnerTestMain.LoginOwner.getOwnerNo();
+			String loginOwnerNo = Main.loginOwner.getOwnerNo();
 			
 			// service 호출
 			 storeList = service.showOwnerStore(loginOwnerNo);
@@ -499,7 +502,7 @@ public class StoreController {
 				printStoreDetailInfo(selectStoreVo);
 				break; // <-- 극혐코드
 			case "9":
-				System.out.println("이전 메소드 호출"); // #
+				return;
 			case "0":
 				System.exit(0);
 			default:

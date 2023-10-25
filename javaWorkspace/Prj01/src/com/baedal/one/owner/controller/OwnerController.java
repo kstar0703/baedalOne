@@ -71,7 +71,7 @@ public class OwnerController {
 		case "3" : changePwd(); break;
 		case "4" : logout(); break;
 		case "5" : quit(); break;
-		case "9" : OwnerTestMain.LoginOwner = null; return; 
+		case "9" : Main.loginOwner = null; return; 
 		case "0" : System.exit(0); break;
 		}
 		}
@@ -134,7 +134,7 @@ public class OwnerController {
 			 * return;
 			 * }
 			 */
-			if(OwnerTestMain.LoginOwner !=null) {
+			if(Main.loginOwner !=null) {
 				throw new Exception("=====이미 접속중 입니다=====");
 				
 			}
@@ -153,7 +153,7 @@ public class OwnerController {
 		// 서비스 호출
 		OwnerVo ownerLoginInfo = ownerService.login(vo);
 		
-		OwnerTestMain.LoginOwner = ownerLoginInfo;
+		Main.loginOwner = ownerLoginInfo;
 		/**
 		 * 
 		 *  
@@ -188,7 +188,7 @@ public class OwnerController {
 		try {
 		// 검사
 		// *OwnerTestMain --> Main.loginOwner 변경
-		if(OwnerTestMain.LoginOwner ==null) {
+		if(Main.loginOwner ==null) {
 			throw new Exception("로그인 하고 회원변경 시도하세요");
 		}
 		// *OwnerTestMain --> Main.loginOwner 변경
@@ -206,13 +206,13 @@ public class OwnerController {
 			
 			if(tryLoginCnt ==3) {
 				// *OwnerTestMain --> Main.loginOwner 변경
-				OwnerTestMain.LoginOwner = null;
+				Main.loginOwner = null;
 				throw new Exception("비밀번호가 3회 틀려 로그아웃 됩니다");
 			}
 			
 			System.out.print("기존 비밀번호를 입력하세요 : ");
 			String originalPwd = Main.SC.nextLine();
-			if(originalPwd.equals(OwnerTestMain.LoginOwner.getOwnerPwd()))  {
+			if(originalPwd.equals(Main.loginOwner.getOwnerPwd()))  {
 				break;
 			}else {
 				System.out.println("기존 비밀번호와 다릅니다.");
@@ -224,7 +224,7 @@ public class OwnerController {
 			while(true) {
 			System.out.print("변경 할 비밀번호를 입력하세요 ");
 			changPwd = Main.SC.nextLine();
-			if(changPwd.equals(OwnerTestMain.LoginOwner.getOwnerPwd())) {
+			if(changPwd.equals(Main.loginOwner.getOwnerPwd())) {
 				System.out.println("동일한 비밀번호 입니다");
 				System.out.println("다시 입력하세요");
 			}else {
@@ -243,7 +243,7 @@ public class OwnerController {
 			
 			System.out.println("비밀번호 변경 성공!");
 			
-			OwnerTestMain.LoginOwner.setOwnerPwd(changPwd);
+			Main.loginOwner.setOwnerPwd(changPwd);
 			
 			
 		} catch (Exception e) {
@@ -261,11 +261,11 @@ public class OwnerController {
 			
 			try {
 				// #Main.LoginOwner --> 변경
-				if(OwnerTestMain.LoginOwner == null) {
+				if(Main.loginOwner == null) {
 					throw new Exception();
 				}
 				
-				String ownerNo = OwnerTestMain.LoginOwner.getOwnerNo();
+				String ownerNo = Main.loginOwner.getOwnerNo();
 				
 				OwnerVo vo = ownerService.showStoreInfo(ownerNo);
 				
@@ -291,13 +291,13 @@ public class OwnerController {
 			try {
 				
 			
-			// # OwnerTestMain.LoginOwner --> Main.LoginOwner 변수 변경
-			if(OwnerTestMain.LoginOwner ==null) {
+			// # Main.loginOwner --> Main.LoginOwner 변수 변경
+			if(Main.loginOwner ==null) {
 				throw new Exception("로그인 상태가 아닙니다.");
 			}
 			
-			// #OwnerTestMain.LoginOwner --> Main.LoginOwner 변수 변경
-			OwnerTestMain.LoginOwner = null;
+			// #Main.loginOwner --> Main.LoginOwner 변수 변경
+			Main.loginOwner = null;
 			System.out.println("로그아웃 성공!");
 			
 			//# 오류 예상 코드긴 한데 일단 실험해보자
@@ -314,8 +314,8 @@ public class OwnerController {
 		 */
 		public void quit() {
 			try {
-				// # OwnerTestMain.LoginOwner --> Main.LoginOwner 변수 변경
-				if(OwnerTestMain.LoginOwner ==null) {
+				// # Main.loginOwner --> Main.LoginOwner 변수 변경
+				if(Main.loginOwner ==null) {
 					System.out.println("로그인 상태가 아닙니다");
 				}
 				
@@ -323,7 +323,7 @@ public class OwnerController {
 				System.out.print("탈퇴하려면 비밀번호를 입력하세요 : ");
 				String pwd = Main.SC.nextLine();
 				
-				if(!OwnerTestMain.LoginOwner.getOwnerPwd().equals(pwd)) {
+				if(!Main.loginOwner.getOwnerPwd().equals(pwd)) {
 					System.out.println("틀린 비밀번호 입니다");
 				}
 				
@@ -336,7 +336,7 @@ public class OwnerController {
 				}
 				
 				System.out.println("회원탈퇴 성공ㅠ");
-				OwnerTestMain.LoginOwner = null;
+				Main.loginOwner = null;
 				beforeLoginselectMenu();
 				
 				
