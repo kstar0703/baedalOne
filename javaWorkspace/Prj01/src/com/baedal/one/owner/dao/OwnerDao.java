@@ -34,7 +34,7 @@ public class OwnerDao {
 		
 	
 	//sql
-	String sql = "SELECT OWNER_NO,OWNER_ID,OWNER_PWD,TO_CHAR(ENROLL_DATE,'YYYY-MM-DD') FROM OWNER WHERE OWNER_ID =? AND OWNER_PWD =? AND QUIT_YN = 'N'";
+	String sql = "SELECT OWNER_NO,OWNER_ID,OWNER_PWD,TO_CHAR(ENROLL_DATE,'YYYY-MM-DD') AS ENROLL_DATE,UPDATE_DATE,QUIT_YN FROM OWNER WHERE OWNER_ID =? AND OWNER_PWD =? AND QUIT_YN = 'N'";
 	PreparedStatement pstmt = conn.prepareStatement(sql);
 	pstmt.setString(1, vo.getOwnerId());
 	pstmt.setString(2, vo.getOwnerPwd());
@@ -111,7 +111,7 @@ public class OwnerDao {
 	public OwnerVo showStoreInfo(Connection conn, String ownerNo) throws Exception {
 		
 		//sql
-		String sql = "SELECT OWNER_NO,OWNER_ID,OWNER_PWD,TO_CHAR(ENROLL_DATE,'YYYY-DD-MM') AS ENROLL_DATE ,UPDATE_DATE,QUIT_YN FROM OWNER WHERE OWNER_NO =?";
+		String sql = "SELECT OWNER_NO,OWNER_ID,OWNER_PWD,TO_CHAR(ENROLL_DATE,'YYYY-MM-DD') AS ENROLL_DATE ,UPDATE_DATE,QUIT_YN FROM OWNER WHERE OWNER_NO =?";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1,ownerNo);
 	
