@@ -55,7 +55,7 @@ public class OrderController {
 				System.out.println("\u001B[36m"+"총 가격 : " + total + "원"+"\u001B[0m");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println("장바구니 리스트 출력 실패");
 		}
 	}
 	

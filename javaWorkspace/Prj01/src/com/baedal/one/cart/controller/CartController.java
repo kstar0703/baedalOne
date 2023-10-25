@@ -140,6 +140,7 @@ public class CartController {
 			else 
 				throw new Exception();
 		} catch (Exception e) {
+			System.err.println(e.getMessage());
 			System.err.println("장바구니 담기 실패");
 		} 
 	}
