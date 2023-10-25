@@ -109,7 +109,7 @@ public class OrderDao {
 	 * @throws Exception
 	 */
 	public PayVo getRecentOrderByUserNo(String memberNo, Connection conn) throws Exception {
-		query = "SELECT O.USER_NO , S.STORE_NAME , O.TOTAL_PRICE , TO_CHAR(O.ORDER_DATE, 'YYYY-MM-DD HH24:MM') ORDER_DATE FROM ORDERS O INNER JOIN CART C ON O.CART_NO = C.CART_NO INNER JOIN STORE S ON C.STORE_NO = S.STORE_NO WHERE O.USER_NO = ? ORDER BY O.ORDER_DATE DESC FETCH FIRST 1 ROWS ONLY";
+		query = "SELECT O.USER_NO , S.STORE_NAME , O.TOTAL_PRICE , TO_CHAR(O.ORDER_DATE, 'YYYY-MM-DD HH24:MI') ORDER_DATE FROM ORDERS O INNER JOIN CART C ON O.CART_NO = C.CART_NO INNER JOIN STORE S ON C.STORE_NO = S.STORE_NO WHERE O.USER_NO = ? ORDER BY O.ORDER_DATE DESC";
 		
 		PreparedStatement pstmt = conn.prepareStatement(query);
 		pstmt.setString(1,memberNo);

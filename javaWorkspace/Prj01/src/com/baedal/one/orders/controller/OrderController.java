@@ -118,7 +118,6 @@ public class OrderController {
 			else throw new Exception();
 		} catch (Exception e) {
 			System.err.println("상품 삭제 실패");
-			e.printStackTrace();
 		}
 
 	}
@@ -135,8 +134,9 @@ public class OrderController {
 				num = Main.SC.nextLine();			
 				if(Integer.parseInt(num) <= 0)  throw new Exception("1 이상의 수만 입력하세요.");
 				
-				System.out.print("수정할 상품의 수량을 입력하세요: ");
+				System.out.print("메뉴 수량을 입력하세요(뒤로 가려면 x키를 누르세요): ");
 				quantity = Main.SC.nextLine();
+				if(quantity.equals("x")) return;
 				if(Integer.parseInt(quantity) > 0) break;
 				else throw new Exception("1 이상의 수만 입력하세요.");
 			} catch (Exception e) {
