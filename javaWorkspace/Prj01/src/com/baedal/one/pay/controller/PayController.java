@@ -25,7 +25,7 @@ public class PayController {
 		while (true) {
 
 			// 페이 페이지 출력
-			System.out.println("───────내 돈 관리────────");
+			System.out.println("──────────────────내 돈 관리───────────────────");
 			System.out.println("1. 페이 충전하기");
 			System.out.println("2. 페이 출금 내역 확인");
 			System.out.println("3. 뒤로가기");
@@ -73,7 +73,7 @@ public class PayController {
 	private void selectChargePay(String userNo) {
 		while (true) {
 
-			System.out.println("------페이 충전 여부-------");
+			System.out.println("─────────────────페이 충전─────────────────────");
 
 			// 현재 잔액 출력
 			findBalance(userNo);
@@ -86,10 +86,10 @@ public class PayController {
 			switch (chargeYn) {
 			case "1":
 				chargePay(userNo);
-				break;
+				return;
 			case "2":
-				selectPayMenu(userNo);
-				break;
+
+				return;
 			}
 
 		}
@@ -102,6 +102,8 @@ public class PayController {
 			System.out.println();
 			int nowMoney = findBalance(userNo);// 현재 금액 보여주고 nowMoney에 현재 금액 저장
 
+			System.out.println("─────────────────충전하기──────────────────────");
+		
 			// 충전 금액 입력 받기
 			System.out.println("충전 할 금액을 입력하세요 : ");
 			String chargeAmount = sc.nextLine();
@@ -148,7 +150,7 @@ public class PayController {
 	// 입출금 내역
 	private void DepositWithdrawalDetails(String userNo) {
 		try {
-			System.out.println("-----입출금 내역확인-------");
+			System.out.println("─────────────────입출금 내역확인─────────────────");
 
 			// 데이터
 			List<PayVo> voList = service.payList(userNo);

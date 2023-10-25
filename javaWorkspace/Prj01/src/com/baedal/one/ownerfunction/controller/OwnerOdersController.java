@@ -21,34 +21,33 @@ public class OwnerOdersController {
 		detailDto = new CartListDetailDTO();
 		service = new OwnerOdersService();
 	}
-	
+
 	// 매장 이름 찾기
-		public String findStoreName(String storeNo) {
-			// 매장 이름을 넣을 변수
-			String storeName = null;
-			try {
-				// 서비스
-				storeName = service.findStoreName(storeNo);
+	public String findStoreName(String storeNo) {
+		// 매장 이름을 넣을 변수
+		String storeName = null;
+		try {
+			// 서비스
+			storeName = service.findStoreName(storeNo);
 
-				// 매장 이름을 못 불러오면
-				if (storeName == null) {
-					throw new Exception();
-				}
-			} catch (Exception e) {
-				System.out.println("매장 이름 가져오기 실패");
+			// 매장 이름을 못 불러오면
+			if (storeName == null) {
+				throw new Exception();
 			}
-
-			return storeName;
+		} catch (Exception e) {
+			System.out.println("매장 이름 가져오기 실패");
 		}
-		
+		return storeName;
+	}
+
 	// 간편 주문 내역
 	public void showOders(String storeNo) {
 		try {
-			while(true) {
-				
+			while (true) {
+
 				// 상세 내역 객체에 매장 이름 저장
 				detailDto.setStoreName(findStoreName(storeNo));
-				System.out.println("======" + detailDto.getStoreName() + "<간편 주문 목록 조회>======");
+				System.out.println("──────────────────" + detailDto.getStoreName() + "<간편 주문 목록 조회>──────────────────");
 
 				// 간편내역을 담을 리스트를 만들어서 튜플을 담음
 				List<OwnerOdersVo> voList = service.OwnerOderList(storeNo);
@@ -64,7 +63,6 @@ public class OwnerOdersController {
 
 					// 장바구니 번호가 가장 작은것이 1번 키값으로 들어가고, 그 다음 작은 수가 2번 키값에 들어감 << 반복
 					map.put(i, vo.getCartNo());
-					
 
 					System.out.print(i + ". ");
 //					System.out.print(vo.getCartNo() + " ");
@@ -90,18 +88,17 @@ public class OwnerOdersController {
 				}
 
 				// 간편보기 내역중 상세히 확인하고픈 주문 입력
-				//문자를 입력 할 경우 메소스 종료//예외처리 함
+				// 문자를 입력 할 경우 메소스 종료//예외처리 함
 				System.out.print("상세목록을 보고싶은 내역을 입력하세요(이전 화면으로 돌아가려면 'x'입력) : ");
-				int input = Main.SC.nextInt();
-				Main.SC.nextLine();
-				
-				
+				String stringInput = Main.SC.nextLine();
+				int intInput = Integer.parseInt(stringInput);
+
 				// 확인하고픈 주문의 '장바구니번호'를 구함
-				String nowCartNo = map.get(input);
+				String nowCartNo = map.get(intInput);
 
 				// 상세내역 객체에 일자, 총 가격 저장
-				detailDto.setOrderDate(voList.get(input - 1).getTotalPrice());
-				detailDto.setTotalPrice(voList.get(input - 1).getOderDate());
+				detailDto.setOrderDate(voList.get(intInput - 1).getTotalPrice());
+				detailDto.setTotalPrice(voList.get(intInput - 1).getOderDate());
 
 				// 장바구니 번호와 상세 내역 객체를 넘겨서 메소드 실행
 				oderDetails(nowCartNo, detailDto);
@@ -110,27 +107,22 @@ public class OwnerOdersController {
 			// 간편내역조회를 할때 주문 내역이 없을시
 			System.out.println("주문된 내역이 없습니다. ");
 			return;
-		} catch (InputMismatchException e) {
-			//문자를 입력 할 경우 메소스 종료
+		} catch (NumberFormatException e) {
+			return;
+		} catch (IndexOutOfBoundsException e) {
+			// 다른 수를 입력해도 종료
 			return;
 		} catch (Exception e) {
 			// DB문제가 있을때
 			e.printStackTrace();
 			return;
 		}
-
 	}
-
-	
 
 	// 상세내역 보기
 	private void oderDetails(String nowCartNo, CartListDetailDTO dto) {
 		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println("----------" + dto.getStoreName() + "<주문 상세 내역>-------------");
+		System.out.println("──────────────────" + dto.getStoreName() + "<주문 상세 내역>──────────────────────");
 		try {
 			// 메뉴이름, 가격, 개수를 담은 객체를 리스트에 저장
 			List<CartListDetailDTO> dtoList = service.oderDetails(nowCartNo);
@@ -150,8 +142,8 @@ public class OwnerOdersController {
 			// 결제일시, 총 결제금액 출력
 			System.out.println("결제 일시 : " + dto.getTotalPrice());
 			System.out.println("총 결제 금액 : " + dto.getOrderDate() + "원");
-			
-			System.out.println("\n");
+
+			System.out.println();
 //			System.out.print("다시 간편내역을 보고싶으시면 '1' 입력,");
 //			System.out.println("점주 기능 목록을 보고싶으시면 '2' 입력 : ");
 //			String input = Main.SC.nextLine();

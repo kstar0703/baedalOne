@@ -23,6 +23,7 @@ public class SalesController {
 			while(true) {
 
 				int monthPrice = 0;
+				System.out.println("──────────────────────────────────────────────────────");
 				System.out.println(storeName + "의 월 매출");
 				
 				//inputYear(년도) 입력
@@ -63,7 +64,7 @@ public class SalesController {
 				// 금액 표시 위한 클래스(1,000,000 식으로 ','를 중간에 넣어준다.)
 				DecimalFormat format = new DecimalFormat("###,###");
 				System.out.println(format.format(monthPrice));
-				System.out.println("=========================================");
+				System.out.println("──────────────────────────────────────────────────────");
 				System.out.print("상세한 매출을 확인하고 싶다면 '1'을 입력,\n돌아가기를 원하면 '2'를 입력하세요 : ");
 				String input = Main.SC.nextLine();
 				switch (input) {
@@ -115,6 +116,7 @@ public class SalesController {
 			}else {
 				Date = inputDate +"-"+Integer.toString(i);
 			}
+			System.out.println("──────────────────────────────────────────────────────");
 			
 			//날짜에 판매매출을 저장하기 위해 반복
 			for (OwnerOdersVo vo : voList) {
@@ -129,11 +131,12 @@ public class SalesController {
 			//일자별로 매출 출력
 			System.out.print(Date + " : ");
 			System.out.println(format.format(dayPrice) + "원 ");	
-			System.out.println();
 		}
-		
+
+		System.out.println("──────────────────────────────────────────────────────");
 		//평균 매출 구하기
 		System.out.println("이달 평균 매출 : " + monthPrice/lastDay +"원");
+		System.out.println("──────────────────────────────────────────────────────");
 		
 //		System.out.print("확인을 완료 하였다면 '1'을 입력해주세요 : ");
 //		String input = Main.SC.nextLine();

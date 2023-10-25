@@ -24,7 +24,7 @@ public class InquiryOrderController {
 	public void showOder(String userNo) {
 		try {
 			while (true) {
-				System.out.println("------간편내역 조회------");
+				System.out.println("──────────────────간편내역 조회──────────────────────────────");
 
 				// 간편내역을 담을 리스트를 만들어서 튜플을 담음
 				List<OwnerOdersVo> voList = service.userOderList(userNo);
@@ -65,35 +65,35 @@ public class InquiryOrderController {
 				}
 
 				// 간편보기 내역중 상세히 확인하고픈 주문 입력
-				System.out.print("상세목록을 보고싶은 내역을 입력하세요(이전 화면으로 돌아가려면 'x'입력) : ");
-				int input = Main.SC.nextInt();
-				Main.SC.nextLine();
+				System.out.println("─────────────────────────────────────────────────────────");
 
-				// 문자를 입력 할 경우 메소스 종료//예외처리 함
+				System.out.print("상세목록을 보고싶은 내역을 입력하세요(이전 화면으로 돌아가려면 'x'입력) : ");
+				String stringInput = Main.SC.nextLine();
+				int intInput = Integer.parseInt(stringInput);
 
 				// 확인하고픈 주문의 '장바구니번호'를 구함
-				String nowCartNo = map.get(input);
-
+				String nowCartNo = map.get(intInput);
 				// 상세 내역 객체에 매장 이름 저장
 //				detailDto.setStoreName(findStoreName(voList.get(input-1).getCartNo()));
 //				System.out.println(detailDto.getStoreName());
 
 				// 상세내역 객체에 일자, 총 가격 저장
-				detailDto.setOrderDate(voList.get(input - 1).getTotalPrice());
-				detailDto.setTotalPrice(voList.get(input - 1).getOderDate());
+				detailDto.setOrderDate(voList.get(intInput - 1).getTotalPrice());
+				detailDto.setTotalPrice(voList.get(intInput - 1).getOderDate());
 
-				String orderNo = voList.get(input-1).getOrderNo();
+				String orderNo = voList.get(intInput-1).getOrderNo();
 				// 장바구니 번호와 상세 내역 객체를 넘겨서 메소드 실행
 				oderDetails(nowCartNo, detailDto,userNo,orderNo);
 
 			}
 		} catch (NullPointerException e) {
 			// 간편내역조회를 할때 주문 내역이 없을시
-			System.out.println("주문된 내역이 없습니다. ");
+			System.out.println("주문한 내역이 없습니다. ");
 			return;
-
-		} catch (InputMismatchException e) {
-			// 문자를 입력 할 경우 메소스 종료
+		} catch (NumberFormatException e) {
+			return;
+		} catch (IndexOutOfBoundsException e) {
+			// 다른 수를 입력해도 종료
 			return;
 		} catch (Exception e) {
 			// DB문제가 있을때
@@ -145,9 +145,7 @@ public class InquiryOrderController {
 
 	// 상세내역 보기
 	private void oderDetails(String nowCartNo, CartListDetailDTO dto, String userNo, String orderNo) {
-		System.out.println();
-		System.out.println();
-		System.out.println("----------" + findStoreName(nowCartNo) + "<주문 상세 내역>-------------");
+		System.out.println("──────────────────" + findStoreName(nowCartNo) + "<주문 상세 내역>───────────────────────");
 		try {
 			// 메뉴이름, 가격, 개수를 담은 객체를 리스트에 저장
 			List<CartListDetailDTO> dtoList = service.oderDetails(nowCartNo);
@@ -168,10 +166,12 @@ public class InquiryOrderController {
 			System.out.println("결제 일시 : " + dto.getTotalPrice());
 			System.out.println("총 결제 금액 : " + dto.getOrderDate() + "원");
 
-			System.out.println("\n");
 
-			System.out.print("1. 리뷰 작성 ");
-			System.out.print("2. 뒤로가기 ");
+			System.out.println("─────────────────────────────────────────────────────────");
+
+			System.out.println("1. 리뷰 작성 ");
+			System.out.println("2. 뒤로가기 ");
+			System.out.print("입력 : ");
 			String input = Main.SC.nextLine();
 			ReviewController reviewController = new ReviewController();
 
