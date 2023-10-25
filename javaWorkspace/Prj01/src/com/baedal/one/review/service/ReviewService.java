@@ -54,84 +54,104 @@ public class ReviewService {
 
 		return reRpVoList;
 	}
-	
+
 	// 유저 모든 리뷰 조회
 	public ArrayList<ReviewReplyVo> userReview(String userNo) throws Exception {
 
-			// conn
-			Connection conn = JDBCTemplate.getConnection();
+		// conn
+		Connection conn = JDBCTemplate.getConnection();
 
-			// dao호출
-			ArrayList<ReviewReplyVo> reRpVoList = dao.userReview(conn,userNo);
+		// dao호출
+		ArrayList<ReviewReplyVo> reRpVoList = dao.userReview(conn, userNo);
 
-			// close
-			JDBCTemplate.close(conn);
+		// close
+		JDBCTemplate.close(conn);
 
-			return reRpVoList;
-		}
+		return reRpVoList;
+	}
 
 	// 리뷰삭제
-	public int deleteReview(ReviewVo vo) throws Exception{
-		
-		//conn
+	public int deleteReview(ReviewVo vo) throws Exception {
+
+		// conn
 		Connection conn = JDBCTemplate.getConnection();
-		
-		//dao
-		int result = dao.deleteReview(vo,conn);
-		
-		//결과처리
-		if(result == 1) {
+
+		// dao
+		int result = dao.deleteReview(vo, conn);
+
+		// 결과처리
+		if (result == 1) {
 			JDBCTemplate.commit(conn);
-		}else {
+		} else {
 			JDBCTemplate.rollback(conn);
 		}
-		
-		//close
+
+		// close
 		JDBCTemplate.close(conn);
-		
-		return result;
-	}
-	
-	// 리뷰 수정 
-	public int updateReview(ReviewVo vo) throws Exception {
-		
-		//conn
-		Connection conn = JDBCTemplate.getConnection();
-		
-		//dao
-		int result = dao.updateReview(vo,conn);
-		
-		if(result == 1) {
-			JDBCTemplate.commit(conn);
-		}else {
-			JDBCTemplate.rollback(conn);
-		}
-		//close
-		JDBCTemplate.close(conn);
-		
+
 		return result;
 	}
 
-	// 답변작성 
-	public int writeReply(ReplyVo vo) throws Exception {
-		
-		// conn생성
+	// 리뷰 수정
+	public int updateReview(ReviewVo vo) throws Exception {
+
+		// conn
 		Connection conn = JDBCTemplate.getConnection();
-		
-		// dao 호출
-		int result = dao.writeReply(vo,conn);
-		
-		// commit / rollback
-		if(result == 1) {
+
+		// dao
+		int result = dao.updateReview(vo, conn);
+
+		if (result == 1) {
 			JDBCTemplate.commit(conn);
-		}else {
+		} else {
 			JDBCTemplate.rollback(conn);
 		}
-		
-		//close
+		// close
 		JDBCTemplate.close(conn);
-		
+
 		return result;
 	}
-	
+
+	// 답변작성
+	public int writeReply(ReplyVo vo) throws Exception {
+
+		// conn생성
+		Connection conn = JDBCTemplate.getConnection();
+
+		// dao 호출
+		int result = dao.writeReply(vo, conn);
+
+		// commit / rollback
+		if (result == 1) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+
+		// close
+		JDBCTemplate.close(conn);
+
+		return result;
+	}
+
+	// 답변수정
+	public int modifyReply(ReplyVo vo) throws Exception {
+
+		// conn
+		Connection conn = JDBCTemplate.getConnection();
+
+		// dao
+		int result = dao.modifyReply(vo, conn);
+
+		if (result == 1) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		// close
+		JDBCTemplate.close(conn);
+
+		return result;
+	}
+
 }

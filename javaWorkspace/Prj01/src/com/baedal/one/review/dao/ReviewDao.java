@@ -176,4 +176,20 @@ public class ReviewDao {
 		return result;
 	}
 
+	
+	// 답변 수정 
+	public int modifyReply(ReplyVo vo, Connection conn) throws Exception {
+		
+		String sql = "UPDATE REPLY SET CONTENT = ? WHERE REVIEW_NO = ?";
+
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, vo.getContent());
+		pstmt.setString(2, vo.getReviewNo());
+		int result = pstmt.executeUpdate();
+
+		JDBCTemplate.close(pstmt);
+		
+		return result;
+	}
+
 }

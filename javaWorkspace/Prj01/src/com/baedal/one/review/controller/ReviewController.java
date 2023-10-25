@@ -371,13 +371,33 @@ public class ReviewController {
 	}
 
 	/**
+	 * 답변 메뉴 선택 
+	 */
+	public void selectReply(Map<Integer, String> reviewNoMap) {
+		
+		System.out.println("\n1. 답변작성");
+		System.out.println("2. 답변수정");
+		System.out.println("3. 뒤로가기");
+		System.out.print("번호를 입력하세요: ");
+		String num = Main.SC.nextLine();
+		
+		switch (num) {
+		case "1" : WriteReply(reviewNoMap); break;
+		case "2" : modifyReply(reviewNoMap); break;
+		case "3" : break;
+		default: System.out.println("다시 입력하세요.");
+		}
+		
+	}
+	
+	/**
 	 * 답변 작성 
 	 * INSERT INTO REPLY (REPLY_NO,REVIEW_NO,CONTENT) VALUES
 	 * (SEQ_REPLY.NEXTVAL,?,?)
 	 * 
 	 * @param reviewNo
 	 */
-	public void WriteReply(Map<Integer, String> reviewNoMap) {
+ 	public void WriteReply(Map<Integer, String> reviewNoMap) {
 
 		if(reviewNoMap == null) {
 			System.out.println("");
@@ -432,6 +452,70 @@ public class ReviewController {
 			System.out.println("\n답변 작성중 디비 연결 실패..");
 		}
 
+	}
+	
+	/**
+	 * 답변 수정
+	 * UPDATE REPLY 
+	 * SET CONTENT = ? 
+	 * WHERE REVIEW_NO = ?
+	 * @param reviewNoMap
+	 */
+	public void modifyReply(Map<Integer, String> reviewNoMap) {
+		
+		if(reviewNoMap == null) {
+			System.out.println("");
+			return;
+		}
+		
+		System.out.println("\n1. 답변수정");
+		System.out.println("2. 뒤로가기");
+		System.out.print("번호를 입력하세요: ");
+		String num = Main.SC.nextLine();
+		
+		switch (num) {
+		case "1":
+			break;
+		case "2":
+			return;
+		default:
+			System.out.println("\n잘못된 입력입니다.");
+			return;
+		}
+		
+		System.out.println("\n수정하실 답변의 번호를 입력하세요: ");
+		int x = Main.SC.nextInt();
+		Main.SC.nextLine();
+		
+		try {
+			// 리뷰번호 vo에 입력
+			ReplyVo vo = new ReplyVo();
+			vo.setReviewNo(reviewNoMap.get(x));
+
+			// 스캐너로 답변내용 입력받기
+			System.out.print("\n수정할 답변 내용을 입력하세요: ");
+			String content = Main.SC.nextLine();
+			
+			// 사장님 답변내용 vo에 입력
+			vo.setContent(content);
+			
+			// 서비스 호출
+			int result = service.modifyReply(vo);
+
+			// 결과집합
+			if (result != 1) {
+				throw new Exception();
+			}
+			System.out.println("\n답변 수정완료!");
+		}catch (java.sql.SQLIntegrityConstraintViolationException e) {			
+			System.err.println("\n이미 작성된 답변입니다.");
+		} catch (java.util.InputMismatchException e) {
+			System.out.println("\n번호를 입력해주세요.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("\n답변 작성중 디비 연결 실패..");
+		}
+		
 	}
 
 }//class
