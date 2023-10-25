@@ -102,8 +102,9 @@ public class CartController {
 			}
 			//같은 매장의 메뉴를 담을 경우 or 새로 담는 경우
 			else if(storeNo.equals(myCart.getStoreNo()) || myCart.getStoreNo().equals("0")) {
-				System.out.print("메뉴 수량을 입력하세요: ");
+				System.out.print("메뉴 수량을 입력하세요(뒤로 가려면 x키를 누르세요): ");
 				quantity = Main.SC.nextLine();
+				if(quantity.equals("x")) return;
 				if(myCart.getStoreNo().equals("0")) {
 					cartService.updateStoreNo(myCart.getCartNo(), storeNo);
 				}
