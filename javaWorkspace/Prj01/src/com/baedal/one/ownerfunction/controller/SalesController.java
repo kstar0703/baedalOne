@@ -19,62 +19,66 @@ public class SalesController {
 
 	public void showMonthSales(String storeNo) {
 		//월의 총 판매 금액을 담을 변수
-		int monthPrice = 0;
-		try {
-			System.out.println(storeName + "의 월 매출");
-			
-			//inputYear(년도) 입력
-			System.out.print("년도 입력 : ");
-			String inputYear = Main.SC.nextLine();
-			
-			//inputYear가 2000~2050의 수가 아닐 경우 재실행
-			if(Integer.parseInt(inputYear)>2050 || Integer.parseInt(inputYear)<2000) {
-				System.out.println("2000년 이상 2050년 이하의 수를 넣어주세요.");
-				showMonthSales(storeNo);
-			}
-			
-			//inputMonth(달) 입력
-			System.out.print("월 입력 : ");
-			String inputMonth = Main.SC.nextLine();
+		try { 
+			while(true) {
 
-			//inputMonth가 1~12의 사이의 수가 아닐시 재실행
-			if(12< Integer.parseInt(inputMonth) || 0 >  Integer.parseInt(inputMonth)) {
-				System.out.println("1이상 12이하의 수를 넣어주세요.");
-				showMonthSales(storeNo);
-			}
-			//판매 금액과 판매 일시를 담을 리스트
-			List<OwnerOdersVo> voList = service.OwnerOderList(storeNo);
-
-			System.out.print(inputYear + "년 "+ inputMonth + "월의 매출 : ");
-			
-			//year와 month를 합쳐서 inputDate로 바꾸기
-			String inputDate = inputYear + "-" + inputMonth;
-			
-			//입력받은 년도의 월에 판매 된 판매금액을 모두 더해서 monthPrice에 저장한다.
-			for (OwnerOdersVo vo : voList) {
-				if (vo.getOderDate().contains(inputDate)) {
-					int totalPrice = Integer.parseInt(vo.getTotalPrice());
-					monthPrice += totalPrice;
+				int monthPrice = 0;
+				System.out.println(storeName + "의 월 매출");
+				
+				//inputYear(년도) 입력
+				System.out.print("년도 입력 : ");
+				String inputYear = Main.SC.nextLine();
+				
+				//inputYear가 2000~2050의 수가 아닐 경우 재실행
+				if(Integer.parseInt(inputYear)>2050 || Integer.parseInt(inputYear)<2000) {
+					System.out.println("2000년 이상 2050년 이하의 수를 넣어주세요.");
+					showMonthSales(storeNo);
 				}
-			}
-			
-			// 금액 표시 위한 클래스(1,000,000 식으로 ','를 중간에 넣어준다.)
-			DecimalFormat format = new DecimalFormat("###,###");
-			System.out.println(format.format(monthPrice));
-			System.out.println("=========================================");
-			System.out.print("상세한 매출을 확인하고 싶다면 '1'을 입력,\n돌아가기를 원하면 '2'를 입력하세요 : ");
-			String input = Main.SC.nextLine();
-			switch (input) {
-			case "1": {
-				showDaySales(storeNo, inputDate, voList, monthPrice);
-			}
-			case "2": {
-				return;
-			}
-			default:
-				System.out.println("잘못 입력하였습니다.");
-			}
+				
+				//inputMonth(달) 입력
+				System.out.print("월 입력 : ");
+				String inputMonth = Main.SC.nextLine();
 
+				//inputMonth가 1~12의 사이의 수가 아닐시 재실행
+				if(12< Integer.parseInt(inputMonth) || 0 >  Integer.parseInt(inputMonth)) {
+					System.out.println("1이상 12이하의 수를 넣어주세요.");
+					showMonthSales(storeNo);
+				}
+				//판매 금액과 판매 일시를 담을 리스트
+				List<OwnerOdersVo> voList = service.OwnerOderList(storeNo);
+
+				System.out.print(inputYear + "년 "+ inputMonth + "월의 매출 : ");
+				
+				//year와 month를 합쳐서 inputDate로 바꾸기
+				String inputDate = inputYear + "-" + inputMonth;
+				
+				//입력받은 년도의 월에 판매 된 판매금액을 모두 더해서 monthPrice에 저장한다.
+				for (OwnerOdersVo vo : voList) {
+					if (vo.getOderDate().contains(inputDate)) {
+						int totalPrice = Integer.parseInt(vo.getTotalPrice());
+						monthPrice += totalPrice;
+					}
+				}
+				
+				// 금액 표시 위한 클래스(1,000,000 식으로 ','를 중간에 넣어준다.)
+				DecimalFormat format = new DecimalFormat("###,###");
+				System.out.println(format.format(monthPrice));
+				System.out.println("=========================================");
+				System.out.print("상세한 매출을 확인하고 싶다면 '1'을 입력,\n돌아가기를 원하면 '2'를 입력하세요 : ");
+				String input = Main.SC.nextLine();
+				switch (input) {
+				case "1": {
+					showDaySales(storeNo, inputDate, voList, monthPrice);
+				}
+				case "2": {
+					return;
+				}
+				default:
+					System.out.println("잘못 입력하였습니다.");
+				}
+
+			
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -131,14 +135,14 @@ public class SalesController {
 		//평균 매출 구하기
 		System.out.println("이달 평균 매출 : " + monthPrice/lastDay +"원");
 		
-		System.out.print("확인을 완료 하였다면 '1'을 입력해주세요 : ");
-		String input = Main.SC.nextLine();
-		
-		if (input.equals("1")) {
-			return;
-		}else {
-			
-		}
+//		System.out.print("확인을 완료 하였다면 '1'을 입력해주세요 : ");
+//		String input = Main.SC.nextLine();
+//		
+//		if (input.equals("1")) {
+//			return;
+//		}else {
+//			
+//		}
 	}
 	
 

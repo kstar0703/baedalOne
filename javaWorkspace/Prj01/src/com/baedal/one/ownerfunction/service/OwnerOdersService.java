@@ -70,4 +70,14 @@ public class OwnerOdersService {
 		return storeName;
 	}
 
+	public String nowStoreNo(String cartNo) throws Exception {
+		// conn
+		Connection conn = JDBCTemplate.getConnection();
+		// DAO
+		String storeNo = dao.nowStoreNo(conn, cartNo);
+		// close
+		JDBCTemplate.close(conn);
+		return storeNo;
+	}
+
 }

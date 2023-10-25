@@ -9,11 +9,12 @@ public class OwnerFunctionTestMain {
 	public static void main(String[] args) {
 
 		
-//		OwnerOdersController ownerOdersController = new OwnerOdersController();
-//		ownerOdersController.showOders(storeNo);
+		OwnerOdersController ownerOdersController = new OwnerOdersController();
+		ownerOdersController.showOders(storeNo);
 		 
 		
+//		
 		SalesController salesController = new SalesController(storeNo);
-		salesController.showMonthSales(storeNo);
+//		salesController.showMonthSales(storeNo);
 	}
 }

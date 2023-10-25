@@ -18,14 +18,14 @@ public class OwnerOdersDao {
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, userNo);
 		ResultSet rs = pstmt.executeQuery();
-		
+
 		List<OwnerOdersVo> voList = new ArrayList<OwnerOdersVo>();
 
 		while (rs.next()) {
 			// 칼럼 정보 저장
 			String orderNO = rs.getString("ORDER_NO");
 			String cartNo = rs.getString("CART_NO");
-			String oderDate = rs.getString("ODER_DATE");
+			String oderDate = rs.getString("ORDER_DATE");
 			String totalPrice = rs.getString("TOTAL_PRICE");
 			String menuName = rs.getString("MENU_NAME");
 			String totalQuantity = rs.getString("TOTAL_QUANTITY");
@@ -46,7 +46,7 @@ public class OwnerOdersDao {
 		JDBCTemplate.close(pstmt);
 		return voList;
 	}
-	
+
 	public List<OwnerOdersVo> OwnerOderList(Connection conn, String storeno) throws Exception {
 		// sql
 		String sql = "SELECT O.* FROM ORDERS O JOIN CART C ON O.CART_NO = C.CART_NO WHERE C.STORE_NO =?";
@@ -137,24 +137,44 @@ public class OwnerOdersDao {
 
 	public String nowStoreName(Connection conn, String cartNo) throws SQLException {
 		// sql
-				String sql = "SELECT S.STORE_NAME FROM STORE S JOIN CART C ON S.STORE_NO = C.STORE_NO WHERE S.STORE_NO=(SELECT C.STORE_NO FROM ORDERS O JOIN CART C ON O.CART_NO = C.CART_NO WHERE O.CART_NO =?)";
-				PreparedStatement pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, cartNo);
-				ResultSet rs = pstmt.executeQuery();
-				String storeName = null;
+		String sql = "SELECT S.STORE_NAME FROM STORE S JOIN CART C ON S.STORE_NO = C.STORE_NO WHERE S.STORE_NO=(SELECT C.STORE_NO FROM ORDERS O JOIN CART C ON O.CART_NO = C.CART_NO WHERE O.CART_NO =?)";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, cartNo);
+		ResultSet rs = pstmt.executeQuery();
+		String storeName = null;
 
-				// 1번째 행 칼럼값 저장
-				if (rs.next()) {
-					storeName = rs.getString("STORE_NAME");
-				} else {
-					System.out.println("DAO 문제");
-				}
-				// close
-				JDBCTemplate.close(rs);
-				JDBCTemplate.close(pstmt);
+		// 1번째 행 칼럼값 저장
+		if (rs.next()) {
+			storeName = rs.getString("STORE_NAME");
+		} else {
+			System.out.println("DAO 문제");
+		}
+		// close
+		JDBCTemplate.close(rs);
+		JDBCTemplate.close(pstmt);
 
-				return storeName;
+		return storeName;
 	}
 
+	public String nowStoreNo(Connection conn, String cartNo) throws SQLException {
+		// sql
+		String sql = "SELECT S.STORE_NO FROM STORE S JOIN CART C ON S.STORE_NO = C.STORE_NO WHERE S.STORE_NO=(SELECT C.STORE_NO FROM ORDERS O JOIN CART C ON O.CART_NO = C.CART_NO WHERE O.CART_NO =?)";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, cartNo);
+		ResultSet rs = pstmt.executeQuery();
+		String storeNo = null;
+
+		// 1번째 행 칼럼값 저장
+		if (rs.next()) {
+			storeNo = rs.getString("STORE_NO");
+		} else {
+			System.out.println("DAO 문제");
+		}
+		// close
+		JDBCTemplate.close(rs);
+		JDBCTemplate.close(pstmt);
+
+		return storeNo;
+	}
 
 }
