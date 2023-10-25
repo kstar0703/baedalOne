@@ -22,12 +22,11 @@ public class InquiryOrderController {
 
 	public void showOder(String userNo) {
 		try {
-			// 상세 내역 객체에 매장 이름 저장
-			detailDto.setStoreName(findStoreName(userNo));
 
 			// 간편내역을 담을 리스트를 만들어서 튜플을 담음
 			List<OwnerOdersVo> voList = service.userOderList(userNo);
 
+			
 			// HashMap<출력될 번호 , 장바구니 번호> map = new HashMap<출력될 번호 , 장바구니 번호>();
 			// 장바구니 번호는 별도로 저장되어 있는 번호기 때문에 그냥 오름차순으로 출력(ex: 2,5,6,7,9)되는 것을 1부터 차례대로 출력 되게
 			// 함(ex:1,2,3,4,5)
@@ -73,6 +72,10 @@ public class InquiryOrderController {
 			// 확인하고픈 주문의 '장바구니번호'를 구함			
 			String nowCartNo = map.get(input);
 
+			// 상세 내역 객체에 매장 이름 저장
+//			detailDto.setStoreName(findStoreName(voList.get(input-1).getCartNo()));
+//			System.out.println(detailDto.getStoreName());
+			
 			// 상세내역 객체에 일자, 총 가격 저장
 			detailDto.setOrderDate(voList.get(input - 1).getTotalPrice());
 			detailDto.setTotalPrice(voList.get(input - 1).getOderDate());
