@@ -282,9 +282,8 @@ public class ReviewController {
 				}
 				x++;
 			}
-			System.out.println(orderNoMap.get(1));
 			System.out.println("----------------------------------------------");
-			System.out.println("1. 리뷰 수정 / 2.  리뷰삭제 / 3. 뒤로가기");
+			System.out.println("1. 리뷰 수정 / 2. 리뷰삭제 / 3. 뒤로가기");
 			System.out.print("번호를 입력하세요: ");
 			String num = Main.SC.nextLine();
 			switch (num) {
@@ -314,8 +313,7 @@ public class ReviewController {
 			System.out.print("\n수정할 리뷰의 번호를 입력하세요: ");
 			int num = Main.SC.nextInt();
 			Main.SC.nextLine();
-			System.out.print("\n\n수정할 내용을 입력하세요: ");
-			Main.SC.nextLine();
+			System.out.print("\n수정할 내용을 입력하세요: ");
 			String content = Main.SC.nextLine();
 
 			// 생성자에서 입력받은 주문번호 변수에 할당
