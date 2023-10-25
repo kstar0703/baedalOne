@@ -7,17 +7,11 @@ import com.baedal.one.pay.service.PayService;
 import com.baedal.one.pay.vo.PayVo;
 
 /**
- * 페이 컨트롤러 
- * -로그인 한 사용자의 잔액 확인 
- * -페이 충전 
- * -입출금 내역 확인
+ * 페이 컨트롤러 -로그인 한 사용자의 잔액 확인 -페이 충전 -입출금 내역 확인
  */
 public class PayController {
 	// 서비스 사용
 	private final PayService service;
-
-	// 임시 사용자 넘버
-	
 
 	// 임시 스캐너
 	Scanner sc = new Scanner(System.in);
@@ -28,26 +22,29 @@ public class PayController {
 
 	// 페이기능에서 사용할 기능 입력
 	public void selectPayMenu(String userNo) {
+		while (true) {
 
-		// 페이 페이지 출력
-		System.out.println("───────내 돈 관리────────");
-		System.out.println("1. 페이 충전하기");
-		System.out.println("2. 페이 출금 내역 확인");
-		System.out.println("3. 뒤로가기");
+			// 페이 페이지 출력
+			System.out.println("───────내 돈 관리────────");
+			System.out.println("1. 페이 충전하기");
+			System.out.println("2. 페이 출금 내역 확인");
+			System.out.println("3. 뒤로가기");
 
-		// 사용자에게 어떤 기능을 사용 할 것인지 입력 받기
-		String inputNum = sc.nextLine();
+			// 사용자에게 어떤 기능을 사용 할 것인지 입력 받기
+			String inputNum = sc.nextLine();
 
-		// 입력한 수에 따라 기능 실행
-		switch (inputNum) {
-		case "1":
-			selectChargePay(userNo);
-			break;
-		case "2":
-			DepositWithdrawalDetails(userNo);
-			break;
-		case "3":
-			return;
+			// 입력한 수에 따라 기능 실행
+			switch (inputNum) {
+			case "1":
+				selectChargePay(userNo);
+				break;
+			case "2":
+				DepositWithdrawalDetails(userNo);
+				break;
+			case "3":
+				return;
+			}
+
 		}
 	}
 
@@ -74,24 +71,28 @@ public class PayController {
 
 	// 페이충전 가기 전 잔액을 출력하고 충전 할지 뒤로 갈지 선택
 	private void selectChargePay(String userNo) {
-		System.out.println("------페이 충전 여부-------");
+		while (true) {
 
-		// 현재 잔액 출력
-		findBalance(userNo);
+			System.out.println("------페이 충전 여부-------");
 
-		// 사용자에게 입력받기
-		System.out.print("페이를 충전 하시겠습니까? (1. 충전하기 /2. 뒤로가기)");
-		String chargeYn = sc.nextLine();
+			// 현재 잔액 출력
+			findBalance(userNo);
 
-		// 1이면 충전 페이지, 2면 돌아가기
-		switch (chargeYn) {
-		case "1":
-			chargePay(userNo);
-			break;
-		case "2":
-			selectPayMenu(userNo);
+			// 사용자에게 입력받기
+			System.out.print("페이를 충전 하시겠습니까? (1. 충전하기 /2. 뒤로가기)");
+			String chargeYn = sc.nextLine();
+
+			// 1이면 충전 페이지, 2면 돌아가기
+			switch (chargeYn) {
+			case "1":
+				chargePay(userNo);
+				break;
+			case "2":
+				selectPayMenu(userNo);
+				break;
+			}
+
 		}
-
 	}
 
 	// 페이 충전
@@ -133,11 +134,13 @@ public class PayController {
 		} catch (NumberFormatException e) {
 			// 충전 금액에 정수를 입력 하지 않았을 경우
 			System.out.println("충전 금액을 정수형(예 : 20000)으로 입력 해 주세요.");
-			// 다시 실행
-			chargePay(userNo);
+			System.out.println("이전 화면으로 돌아갑니다");
+			System.out.println();
+			return;
 		} catch (Exception e) {
 			// 페이 충전 오류
 			System.out.println("페이 충전 실패 ");
+			return;
 		}
 
 	}
@@ -171,11 +174,11 @@ public class PayController {
 					System.out.println(vo.getBalance() + "\u001B[0m");// ""(쌍따움표)안의 역할 : 출력문 원래 색으로 바꾸기
 
 				}
-
 			}
 		} catch (Exception e) {
 			System.out.println("입출금 내역 불러오기 실패");
 			e.printStackTrace();
+			return;
 		}
 
 	}
