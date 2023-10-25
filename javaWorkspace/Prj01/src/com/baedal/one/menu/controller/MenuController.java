@@ -229,10 +229,9 @@ public class MenuController {
 	 * WHERE MENU_NO = ?
 	 * 
 	 */
-	public boolean deleteMenu() {
+	public void deleteMenu() {
 		System.out.println("▼ 메뉴 삭제 ");
 		
-		boolean isDelete = false; 
 		String answer = "";
 		
 		try {
@@ -288,8 +287,6 @@ public class MenuController {
 					System.out.println("메뉴 삭제 중 오류가 발생했습니다. 다시 시도해주세요.\n");
 					e.printStackTrace();
 				}
-		
-		return isDelete;
 	}
 	
 	
@@ -303,10 +300,9 @@ public class MenuController {
 	 * WHERE MENU_NO = ?
 	 * 
 	 */
-	public boolean rollbackDeleteMenu() {
+	public void rollbackDeleteMenu() {
 		System.out.println("▼ 메뉴 삭제 취소");
 		
-		boolean isDelete = false; 
 		String answer = "";
 		
 		try {
@@ -365,7 +361,6 @@ public class MenuController {
 					e.printStackTrace();
 				}
 		
-		return isDelete;
 	}
 		
 		
@@ -401,29 +396,29 @@ public class MenuController {
 			if(voList.size() == 0) {
 				System.out.println("메뉴 정보가 없습니다.");
 			} else {
-				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
-				System.out.print("메뉴 번호 ");
-				System.out.print("| ");
-				System.out.print("메뉴 이름");
-				System.out.print(" | ");
-				System.out.print(" 가격 ");
-				System.out.print(" | ");
-				System.out.print("삭제 여부");
-				System.out.print(" | ");
-				System.out.println("판매 여부");
-				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
+				System.out.print("\t메뉴 번호 ");
+				System.out.print("\t | ");
+				System.out.print("\t메뉴 이름");
+				System.out.print("\t | ");
+				System.out.print("\t가격 ");
+				System.out.print("\t | ");
+				System.out.print("\t삭제 여부");
+				System.out.print("\t | ");
+				System.out.println("\t판매 여부");
+				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 				for (MenuVo menuVo : voList) {
-					System.out.print("   " + menuVo.getMenuNo() + "  ");
+					System.out.print("\t" + menuVo.getMenuNo() + "  ");
+					System.out.print("\t | ");
+					System.out.print("\t" + menuVo.getMenuName());
+					System.out.print("\t | ");
+					System.out.print("\t" + menuVo.getPrice());
+					System.out.print("\t | ");
+					System.out.print("\t" + menuVo.getDeleteYn() + "  ");
 					System.out.print(" | ");
-					System.out.print(menuVo.getMenuName());
-					System.out.print(" | ");
-					System.out.print(menuVo.getPrice());
-					System.out.print(" | ");
-					System.out.print("  " + menuVo.getDeleteYn() + "  ");
-					System.out.print(" | ");
-					System.out.println("  " + menuVo.getSellYn() + "  ");
+					System.out.println("\t" + menuVo.getSellYn() + "  ");
 				}
-				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓\n");
+				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓\n");
 			}
 			
 		}catch(Exception e) {
