@@ -146,7 +146,7 @@ public class ReviewController {
 				List<ReplyVo> newReplyVoList = replyVoList.stream().distinct().collect(Collectors.toList());
 				
 				if(newReviewVoList.size() == 0) {
-					System.out.println("");
+					System.err.println("\n작성된 리뷰가 없습니다.");
 					return null;
 				}
 				
@@ -393,6 +393,10 @@ public class ReviewController {
 	 * 답변 메뉴 선택 
 	 */
 	public void selectReply(Map<Integer, String> reviewNoMap) {
+		
+		if(reviewNoMap == null) {
+			return;
+		}
 		
 		System.out.println("\n1. 답변작성");
 		System.out.println("2. 답변수정");
