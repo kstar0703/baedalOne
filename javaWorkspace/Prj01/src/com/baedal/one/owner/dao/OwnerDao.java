@@ -3,11 +3,9 @@ package com.baedal.one.owner.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
-import com.baedal.one.cart.TestMain;
+import com.baedal.one.Main;
 import com.baedal.one.jdbcTemplate.JDBCTemplate;
-import com.baedal.one.owner.OwnerTestMain;
 import com.baedal.one.owner.vo.OwnerVo;
 
 public class OwnerDao {
@@ -83,7 +81,7 @@ public class OwnerDao {
 		String sql = "UPDATE OWNER SET OWNER_PWD = ?, UPDATE_DATE =SYSDATE WHERE OWNER_ID =? AND QUIT_YN ='N'";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, changPwd);
-		pstmt.setString(2, OwnerTestMain.LoginOwner.getOwnerId());
+		pstmt.setString(2, Main.loginOwner.getOwnerId());
 		int result = pstmt.executeUpdate();
 		
 		// close
@@ -99,8 +97,8 @@ public class OwnerDao {
 		//sql
 		String sql = "UPDATE OWNER SET QUIT_YN = 'Y' WHERE OWNER_NO =? ";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
-		// # OwnerTestMain.LoginOwner --> Main.LoginOwner 변수 변경
-		pstmt.setString(1, OwnerTestMain.LoginOwner.getOwnerNo());
+		// # Main.loginOwner --> Main.LoginOwner 변수 변경
+		pstmt.setString(1, Main.loginOwner.getOwnerNo());
 		int result = pstmt.executeUpdate();
 		// close
 		pstmt.close();		

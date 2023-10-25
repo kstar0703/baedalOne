@@ -5,9 +5,11 @@ import java.util.Scanner;
 import com.baedal.one.member.controller.MemberController;
 import com.baedal.one.member.vo.MemberVo;
 import com.baedal.one.owner.controller.OwnerController;
+import com.baedal.one.owner.vo.OwnerVo;
 import com.baedal.one.jdbcTemplate.JDBCTemplate;
 public class Main {
 	
+	public static OwnerVo loginOwner;
 	public static MemberVo loginMember;
 	public static final Scanner SC = new Scanner(System.in);
 		
@@ -29,7 +31,7 @@ public class Main {
 			String num = Main.SC.nextLine();
 			switch(num) {
 			case "1" : mc.selectMember(); break;
-//			case "2" : oc.selectMenu(); break;
+			case "2" : oc.beforeLoginselectMenu(); break;
 			case "9" : return;
 			default : System.out.println("잘못 입력하셨습니다.");
 			}

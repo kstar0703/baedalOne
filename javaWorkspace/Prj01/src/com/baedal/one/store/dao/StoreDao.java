@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.baedal.one.Main;
 import com.baedal.one.jdbcTemplate.JDBCTemplate;
-import com.baedal.one.owner.OwnerTestMain;
 import com.baedal.one.store.dto.StoreCategoryDto;
 import com.baedal.one.store.vo.StoreVo;
 
@@ -222,7 +222,7 @@ public class StoreDao {
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		
 		// 변수 변경 Main.Owner
-		if(!password.endsWith(OwnerTestMain.LoginOwner.getOwnerPwd())) {
+		if(!password.endsWith(Main.loginOwner.getOwnerPwd())) {
 			throw new Exception("비밀번호가 다릅니다.");
 		}else {
 			pstmt.setString(1, vo.getStoreNO());
