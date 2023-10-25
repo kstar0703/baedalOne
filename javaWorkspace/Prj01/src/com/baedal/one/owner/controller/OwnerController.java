@@ -26,14 +26,15 @@ public class OwnerController {
 		
 		while(true) {
 		
-		System.out.println("===== 배달의 달인 =====");	
-		System.out.println("===== 점주 =====");
+		System.out.println("----------- 배달의 달인 (점주) -----------");	
 
 		System.out.println("1. 회원가입");
 		System.out.println("2. 로그인 ")  ;
 		System.out.println("9. 뒤로가기");
 		System.out.println("0. 종료");
+		System.out.println("--------------------------------------");
 		// 로그인 이전
+		System.out.print("\u001B[36m번호를 선택하세요 : \u001B[0m"); 
 		String beforeLoginChooseNum = Main.SC.nextLine();
 		
 		switch (beforeLoginChooseNum) {
@@ -67,6 +68,7 @@ public class OwnerController {
 		System.out.println("0. 종료");
 		
 		// 로그인 이후
+		System.out.print("\u001B[36m번호를 선택하세요 : \u001B[0m");
 		String afterLoginchooseNum = Main.SC.nextLine();
 	
 		switch (afterLoginchooseNum) {
@@ -91,13 +93,13 @@ public class OwnerController {
 				
 		try {
 		
-		System.out.println("=====회원가입=====");
+		System.out.println("--------------- 회원가입 ---------------");
 		
 		// 데이터
-		System.out.print("아이디 : ");
+		System.out.print("\u001B[36m아이디 : \u001B[0m");;
 		String id = Main.SC.nextLine();
 		
-		System.out.print("패스워드 : ");
+		System.out.print("\u001B[36m패스워드 : \u001B[0m");;
 		String pwd = Main.SC.nextLine();
 		
 		
@@ -113,6 +115,7 @@ public class OwnerController {
 		if(result !=1) {
 			throw new Exception();
 		} System.out.println("회원가입 성공");
+		System.out.println("--------------------------------------");
 	} catch (Exception e) {
 		System.out.println("회원가입 실패 ...");
 		e.printStackTrace();
@@ -128,14 +131,15 @@ public class OwnerController {
 		
 		try {
 			
-			System.out.println("=====로그인=====");
+			System.out.println("--------------- 로그인 -----------------");;
 			
 			if(Main.loginOwner !=null) {
-				throw new Exception("=====이미 접속중 입니다=====");
+				throw new Exception("-------- 이미 접속중 입니다 --------");
 				
 			}
 			
 		// 데이터
+		System.out.println();
 		System.out.print("아이디 : ");
 		String id = Main.SC.nextLine();
 		System.out.print("패스워드 : ");
@@ -154,12 +158,13 @@ public class OwnerController {
 		if(ownerLoginInfo==null) {
 			throw new Exception();
 		}
-		System.out.println("로그인 성공!");
+		System.out.println();
+		System.out.println(ownerLoginInfo.getOwnerId() + " 님" + " 로그인 성공!");
+		System.out.println("--------------------------------------");
 		
 		
 		}catch (Exception e) {
 			System.out.println("로그인 실패");
-			e.printStackTrace();
 		}
 	}
 	
@@ -168,7 +173,7 @@ public class OwnerController {
 	 * 비밀번호 변경
 	 */
 	public void changePwd() {
-		System.out.println("===== 비밀번호 변경 =====");
+		System.out.println("-------------- 비밀번호 변경 --------------");
 		
 		try {
 		// 검사
@@ -205,7 +210,7 @@ public class OwnerController {
 			String changPwd ="";
 			//데이터
 			while(true) {
-			System.out.print("변경 할 비밀번호를 입력하세요 ");
+			System.out.print("변경 할 비밀번호를 입력하세요 : ");
 			changPwd = Main.SC.nextLine();
 			if(changPwd.equals(Main.loginOwner.getOwnerPwd())) {
 				System.out.println("동일한 비밀번호 입니다");
@@ -240,7 +245,7 @@ public class OwnerController {
 		 * 매장정보 출력 및 유저 정보 출력
 		 */
 		public void showStoreInfo() {
-			System.out.println("===== 유저 정보 =====");
+			System.out.println("--------------- 유저 정보 ---------------");
 			
 			try {
 				if(Main.loginOwner == null) {
@@ -293,6 +298,7 @@ public class OwnerController {
 		 */
 		public void quit() {
 			try {
+				System.out.println("---------------- 회원 탈퇴 ----------------");
 				if(Main.loginOwner ==null) {
 					System.out.println("로그인 상태가 아닙니다");
 				}

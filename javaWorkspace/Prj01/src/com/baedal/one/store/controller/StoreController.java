@@ -66,17 +66,17 @@ public class StoreController {
 	 */
 	
 	public void selectMenuAfterSelectStore(StoreVo vo) {
-		SalesController salesController = new SalesController(vo.getStoreNO());
 		
 		while(true) {
 			if(storeVo ==null) {
-				break;
+				return;
 			}
+			SalesController salesController = new SalesController(vo.getStoreNO());
 			//
 			System.out.println("=====" +vo.getStoreName() + "관리 =====");
 			System.out.println("1. 매장 정보 조회");
 			System.out.println("2. 매장 정보 수정");
-			System.out.println("3. 매장 메뉴 수정");
+			System.out.println("3. 매장 메뉴 관리");
 			System.out.println("4. 주문 내역 조회");
 			System.out.println("5. 매출 조회");
 			System.out.println("6. 리뷰 조회");
@@ -89,8 +89,8 @@ public class StoreController {
 			
 			switch (selectNum) {
 			case "1" : showStoreInfo(vo); break;
-			case "2" : changeStoreInfo(vo); break;
-			case "3" : menuController.findPwd(vo.getStoreNO()); break; // 송희님
+			case "2" : changeStoreInfo(vo); return;
+			case "3" : menuController.findPwd(vo.getStoreNO(),vo.getOwnerNo()); break; // 송희님
 			case "4" : ownerOdersController.showOders(vo.getStoreNO()); break; // 범렬님
 			case "5" : salesController.showMonthSales(vo.getStoreNO()); break; // 범렬님
 			case "6" : reviewController.selectReply(reviewController.storeReview(vo.getStoreNO()));  break;
@@ -187,8 +187,7 @@ public class StoreController {
 		System.out.println("매장 폐업 성공");
 		storeVo =null;
 		
-		// 강제로 이전 화면 호출
-		selectMenuBeforeSelectStore();
+	
 	
 		} catch (Exception e) {
 			System.out.println("매장 폐점 실패");
@@ -362,15 +361,18 @@ public class StoreController {
 			 storeList = service.showOwnerStore(loginOwnerNo);
 			
 			if(storeList.size()==0) {
-				throw new Exception("등록한 매장이 없습니다");
+				System.out.println("등록한 매장이 없습니다.");
+				System.out.println("매장을 등록하세요");
+			}else {
+				System.out.println("\n");
+				System.out.println("===================================================");
+				for(int i =0; i<storeList.size(); i++) {
+					System.out.println(i+1 +". " + storeList.get(i).getStoreName() + "(" +"카테고리 :" + storeList.get(i).getCategoryName()  +")" );
+				}
+				System.out.println("===================================================");	
 			}
 			
-			System.out.println("\n");
-			System.out.println("===================================================");
-			for(int i =0; i<storeList.size(); i++) {
-				System.out.println(i+1 +". " + storeList.get(i).getStoreName() + "(" +"카테고리 :" + storeList.get(i).getCategoryName()  +")" );
-			}
-			System.out.println("===================================================");
+			
 			
 		} catch (Exception e) {
 			System.out.println("매장 조회 실패");
@@ -517,9 +519,12 @@ public class StoreController {
 	}
 	
 	private void printStoreDetailInfo(StoreVo storeVo) {
+		
 		while (true) {
 		showStoreInfo(storeVo);
+		reviewController.storeReview(storeVo.getStoreNO());
 		menuController.menuList(storeVo.getStoreNO());
+		
 		System.out.println("원하는 작업을 선택하세요");
 		System.out.println("1. 메뉴 주문하러 이동");
 		System.out.println("2. 뒤로가기");
@@ -530,11 +535,13 @@ public class StoreController {
 		case "1":
 			cartController.selectOption(storeVo.getStoreNO());
 			break;
-		case "2":
-			return;
+		case "2" : return;
 		default:
 			System.out.println("다시 입력하세요");
+			System.out.println("\n");
+			
 			break;
+		
 		}
 		}
 	}
