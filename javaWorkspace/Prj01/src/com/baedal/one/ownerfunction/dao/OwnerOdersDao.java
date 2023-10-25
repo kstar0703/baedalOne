@@ -62,7 +62,7 @@ public class OwnerOdersDao {
 			String orderNO = rs.getString("ORDER_NO");
 			String userNo = rs.getString("USER_NO");
 			String cartNo = rs.getString("CART_NO");
-			String oderDate = rs.getString("ODER_DATE");
+			String oderDate = rs.getString("ORDER_DATE");
 			String totalPrice = rs.getString("TOTAL_PRICE");
 			String menuName = rs.getString("MENU_NAME");
 			String totalQuantity = rs.getString("TOTAL_QUANTITY");
