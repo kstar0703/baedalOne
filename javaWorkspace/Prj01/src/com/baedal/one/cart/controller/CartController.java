@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.baedal.one.Main;
-import com.baedal.one.cart.TestMain;
 import com.baedal.one.cart.dto.MenuInfoDto;
 import com.baedal.one.cart.service.CartService;
 import com.baedal.one.cart.vo.CartListVo;
@@ -141,6 +140,7 @@ public class CartController {
 			else 
 				throw new Exception();
 		} catch (Exception e) {
+			System.err.println(e.getMessage());
 			System.err.println("장바구니 담기 실패");
 		} 
 	}

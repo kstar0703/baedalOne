@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.baedal.one.Main;
-import com.baedal.one.cart.TestMain;
-import com.baedal.one.cart.controller.CartController;
 import com.baedal.one.orders.dto.CartListDto;
 import com.baedal.one.orders.service.OrderService;
 import com.baedal.one.orders.vo.OrdersVo;
@@ -45,8 +43,8 @@ public class OrderController {
 				System.out.println("--------------------------------");
 				System.out.println("\t   🛒 장바구니\t");
 				System.out.println("--------------------------------");
-				for(int length = 0; length < cartList.size(); length++) {
-					
+				for(int length = 0; length < cartList.size(); length++) {					
+					System.out.println("번호 : "+ (length+1));
 					System.out.println("매장 : "+ cartList.get(length).getStoreName());
 					System.out.println("메뉴 : "+ cartList.get(length).getMenuName());
 					System.out.println("수량 : "+ cartList.get(length).getQuantity()+"개");
@@ -57,7 +55,7 @@ public class OrderController {
 				System.out.println("\u001B[36m"+"총 가격 : " + total + "원"+"\u001B[0m");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println("장바구니 리스트 출력 실패");
 		}
 	}
 	
@@ -68,7 +66,7 @@ public class OrderController {
 		while(true) {
 			//내 장바구니 리스트 보여주기
 			getCartList();
-			System.out.println("-------------------------");
+			System.out.println("--------------------------------");
 			if(cartList.size() != 0) {
 				System.out.println("원하는 작업을 선택하세요.");
 				System.out.println("1. 결제하기");
