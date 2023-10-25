@@ -29,10 +29,13 @@ public class MemberController {
 		
 		String num;
 		while(true) {
+			System.out.println();
+			System.out.println("=====회원=====");
 			System.out.println("1.회원가입");
 			System.out.println("2.로그인");
 			System.out.println("9.뒤로 가기");
 			System.out.println("0.종료");
+			System.out.print("원하는 번호를 선택하세요:");
 
 			
 			num = Main.SC.nextLine();
@@ -53,20 +56,21 @@ public class MemberController {
 		
 		//서비스
 		try {
+			System.out.println();
 			System.out.println("-----회원가입-----");
 			
 			//데이터 준비
-			System.out.println("아이디:");
+			System.out.print("아이디:");
 			String id = Main.SC.nextLine();
-			System.out.println("비밀번호:");
+			System.out.print("비밀번호:");
 			String pwd = Main.SC.nextLine();
-			System.out.println("닉네임:");
+			System.out.print("닉네임:");
 			String nickName = Main.SC.nextLine();
-			System.out.println("회원주소:");
+			System.out.print("회원주소:");
 			String address = Main.SC.nextLine();
-			System.out.println("전화번호(010-XXXX-XXXX)를 형식에 맞추어 입력해주세요:");
+			System.out.print("전화번호(010-XXXX-XXXX)를 형식에 맞추어 입력해주세요:");
 			String phone = Main.SC.nextLine();
-			System.out.println("결제 비밀번호(6자리):");
+			System.out.print("결제 비밀번호(6자리):");
 			String amountPwd = Main.SC.nextLine();
 			
 			MemberVo vo = new MemberVo();
@@ -98,17 +102,19 @@ public class MemberController {
 	public void login() {
 		
 		try {
+			System.out.println();
 			System.out.println("-----로그인-----");
 			
 			//데이터 준비
-			System.out.println("아이디:");
+			System.out.print("아이디:");
 			String id = Main.SC.nextLine();
-			System.out.println("비밀번호:");
+			System.out.print("비밀번호:");
 			String pwd = Main.SC.nextLine();
 			
 			MemberVo vo = new MemberVo();
 			vo.setId(id);
 			vo.setPwd(pwd);
+			
 			
 			//서비스
 			MemberVo dbVo = ms.login(vo);
@@ -121,10 +127,12 @@ public class MemberController {
 				
 			}	
 			    
-				System.out.println("로그인 성공");
+				System.out.println(Main.loginMember.getNickName() +"님 로그인 성공!!");
 				
 				String num;
 				while(true) {
+					System.out.println();
+					System.out.println("=====회원 메뉴 선택=====");
 					System.out.println("1.회원탈퇴");
 					System.out.println("2.로그아웃");
 					System.out.println("3.회원정보 수정하기");
@@ -134,6 +142,7 @@ public class MemberController {
 					System.out.println("7.원하는 매장 선택");
 					System.out.println("8.장바구니 조회하기");
 					System.out.println("9.뒤로 가기");
+					System.out.print("원하는 번호를 선택하세요:");
 
 					ReviewController rc= new ReviewController();
 					PayController pcm = new PayController();
@@ -167,8 +176,9 @@ public class MemberController {
 	//회원탈퇴
 	public void quit() {
 		try {
-			System.out.println("-----회원탈퇴-----");
-			System.out.println(Main.loginMember);
+			System.out.println();
+			System.out.println("-----회원탈퇴가 완료되었습니다.-----");
+			
 			//로그인여부 검사
 			if(Main.loginMember == null ) {
 				throw new Exception("다시 로그인을 하고 회원탈퇴를 시도하세요");
@@ -184,10 +194,10 @@ public class MemberController {
 			if(result != 1) {
 				 throw new Exception();
 			}
-			System.out.println("회원 탈퇴성공");
-			logout();
+			System.out.println("-----회원 탈퇴성공!!-----");
+			
 		}catch(Exception e) {
-			System.out.println("회원 탈퇴 실패 ...");
+			System.out.println("-----회원 탈퇴 실패 ...-----");
 			e.printStackTrace();
 		}
 		
@@ -196,20 +206,23 @@ public class MemberController {
 	
 	//로그아웃
 	public void logout() {
-		
-		System.out.println("-----로그아웃-----");
+		System.out.println();
+		System.out.println("-----로그아웃이 완료되었습니다.-----");
 		Main.loginMember = null;
 		
 	}
 	
 	//회원정보 수정하기
 	public void changeMemberInfo() {
+		System.out.println();
 		System.out.println("-----회원정보 변경하기-----");
+		System.out.println("(한번에 변경 불가능. 뒤로 가기 후 하나씩 변경해주세요)");
 		System.out.println("1.비밀번호 변경하기");
 		System.out.println("2.닉네임 변경하기");
 		System.out.println("3.회원주소 변경하기");
 		System.out.println("4.전화번호 변경하기");
 		System.out.println("5.결제 비밀번호 변경하기");
+		System.out.print("원하는 번호를 선택하세요:");
 		
 		String num = Main.SC.nextLine();
 		switch(num) {
@@ -226,9 +239,10 @@ public class MemberController {
 		
 		
 
-
+	//비밀번호 변경하기
 	public void changePwd() {
 		try {
+			System.out.println();
 			System.out.println("비밀번호 변경하기");
 			
 			//데이터
@@ -256,12 +270,37 @@ public class MemberController {
 			e.printStackTrace();
 		}
 		
-		
 	}
 	
 	public void changeNickName() {
-		
-		
+		try {
+			System.out.println();
+			System.out.println("닉네임 변경하기");
+			
+			//데이터
+			System.out.println("기존 닉네임:");
+			
+			String oldNick = Main.SC.nextLine();
+			System.out.println("신규 닉네임:");
+			String newNick = Main.SC.nextLine();
+			
+			MemberVo vo = new MemberVo();
+			vo.setPwd(oldNick);
+			vo = Main.loginMember ;
+			
+			//서비스
+			int result = ms.changeNickName(vo,newNick);
+			
+			//결과
+			if(result != 1) {
+				throw new Exception();
+			}
+			System.out.println("닉네임 변경 성공!!");
+			
+		}catch(Exception e) {
+			System.out.println("비밀번호 변경 실패...");
+			e.printStackTrace();
+		}
 	}
 	
 	public void changeAdress() {

@@ -101,6 +101,27 @@ public class MemberService {
 		return result;
 	}
 
+	public int changeNickName(MemberVo vo, String newNick) throws Exception {
+		//conn
+		Connection conn = JDBCTemplate.getConnection();
+		
+		//DAO
+		int result = dao.changeNickName(conn,newNick, vo);
+		
+		//tx
+		if(result == 1) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		//close
+		JDBCTemplate.close(conn);
+		
+		return result;
+
+	}
+
 	
 
 }
