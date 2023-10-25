@@ -38,7 +38,7 @@ public class ReviewDao {
 	public ArrayList<ReviewReplyVo> storeReview(ReviewVo vo, Connection conn) throws Exception {
 
 		// sql
-		String sql = "SELECT MB.NICKNAME , REVIEW_RATING , TO_CHAR(R.WRITE_DATE,'YYYY-MM-DD hh24:mi') AS WRITE_DATE  , R.CONTENT  , TO_CHAR(RP.WRITE_DATE,'YYYY-MM-DD hh24:mi') AS REPLY_WRITE_DATE , RP.CONTENT REPLY_CONTENT , RP.REPLY_NO  , M.MENU_NAME  , R.ORDER_NO  , R.STORE_NO   , R.REVIEW_NO  FROM REVIEW R   LEFT JOIN REPLY RP ON R.REVIEW_NO = RP.REVIEW_NO  JOIN ORDERS O ON R.ORDER_NO = O.ORDER_NO   JOIN MEMBER MB ON O.USER_NO = MB.MEMBER_NO   RIGHT JOIN CART_LIST C ON O.CART_NO = C.CART_NO   JOIN MENU M ON C.MENU_NO = M.MENU_NO   WHERE R.STORE_NO = ? AND R.DELETE_YN = 'N' ORDER BY R.REVIEW_NO";
+		String sql = "SELECT MB.NICKNAME, RP.DELETE_YN REPLY_DELETE_YN , REVIEW_RATING , TO_CHAR(R.WRITE_DATE,'YYYY-MM-DD hh24:mi') AS WRITE_DATE  , R.CONTENT  , TO_CHAR(RP.WRITE_DATE,'YYYY-MM-DD hh24:mi') AS REPLY_WRITE_DATE , RP.CONTENT REPLY_CONTENT , RP.REPLY_NO  , M.MENU_NAME  , R.ORDER_NO  , R.STORE_NO   , R.REVIEW_NO  FROM REVIEW R   LEFT JOIN REPLY RP ON R.REVIEW_NO = RP.REVIEW_NO  JOIN ORDERS O ON R.ORDER_NO = O.ORDER_NO   JOIN MEMBER MB ON O.USER_NO = MB.MEMBER_NO   RIGHT JOIN CART_LIST C ON O.CART_NO = C.CART_NO   JOIN MENU M ON C.MENU_NO = M.MENU_NO   WHERE R.STORE_NO = ? AND R.DELETE_YN = 'N' ORDER BY R.REVIEW_NO";
 
 		// pstmt
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -63,6 +63,7 @@ public class ReviewDao {
 			reviewVo.setRating(rs.getString("REVIEW_RATING"));
 			
 			ReplyVo replyVo = new ReplyVo();
+			replyVo.setDeleteYn("REPLY_DELETE_YN");
 			replyVo.setReplyNo(rs.getString("REPLY_NO"));			
 			replyVo.setReviewNo(rs.getString("REVIEW_NO"));
 			replyVo.setContent(rs.getString("REPLY_CONTENT"));
@@ -83,7 +84,7 @@ public class ReviewDao {
 	public ArrayList<ReviewReplyVo> userReview(Connection conn, String userNo) throws Exception {
 
 		// sql
-		String sql = "SELECT MB.NICKNAME , REVIEW_RATING, R.USER_NO, TO_CHAR(R.WRITE_DATE,'YYYY-MM-DD hh24:mi') AS WRITE_DATE  , R.CONTENT  , TO_CHAR(RP.WRITE_DATE,'YYYY-MM-DD hh24:mi') AS REPLY_WRITE_DATE , RP.CONTENT REPLY_CONTENT , RP.REPLY_NO  , M.MENU_NAME  , R.ORDER_NO  , R.STORE_NO   , R.REVIEW_NO  FROM REVIEW R   LEFT JOIN REPLY RP ON R.REVIEW_NO = RP.REVIEW_NO  JOIN ORDERS O ON R.ORDER_NO = O.ORDER_NO   JOIN MEMBER MB ON O.USER_NO = MB.MEMBER_NO   RIGHT JOIN CART_LIST C ON O.CART_NO = C.CART_NO   JOIN MENU M ON C.MENU_NO = M.MENU_NO WHERE O.USER_NO = ? AND R.DELETE_YN = 'N' ORDER BY R.REVIEW_NO";
+		String sql = "SELECT MB.NICKNAME, RP.DELETE_YN REPLY_DELETE_YN , REVIEW_RATING, R.USER_NO, TO_CHAR(R.WRITE_DATE,'YYYY-MM-DD hh24:mi') AS WRITE_DATE  , R.CONTENT  , TO_CHAR(RP.WRITE_DATE,'YYYY-MM-DD hh24:mi') AS REPLY_WRITE_DATE , RP.CONTENT REPLY_CONTENT , RP.REPLY_NO  , M.MENU_NAME  , R.ORDER_NO  , R.STORE_NO   , R.REVIEW_NO  FROM REVIEW R   LEFT JOIN REPLY RP ON R.REVIEW_NO = RP.REVIEW_NO  JOIN ORDERS O ON R.ORDER_NO = O.ORDER_NO   JOIN MEMBER MB ON O.USER_NO = MB.MEMBER_NO   RIGHT JOIN CART_LIST C ON O.CART_NO = C.CART_NO   JOIN MENU M ON C.MENU_NO = M.MENU_NO WHERE O.USER_NO = ? AND R.DELETE_YN = 'N' ORDER BY R.REVIEW_NO";
 
 		// pstmt
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -109,6 +110,7 @@ public class ReviewDao {
 			reviewVo.setRating(rs.getString("REVIEW_RATING"));
 			
 			ReplyVo replyVo = new ReplyVo();
+			replyVo.setDeleteYn("REPLY_DELETE_YN");
 			replyVo.setReplyNo(rs.getString("REPLY_NO"));			
 			replyVo.setReviewNo(rs.getString("REVIEW_NO"));
 			replyVo.setContent(rs.getString("REPLY_CONTENT"));
@@ -185,6 +187,23 @@ public class ReviewDao {
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, vo.getContent());
 		pstmt.setString(2, vo.getReviewNo());
+		int result = pstmt.executeUpdate();
+
+		JDBCTemplate.close(pstmt);
+		
+		return result;
+	}
+
+
+	// 답변 삭제 
+	public int deleteReply(ReplyVo vo, Connection conn) throws Exception {
+		
+		String sql = "UPDATE REPLY SET DELETE_YN = 'Y' WHERE REVIEW_NO = ?";
+
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+
+		pstmt.setString(1, vo.getReviewNo());
+		
 		int result = pstmt.executeUpdate();
 
 		JDBCTemplate.close(pstmt);
