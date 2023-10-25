@@ -384,7 +384,7 @@ public class MenuController {
 	 * ORDER BY MENU_NO ASC
 	 * 
 	 */
-	public List<MenuVo> menuList(String storeNo) {
+	public void menuList(String storeNo) {
 		
 		try {
 			System.out.println("--- 메뉴 전체 목록 조회---");
@@ -430,7 +430,6 @@ public class MenuController {
 			System.out.println("메뉴 리스트 조회 실패");
 			e.printStackTrace();
 		}
-		return voList;
 	}
 	
 	
