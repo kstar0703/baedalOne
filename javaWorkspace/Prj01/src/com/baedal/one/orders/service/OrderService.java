@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.baedal.one.Main;
 import com.baedal.one.cart.TestMain;
 import com.baedal.one.jdbcTemplate.JDBCTemplate;
 import com.baedal.one.orders.dao.OrderDao;
@@ -69,7 +70,7 @@ public class OrderService {
 
 		if(result==1) {
 			JDBCTemplate.commit(conn);
-			findOrder = orderDao.getRecentOrderByUserNo(TestMain.memberNo, conn);
+			findOrder = orderDao.getRecentOrderByUserNo(Main.loginMember.getMemberNo(), conn);
 		} else {
 			JDBCTemplate.rollback(conn);
 			throw new Exception("주문 내역 저장 실패");
@@ -83,7 +84,7 @@ public class OrderService {
 		
 		if(result == 1) {
 			JDBCTemplate.commit(conn);
-			result = orderDao.updateMoney(TestMain.memberNo, balance, conn);
+			result = orderDao.updateMoney(Main.loginMember.getMemberNo(), balance, conn);
 			
 			if(result == 1) {
 				JDBCTemplate.commit(conn);
@@ -97,7 +98,7 @@ public class OrderService {
 		}
 		
 		if(result == 1) {
-			recentOrder = orderDao.getRecentOrder(TestMain.memberNo, conn);
+			recentOrder = orderDao.getRecentOrder(Main.loginMember.getMemberNo(), conn);
 		}
 		
 		JDBCTemplate.close(conn);
