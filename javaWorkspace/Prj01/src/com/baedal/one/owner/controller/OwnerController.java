@@ -201,6 +201,7 @@ public class OwnerController {
 			if(tryLoginCnt ==3) {
 				// *OwnerTestMain --> Main.loginOwner 변경
 				Main.loginOwner = null;
+				System.out.print("\u001B[31m비밀번호가 3회 틀려 로그아웃 됩니다\u001B[0m");
 				throw new Exception("비밀번호가 3회 틀려 로그아웃 됩니다");
 			}
 			
@@ -242,7 +243,6 @@ public class OwnerController {
 			
 		} catch (Exception e) {
 			System.out.print("\u001B[31m비밀번호 변경 실패\u001B[0m");
-			e.printStackTrace();
 		}
 		
 	}
@@ -270,9 +270,7 @@ public class OwnerController {
 				storeController.showOwnerStore();
 				
 			} catch (Exception e) {
-				System.out.println();
 				System.out.print("\u001B[31m 유저 정보 출력 실패\u001B[0m");
-					e.printStackTrace();
 			}
 			
 		}
@@ -338,8 +336,7 @@ public class OwnerController {
 				Main.loginOwner = null;
 				
 			} catch (Exception e) {
-				System.out.println("회원탈퇴 실패");			
-				e.printStackTrace();
+				System.out.println("\u001B[31m회원 탈퇴 실패\u001B[0m");			
 				}		
 		}
 }
