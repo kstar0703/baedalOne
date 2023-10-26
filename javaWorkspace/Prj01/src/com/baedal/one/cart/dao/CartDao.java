@@ -25,7 +25,7 @@ public class CartDao {
 	 * @throws Exception
 	 */
 	public List<MenuInfoDto> getMenuInfo(String storeNo, Connection conn) throws Exception {
-		query ="SELECT M.MENU_NO, S.STORE_NAME, M.MENU_NAME, M.PRICE, SUBSTR(S.OPENTIME, 1, 2) OPENTIME, SUBSTR(S.CLOSETIME, 1, 2) CLOSETIME FROM MENU M INNER JOIN STORE S ON M.STORE_NO = S.STORE_NO WHERE M.STORE_NO = ? AND M.DELETE_YN = 'N' AND M.SELL_YN = 'Y'";
+		query ="SELECT M.MENU_NO, S.STORE_NAME, M.MENU_NAME, M.PRICE, SUBSTR(S.OPENTIME, 1, INSTR(S.OPENTIME, ':')-1) OPENTIME, SUBSTR(S.CLOSETIME, 1, INSTR(S.CLOSETIME, ':')-1) CLOSETIME FROM MENU M INNER JOIN STORE S ON M.STORE_NO = S.STORE_NO WHERE M.STORE_NO = ? AND M.DELETE_YN = 'N' AND M.SELL_YN = 'Y'";
 
 		 PreparedStatement pstmt = conn.prepareStatement(query);
 		 pstmt.setString(1, storeNo);
