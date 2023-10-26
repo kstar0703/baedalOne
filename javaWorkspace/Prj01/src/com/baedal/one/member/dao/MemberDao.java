@@ -114,7 +114,7 @@ public class MemberDao {
 
 	public int changeAmountPwd(Connection conn, String newAmountPwd, MemberVo vo) throws Exception {
 		//SQL
-		String sql = "UPDATE MEMBER SET AMOUNTPWD = ?, UPDATE_DATE = SYSDATE  WHERE MEMBER_NO = ? AND AMOUNTPWD = ?";
+		String sql = "UPDATE MEMBER SET AMOUNT_PWD = ?, UPDATE_DATE = SYSDATE  WHERE MEMBER_NO = ? AND AMOUNT_PWD = ?";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, newAmountPwd);
 		pstmt.setString(2, vo.getMemberNo());
