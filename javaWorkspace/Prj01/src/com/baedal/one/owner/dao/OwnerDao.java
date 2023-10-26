@@ -95,10 +95,11 @@ public class OwnerDao {
 	public int quit(Connection conn) throws Exception {
 		
 		//sql
-		String sql = "UPDATE OWNER SET QUIT_YN = 'Y' WHERE OWNER_NO =? ";
+		String sql = "UPDATE OWNER SET QUIT_YN = 'Y' WHERE OWNER_NO =? AND  OWNER_PWD = ? ";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
-		// # Main.loginOwner --> Main.LoginOwner 변수 변경
 		pstmt.setString(1, Main.loginOwner.getOwnerNo());
+		pstmt.setString(2, Main.loginOwner.getOwnerPwd());
+	
 		int result = pstmt.executeUpdate();
 		// close
 		pstmt.close();		
