@@ -225,20 +225,47 @@ public class StoreController {
 			// 점주번호
 			String ownerNo = Main.loginOwner.getOwnerNo();
 			
-			System.out.println("\u001B[34m예)02-0000-0000(11자리)\u001B[0m");
-			System.out.print("\u001B[36m매장 전화번호 : \u001B[0m");
-			String storePhone = Main.SC.nextLine();
+			
+			String storePhone = "";
+			while(true) {
+				System.out.println("\u001B[34m예)02-0000-0000(12자리)\u001B[0m");
+				System.out.print("\u001B[36m매장 전화번호 : \u001B[0m");
+			 storePhone = Main.SC.nextLine();
+			 if(storePhone.length() ==12) {
+				 break;
+			 }else {
+				 System.out.println("\u001B[31m12 자리를 입력하세요\u001B[0m");
+			}
+			 
+				
+			}
 			
 			System.out.print("\u001B[36m가게 주소 : \u001B[0m");
 			String storeAddress = Main.SC.nextLine();
 			
+			String openTime ="";
+			while(true) {
 			System.out.println("\u001B[34mEX)10:00(5자리)\u001B[0m");
 			System.out.print("\u001B[36m오픈시간 : \u001B[0m");;
-			String openTime = Main.SC.nextLine();
+			openTime = Main.SC.nextLine();
+			if(openTime.length() ==5) {
+				break;
+			}else {
+				System.out.println("\u001B[31m5자리를 입력하세요.\u001B[0m");
+			}
+			}
 			
+			String closeTime ="";
+			while(true) {
 			System.out.println("\u001B[34mEX)20:00(5자리)\u001B[0m");
 			System.out.print("\u001B[36m마감시간 : \u001B[0m");
-			String closeTime = Main.SC.nextLine();
+			closeTime = Main.SC.nextLine();
+			if(closeTime.length() == 5) {
+				break;
+			}else {
+				System.out.println("\u001B[31m5자리를 입력하세요.\u001B[0m");
+			}
+			}
 			
 			StoreVo vo = new StoreVo();
 			
