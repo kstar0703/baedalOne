@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import com.baedal.one.jdbcTemplate.JDBCTemplate;
 import com.baedal.one.member.dao.MemberDao;
 import com.baedal.one.member.vo.MemberVo;
+import com.baedal.one.owner.vo.OwnerVo;
 
 
 public class MemberService {
@@ -80,7 +81,7 @@ public class MemberService {
 		
 	}
 		
-
+	//비밀번호 변경하기
 	public int changePwd(MemberVo vo, String newPwd) throws Exception {
 		//conn
 		Connection conn = JDBCTemplate.getConnection();
@@ -101,6 +102,7 @@ public class MemberService {
 		return result;
 	}
 
+	//닉네임 변경하기
 	public int changeNickName(MemberVo vo, String newNick) throws Exception {
 		//conn
 		Connection conn = JDBCTemplate.getConnection();
@@ -121,7 +123,27 @@ public class MemberService {
 		return result;
 
 	}
-
 	
-
+	//결제 비밀번호 변경하기
+	public int changeAmountPwd(MemberVo vo, String newAmountPwd) throws Exception {
+		//conn
+		Connection conn = JDBCTemplate.getConnection();
+		
+		//DAO
+		int result = dao.changeAmountPwd(conn,newAmountPwd, vo);
+		
+		//tx
+		if(result == 1) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		//close
+		JDBCTemplate.close(conn);
+		
+		return result;
+		
+	}
+	
 }
