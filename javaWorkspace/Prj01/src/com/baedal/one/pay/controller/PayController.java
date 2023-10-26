@@ -29,6 +29,7 @@ public class PayController {
 			System.out.println("1. 페이 충전하기");
 			System.out.println("2. 페이 출금 내역 확인");
 			System.out.println("3. 뒤로가기");
+			System.out.print("입력 : ");
 
 			// 사용자에게 어떤 기능을 사용 할 것인지 입력 받기
 			String inputNum = sc.nextLine();
@@ -63,7 +64,7 @@ public class PayController {
 			// 현재 잔액 출력
 			System.out.println("현재 잔액 : " + nowMoney);
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("잔액 불러오기 실패");
 		}
 		// 현재 잔액 리턴
 		return nowMoney;
@@ -79,7 +80,7 @@ public class PayController {
 			findBalance(userNo);
 
 			// 사용자에게 입력받기
-			System.out.print("페이를 충전 하시겠습니까? (1. 충전하기 /2. 뒤로가기)");
+			System.out.print("페이를 충전 하시겠습니까? (1. 충전하기 /2. 뒤로가기) : ");
 			String chargeYn = sc.nextLine();
 
 			// 1이면 충전 페이지, 2면 돌아가기
@@ -159,16 +160,12 @@ public class PayController {
 				// 출금의 출처가 '충전'일때는 파랑 글씨로 출력
 				if (vo.getSource().equals("충전")) {
 					System.out.println("\u001B[34m날짜 : " + vo.getPayDate());
-//					System.out.println("\t\t\t\t      " +  vo.getSource());// ""(쌍따움표)안의 역할 : 출력문 파랑색으로 바꾸기
-//					System.out.println("\t\t\t\t     " + vo.getPay());
 					System.out.print("\t\t\t       " +  vo.getSource());// ""(쌍따움표)안의 역할 : 출력문 파랑색으로 바꾸기
 					System.out.println(" : " + vo.getPay()+ "원");
 					System.out.println("\t\t\t       잔액 : " + vo.getBalance() + "원\u001B[0m");// ""(쌍따움표)안의 역할 : 출력문 원래 색으로 바꾸기
 					System.out.println("────────────────────────────────────────────");
 				} else {
 					System.out.println("\u001B[31m날짜 : " + vo.getPayDate());
-//					System.out.println("\t\t\t\t      " +  vo.getSource());// ""(쌍따움표)안의 역할 : 출력문 파랑색으로 바꾸기
-//					System.out.println("\t\t\t\t     " + vo.getPay());
 					System.out.print("\t\t\t    " +  vo.getSource());// ""(쌍따움표)안의 역할 : 출력문 파랑색으로 바꾸기
 					System.out.println(" : " + vo.getPay()+ "원");
 					System.out.println("\t\t\t       잔액 : " + vo.getBalance() + "원\u001B[0m");// ""(쌍따움표)안의 역할 : 출력문 원래 색으로 바꾸기
@@ -178,7 +175,6 @@ public class PayController {
 			}
 		} catch (Exception e) {
 			System.out.println("입출금 내역 불러오기 실패");
-			e.printStackTrace();
 			return;
 		}
 
