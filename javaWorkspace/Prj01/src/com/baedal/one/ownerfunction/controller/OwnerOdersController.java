@@ -47,7 +47,7 @@ public class OwnerOdersController {
 
 				// 상세 내역 객체에 매장 이름 저장
 				detailDto.setStoreName(findStoreName(storeNo));
-				if(detailDto.getStoreName().equals(null)) {
+				if (detailDto.getStoreName().equals(null)) {
 					return;
 				}
 				System.out.println("──────────────────" + detailDto.getStoreName() + "<간편 주문 목록 조회>──────────────────");
@@ -83,10 +83,10 @@ public class OwnerOdersController {
 						// 메뉴를 하나만 시킨 주문일 경우 그냥 공백을 두고 출력
 						System.out.print("\t");
 					}
-					System.out.print("/ ");
-					System.out.print(vo.getTotalPrice());
-					System.out.print("원 / ");
-					System.out.println(vo.getOderDate());
+					
+					System.out.println("\n\t\t\t결제 금액  :  \t\t" + vo.getTotalPrice() + "원");
+					System.out.println("\t\t\t주문 일시  :  " + vo.getOderDate());
+					System.out.println("---------------------------------------------------------");
 					i++;
 				}
 
@@ -142,10 +142,29 @@ public class OwnerOdersController {
 				System.out.println("원 ");
 			}
 			// 결제일시, 총 결제금액 출력
-			System.out.println("결제 일시 : " + dto.getTotalPrice());
-			System.out.println("총 결제 금액 : " + dto.getOrderDate() + "원");
+				System.out.println("---------------------------------------------------------");
+				System.out.println("\t\t\t주문 일시  :  " + dto.getTotalPrice());
+				System.out.println("---------------------------------------------------------");
+				System.out.println("\t\t\t결제 금액  :  \t\t" + dto.getOrderDate() + "원");
+			
+			
 
+			System.out.println("─────────────────────────────────────────────────────────");
+
+			System.out.println("'1'을 입력하여 뒤로가기 ");
+			System.out.print("입력 : ");
+			String input = Main.SC.nextLine();
+			
 			System.out.println();
+
+		} catch (Exception e) {
+			System.out.println("주문 상세 내역 불러오기 실패");
+		}
+
+	}
+
+}
+
 //			System.out.print("다시 간편내역을 보고싶으시면 '1' 입력,");
 //			System.out.println("점주 기능 목록을 보고싶으시면 '2' 입력 : ");
 //			String input = Main.SC.nextLine();
@@ -155,12 +174,3 @@ public class OwnerOdersController {
 //			} else {
 //				System.out.println("돌아갑니다.");
 //			}
-
-		} catch (Exception e) {
-			System.out.println("주문 상세 내역 불러오기 실패");
-			e.printStackTrace();
-		}
-
-	}
-
-}

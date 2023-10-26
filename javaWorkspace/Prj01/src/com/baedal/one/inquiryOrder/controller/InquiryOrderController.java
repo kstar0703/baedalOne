@@ -57,14 +57,13 @@ public class InquiryOrderController {
 						// 메뉴를 하나만 시킨 주문일 경우 그냥 공백을 두고 출력
 						System.out.print("\t");
 					}
-					System.out.println("\t\t\t\t    "+vo.getTotalPrice()+"원\n");
-					System.out.println("\t\t\t\t"+vo.getOderDate());
+					System.out.println("\n\t\t\t결제 금액  :  \t\t" +vo.getTotalPrice()+"원");
+					System.out.println("\t\t\t주문 일시  :  " +vo.getOderDate());
 					System.out.println("---------------------------------------------------------");
 					i++;
 				}
 
 				// 간편보기 내역중 상세히 확인하고픈 주문 입력
-				System.out.println("─────────────────────────────────────────────────────────");
 
 				System.out.print("상세목록을 보고싶은 내역을 입력하세요(이전 화면으로 돌아가려면 'x'입력) : ");
 				String stringInput = Main.SC.nextLine();
@@ -96,7 +95,7 @@ public class InquiryOrderController {
 			return;
 		} catch (Exception e) {
 			// DB문제가 있을때
-			e.printStackTrace();
+			System.out.println("오류: 주문한 내역이 없습니다.");
 			return;
 		}
 
@@ -116,7 +115,6 @@ public class InquiryOrderController {
 			}
 		} catch (Exception e) {
 			System.out.println("매장 이름 가져오기 실패");
-			e.printStackTrace();
 		}
 
 		return storeName;
@@ -136,7 +134,6 @@ public class InquiryOrderController {
 			}
 		} catch (Exception e) {
 			System.out.println("매장 번호 가져오기 실패");
-			e.printStackTrace();
 		}
 
 		return storeName;
@@ -144,7 +141,8 @@ public class InquiryOrderController {
 
 	// 상세내역 보기
 	private void oderDetails(String nowCartNo, CartListDetailDTO dto, String userNo, String orderNo) {
-		System.out.println("──────────────────" + findStoreName(nowCartNo) + "<주문 상세 내역>───────────────────────");
+		System.out.println("\n──────────────────" + findStoreName(nowCartNo) + "<주문 상세 내역>────────────────────");
+		
 		try {
 			// 메뉴이름, 가격, 개수를 담은 객체를 리스트에 저장
 			List<CartListDetailDTO> dtoList = service.oderDetails(nowCartNo);
@@ -162,8 +160,10 @@ public class InquiryOrderController {
 				System.out.println("원 ");
 			}
 			// 결제일시, 총 결제금액 출력
-			System.out.println("결제 일시 : " + dto.getTotalPrice());
-			System.out.println("총 결제 금액 : " + dto.getOrderDate() + "원");
+			System.out.println("---------------------------------------------------------");
+			System.out.println("\t\t\t주문 일시  :  " + dto.getTotalPrice());
+			System.out.println("---------------------------------------------------------");
+			System.out.println("\t\t\t결제 금액  :  \t\t" + dto.getOrderDate() + "원");
 
 
 			System.out.println("─────────────────────────────────────────────────────────");
@@ -180,7 +180,6 @@ public class InquiryOrderController {
 			}
 		} catch (Exception e) {
 			System.out.println("주문 상세 내역 불러오기 실패");
-			e.printStackTrace();
 			return;
 		}
 

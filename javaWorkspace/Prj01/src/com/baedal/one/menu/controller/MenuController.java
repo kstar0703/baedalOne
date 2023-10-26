@@ -73,9 +73,9 @@ public class MenuController {
 			System.out.println("1. 메뉴 등록");
 			System.out.println("2. 메뉴 수정");
 			System.out.println("3. 메뉴 삭제");
-			System.out.println("4. 삭제한 메뉴 복구하기");
-			System.out.println("5. 메뉴 리스트 보기 (매장 전체 메뉴)");
-			System.out.println("6. 삭제된 메뉴 리스트 보기");
+//			System.out.println("4. 삭제한 메뉴 복구하기");
+			System.out.println("4. 메뉴 리스트 보기 (매장 전체 메뉴)");
+			System.out.println("5. 삭제된 메뉴 리스트 보기");
 			System.out.println("9. 뒤로가기");
 			
 			String num = MenuMain.SC.nextLine();
@@ -84,9 +84,9 @@ public class MenuController {
 			case "1" : addMenu(storeNo); break;
 			case "2" : editMenu(); break;
 			case "3" : deleteMenu(); break;
-			case "4" : rollbackDeleteMenu(); break;
-			case "5" : menuList(storeNo); break;
-			case "6" : deleteMenuList(storeNo); break;
+//			case "4" : rollbackDeleteMenu(); break;
+			case "4" : menuList(storeNo); break;
+			case "5" : deleteMenuList(storeNo); break;
 			case "9" : return;
 			default : System.out.println("잘못된 명령입니다.\n");
 			}
@@ -237,7 +237,7 @@ public class MenuController {
 		
 		try {
 			//데이터
-			System.out.print("매뉴 번호 : ");
+			System.out.print("메뉴 번호 : ");
 	        String input = MenuMain.SC.nextLine();
 	        
 	        String menuNo = voList.get(Integer.parseInt(input)-1).getMenuNo();
@@ -250,7 +250,7 @@ public class MenuController {
 					//객체로 만들기(매장 번호, 메뉴이름 가격)
 					MenuVo menuVo = new MenuVo();
 					menuVo.setMenuNo(menuNo);
-					menuVo.setDeleteYn("Y");	//deletr_yn을 Y로 설정
+					menuVo.setDeleteYn("Y");	//delete_yn을 Y로 설정
 					menuVo.setSellYn("N");	//sell_yn을 N로 설정
 					
 					//서비스 호출
@@ -310,7 +310,7 @@ public class MenuController {
 		
 		try {
 			//데이터
-			System.out.print("매뉴 번호 : ");
+			System.out.print("메뉴 번호 : ");
 	        String input = MenuMain.SC.nextLine();
 	        
 	        String menuNo = voList.get(Integer.parseInt(input)-1).getMenuNo();
@@ -407,7 +407,7 @@ public class MenuController {
 				System.out.print("\t메뉴 이름");
 				System.out.print("\t | ");
 				System.out.println("\t가격 ");
-				System.out.println("────────────────────────────────────────────────────────────────────────");
+				System.out.println("──────────────────────────────────────────────────────");
 				for (int i = 0; i < voList.size(); i++) {
 					MenuVo menuVo = voList.get(i);
 					System.out.print("   " + (i + 1) + "  ");
@@ -457,8 +457,8 @@ public class MenuController {
 				System.out.println("〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓");
 				System.out.print(" ");	//번호 부여
 				System.out.print("\t |");
-				System.out.print("    메뉴 번호");
-				System.out.print("    | ");
+//				System.out.print("    메뉴 번호");
+//				System.out.print("    | ");
 				System.out.print("    메뉴 이름");
 				System.out.print("    | ");
 				System.out.print(" 가격 ");
@@ -466,13 +466,13 @@ public class MenuController {
 				System.out.print("삭제 여부");
 				System.out.print(" | ");
 				System.out.println("노출 여부");
-				System.out.println("────────────────────────────────────────────────────────────────────────");
+				System.out.println("──────────────────────────────────────────────────────");
 				for (int i = 0; i < voDeleteList.size(); i++) {
 					MenuVo menuVo = voDeleteList.get(i);
 					System.out.print("    " + (i + 1) + "   ");
 					System.out.print(" | ");
-					System.out.print("\t" + menuVo.getMenuNo());
-					System.out.print("\t| ");
+//					System.out.print("\t" + menuVo.getMenuNo());
+//					System.out.print("\t| ");
 					System.out.print("    " + menuVo.getMenuName());
 					System.out.print("\t | ");
 					System.out.print("" + menuVo.getPrice());
