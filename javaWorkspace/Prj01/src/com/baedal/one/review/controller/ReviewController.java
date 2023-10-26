@@ -146,7 +146,7 @@ public class ReviewController {
 				List<ReplyVo> newReplyVoList = replyVoList.stream().distinct().collect(Collectors.toList());
 				
 				if(newReviewVoList.size() == 0) {
-					System.out.println("");
+					System.err.println("\n작성된 리뷰가 없습니다.");
 					return null;
 				}
 				
@@ -156,10 +156,10 @@ public class ReviewController {
 					// 리뷰번호 반환값 
 					reviewNoMap.put(x+1,r.getReviewNo());
 					
-					System.out.println("\n-------------------리뷰 조회--------------------");
+					System.out.println("\n\u001B[32m-------------------리뷰 조회--------------------");
 					System.out.print(x+1+".");
-					System.out.print("\u001B[32m"+" ꒰⑅•ᴗ•⑅꒱ "+"\u001B[0m");
-					System.out.println("\u001B[32m"+r.getNickName()+"\u001B[0m");
+					System.out.print(" ꒰⑅•ᴗ•⑅꒱ ");
+					System.out.println(r.getNickName());
 					System.out.println("작성일자: "+r.getWriteDate());
 					System.out.print("별점: ");
 					switch (r.getRating()) {
@@ -170,14 +170,14 @@ public class ReviewController {
 					case "5": System.out.println("★★★★★"); break;
 					}
 					System.out.println("리뷰내용: "+r.getContent());
-					System.out.println("주문메뉴: "+menuNameMap.get(r.getOrderNo()).substring(2));
+					System.out.println("주문메뉴: "+menuNameMap.get(r.getOrderNo()).substring(2)+"\u001B[0m");
 					if(newReplyVoList.get(x).getContent() == null || newReplyVoList.get(x).getDeleteYn().equals("Y")) {
 						System.out.println("");
 					}else {
-						System.out.println("\n-------------------답변 조회--------------------");
-						System.out.println(x+1+"."+"\u001B[32m (̨̡˙ꈊ˙)̧̢\u001B[0m"+" \u001B[32m사장님\u001B[0m");
+						System.out.println("\n\u001B[35m-------------------답변 조회--------------------");
+						System.out.println(x+1+". (̨̡˙ꈊ˙)̧̢ 사장님");
 						System.out.println("작성일자: "+newReplyVoList.get(x).getReplyWriteDate());
-						System.out.println("답변내용: "+newReplyVoList.get(x).getContent());
+						System.out.println("답변내용: "+newReplyVoList.get(x).getContent()+"\u001B[0m");
 						System.out.println();
 					}
 					x++;
@@ -247,7 +247,7 @@ public class ReviewController {
 			List<ReplyVo> newReplyVoList = replyVoList.stream().distinct().collect(Collectors.toList());
 			
 			if(newReviewVoList.size() == 0) {
-				System.out.println("\n작성된 리뷰가 없습니다.");
+				System.err.println("\n작성된 리뷰가 없습니다.");
 				return;
 			}
 			int x = 0;
@@ -256,10 +256,11 @@ public class ReviewController {
 				// 오더번호 반환값 
 				orderNoMap.put(x+1,r.getOrderNo());
 				
-				System.out.println("\n-------------------리뷰 조회--------------------");
+				System.out.println("\n\u001B[32m-------------------리뷰 조회--------------------");
+				System.out.println("\t\t  < "+r.getStoreName()+" >\n");
 				System.out.print(x+1+".");
-				System.out.print("\u001B[32m"+" ꒰⑅•ᴗ•⑅꒱ "+"\u001B[0m");
-				System.out.println("\u001B[32m"+r.getNickName()+"\u001B[0m");
+				System.out.print(" ꒰⑅•ᴗ•⑅꒱ ");
+				System.out.println(r.getNickName());
 				System.out.println("작성일자: "+r.getWriteDate());
 				System.out.print("별점: ");
 				switch (r.getRating()) {
@@ -270,20 +271,22 @@ public class ReviewController {
 				case "5": System.out.println("★★★★★"); break;
 				}
 				System.out.println("리뷰내용: "+r.getContent());
-				System.out.println("주문메뉴: "+menuNameMap.get(r.getOrderNo()).substring(2));
+				System.out.println("주문메뉴: "+menuNameMap.get(r.getOrderNo()).substring(2)+"\u001B[0m");
 				if(newReplyVoList.get(x).getContent() == null || newReplyVoList.get(x).getDeleteYn().equals("Y")) {
 					System.out.println("");
 				}else {
-					System.out.println("\n-------------------답변 조회--------------------");
-					System.out.println(x+1+"."+"\u001B[32m (̨̡˙ꈊ˙)̧̢\u001B[0m"+" \u001B[32m사장님\u001B[0m");
+					System.out.println("\n\u001B[35m-------------------답변 조회--------------------");
+					System.out.println(x+1+". (̨̡˙ꈊ˙)̧̢"+" 사장님");
 					System.out.println("작성일자: "+newReplyVoList.get(x).getReplyWriteDate());
-					System.out.println("답변내용: "+newReplyVoList.get(x).getContent());
+					System.out.println("답변내용: "+newReplyVoList.get(x).getContent()+"\u001B[0m");
 					System.out.println();
 				}
 				x++;
 			}
 			System.out.println("----------------------------------------------");
-			System.out.println("1. 리뷰 수정 / 2. 리뷰삭제 / 3. 뒤로가기");
+			System.out.println("\n1. 리뷰 수정");
+			System.out.println("2. 리뷰삭제");
+			System.out.println("3. 뒤로가기");
 			System.out.print("번호를 입력하세요: ");
 			String num = Main.SC.nextLine();
 			switch (num) {
@@ -393,6 +396,10 @@ public class ReviewController {
 	 * 답변 메뉴 선택 
 	 */
 	public void selectReply(Map<Integer, String> reviewNoMap) {
+		
+		if(reviewNoMap == null) {
+			return;
+		}
 		
 		System.out.println("\n1. 답변작성");
 		System.out.println("2. 답변수정");

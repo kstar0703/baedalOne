@@ -18,8 +18,8 @@ public class ReviewMain {
 		
 		switch (num) {
 		case "1" : reviewController.writeReview("2","2","7"); break;
-		case "2" : Map<Integer, String> map = reviewController.storeReview("5"); reviewController.selectReply(map); break;
-		case "3" : reviewController.userReview("4"); break;
+		case "2" : Map<Integer, String> map = reviewController.storeReview("2"); reviewController.selectReply(map); break;
+		case "3" : reviewController.userReview("2"); break;
 		default: System.out.println("다시 입력 해주세요.");
 		}
 		

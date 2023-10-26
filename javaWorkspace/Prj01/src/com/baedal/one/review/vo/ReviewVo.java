@@ -12,7 +12,7 @@ public class ReviewVo {
 	}
 
 	public ReviewVo(String rating, String userNo, String reviewNo, String nickName, String writeDate, String content,
-			String menuName, String storeNo, String orderNo) {
+			String menuName, String storeNo, String orderNo, String storeName) {
 		super();
 		this.rating = rating;
 		this.userNo = userNo;
@@ -21,8 +21,9 @@ public class ReviewVo {
 		this.writeDate = writeDate;
 		this.content = content;
 		this.menuName = menuName;
-		this.StoreNo = storeNo;
+		StoreNo = storeNo;
 		this.orderNo = orderNo;
+		this.storeName = storeName;
 	}
 
 	String rating;
@@ -34,7 +35,8 @@ public class ReviewVo {
 	String menuName; // dto
 	String StoreNo;
 	String orderNo;
-
+	String storeName;
+	
 	public String getRating() {
 		return rating;
 	}
@@ -107,16 +109,24 @@ public class ReviewVo {
 		this.orderNo = orderNo;
 	}
 
+	public String getStoreName() {
+		return storeName;
+	}
+
+	public void setStoreName(String storeName) {
+		this.storeName = storeName;
+	}
+
 	@Override
 	public String toString() {
 		return "ReviewVo [rating=" + rating + ", userNo=" + userNo + ", reviewNo=" + reviewNo + ", nickName=" + nickName
 				+ ", writeDate=" + writeDate + ", content=" + content + ", menuName=" + menuName + ", StoreNo="
-				+ StoreNo + ", orderNo=" + orderNo + "]";
+				+ StoreNo + ", orderNo=" + orderNo + ", storeName=" + storeName + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(StoreNo, content, nickName, orderNo, rating, reviewNo, userNo, writeDate);
+		return Objects.hash(StoreNo, content, nickName, orderNo, rating, reviewNo, storeName, userNo, writeDate);
 	}
 
 	@Override
@@ -129,9 +139,10 @@ public class ReviewVo {
 			return false;
 		ReviewVo other = (ReviewVo) obj;
 		return Objects.equals(StoreNo, other.StoreNo) && Objects.equals(content, other.content)
-				&& Objects.equals(nickName, other.nickName) && Objects.equals(rating, other.rating)
-				&& Objects.equals(reviewNo, other.reviewNo) && Objects.equals(userNo, other.userNo)
+				&& Objects.equals(nickName, other.nickName) && Objects.equals(orderNo, other.orderNo)
+				&& Objects.equals(rating, other.rating) && Objects.equals(reviewNo, other.reviewNo)
+				&& Objects.equals(storeName, other.storeName) && Objects.equals(userNo, other.userNo)
 				&& Objects.equals(writeDate, other.writeDate);
 	}
-
+	
 }
