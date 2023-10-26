@@ -57,10 +57,9 @@ public class InquiryOrderController {
 						// 메뉴를 하나만 시킨 주문일 경우 그냥 공백을 두고 출력
 						System.out.print("\t");
 					}
-					System.out.print("/ ");
-					System.out.print(vo.getTotalPrice());
-					System.out.print("원 / ");
-					System.out.println(vo.getOderDate());
+					System.out.println("\t\t\t\t    "+vo.getTotalPrice()+"원\n");
+					System.out.println("\t\t\t\t"+vo.getOderDate());
+					System.out.println("---------------------------------------------------------");
 					i++;
 				}
 

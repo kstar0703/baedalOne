@@ -103,7 +103,7 @@ public class PayController {
 			int nowMoney = findBalance(userNo);// 현재 금액 보여주고 nowMoney에 현재 금액 저장
 
 			System.out.println("─────────────────충전하기──────────────────────");
-		
+
 			// 충전 금액 입력 받기
 			System.out.println("충전 할 금액을 입력하세요 : ");
 			String chargeAmount = sc.nextLine();
@@ -158,23 +158,22 @@ public class PayController {
 			for (PayVo vo : voList) {
 				// 출금의 출처가 '충전'일때는 파랑 글씨로 출력
 				if (vo.getSource().equals("충전")) {
-					System.out.print("\u001B[34m" + vo.getSource());// ""(쌍따움표)안의 역할 : 출력문 파랑색으로 바꾸기
-					System.out.print(" / ");
-					System.out.print(vo.getPay());
-					System.out.print(" / ");
-					System.out.print(vo.getPayDate());
-					System.out.print(" / ");
-					System.out.println(vo.getBalance() + "\u001B[0m");// ""(쌍따움표)안의 역할 : 출력문 원래 색으로 바꾸기
+					System.out.println("\u001B[34m날짜 : " + vo.getPayDate());
+//					System.out.println("\t\t\t\t      " +  vo.getSource());// ""(쌍따움표)안의 역할 : 출력문 파랑색으로 바꾸기
+//					System.out.println("\t\t\t\t     " + vo.getPay());
+					System.out.print("\t\t\t       " +  vo.getSource());// ""(쌍따움표)안의 역할 : 출력문 파랑색으로 바꾸기
+					System.out.println(" : " + vo.getPay()+ "원");
+					System.out.println("\t\t\t       잔액 : " + vo.getBalance() + "원\u001B[0m");// ""(쌍따움표)안의 역할 : 출력문 원래 색으로 바꾸기
+					System.out.println("────────────────────────────────────────────");
 				} else {
-					// 출금의 출처가 매장이름일때는 빨간 글씨로 출력
-					System.out.print("\u001B[31m" + vo.getSource());// ""(쌍따움표)안의 역할 : 출력문 빨강색으로 바꾸기
-					System.out.print(" / ");
-					System.out.print(vo.getPay());
-					System.out.print(" / ");
-					System.out.print(vo.getPayDate());
-					System.out.print(" / ");
-					System.out.println(vo.getBalance() + "\u001B[0m");// ""(쌍따움표)안의 역할 : 출력문 원래 색으로 바꾸기
-
+					System.out.println("\u001B[31m날짜 : " + vo.getPayDate());
+//					System.out.println("\t\t\t\t      " +  vo.getSource());// ""(쌍따움표)안의 역할 : 출력문 파랑색으로 바꾸기
+//					System.out.println("\t\t\t\t     " + vo.getPay());
+					System.out.print("\t\t\t    " +  vo.getSource());// ""(쌍따움표)안의 역할 : 출력문 파랑색으로 바꾸기
+					System.out.println(" : " + vo.getPay()+ "원");
+					System.out.println("\t\t\t       잔액 : " + vo.getBalance() + "원\u001B[0m");// ""(쌍따움표)안의 역할 : 출력문 원래 색으로 바꾸기
+					System.out.println("────────────────────────────────────────────");
+					
 				}
 			}
 		} catch (Exception e) {
