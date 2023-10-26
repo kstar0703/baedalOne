@@ -31,7 +31,7 @@ public class MemberController {
 		String num;
 		while(true) {
 			System.out.println();
-			System.out.println("=====회원=====");
+			System.out.println("-----회원-----");
 			System.out.println("1.회원가입");
 			System.out.println("2.로그인");
 			System.out.println("9.뒤로 가기");
@@ -90,11 +90,11 @@ public class MemberController {
 				throw new Exception();
 			}
 				
-			System.out.println("회원가입 성공 !");	
+			System.out.println("회원가입 성공 !!");	
 			
 		}catch(Exception e) {
-			System.out.println("회원가입 실패");
-			e.printStackTrace();
+			System.out.println("회원가입 실패...");
+			
 		}
 	
 	}//join
@@ -134,16 +134,15 @@ public class MemberController {
 				while(true) {
 					System.out.println();
 					System.out.println("-----회원 메뉴 선택-----");
-					System.out.println("1.회원탈퇴");
-					System.out.println("2.로그아웃");
-					System.out.println("3.회원정보 수정하기");
-					System.out.println("4.내 돈 관리");
+					System.out.println("1.원하는 매장 선택");
+					System.out.println("2.장바구니 조회하기");
+					System.out.println("3.내 돈 관리");
+					System.out.println("4.주문내역 확인하기");
 					System.out.println("5.리뷰 조회하기");
-					System.out.println("6.주문내역 확인하기");
-					System.out.println("7.원하는 매장 선택");
-					System.out.println("8.장바구니 조회하기");
-					
-					System.out.println("10.뒤로 가기");
+					System.out.println("6.회원정보 수정하기");
+					System.out.println("7.로그아웃");
+					System.out.println("8.회원탈퇴");
+					System.out.println("9.뒤로 가기");
 					System.out.print("원하는 번호를 선택하세요:");
 
 					ReviewController rc= new ReviewController();
@@ -152,16 +151,15 @@ public class MemberController {
 					InquiryOrderController ioc = new InquiryOrderController();
 					num = Main.SC.nextLine();
 					switch(num) {
-					case "1" : quit();return;
-					case "2" : logout();return;
-					case "3" : changeMemberInfo();break;
-					case "4" : pcm.selectPayMenu(dbVo.getMemberNo());break;
+					case "1" : sc.showStoreForMemberManager();break;
+					case "2" : oc.printMyCartList(); break;
+					case "3" : pcm.selectPayMenu(dbVo.getMemberNo());break;
+					case "4" : ioc.showOder(dbVo.getMemberNo());;break;
 					case "5" : rc.userReview(dbVo.getMemberNo());break;
-					case "6" : ioc.showOder(dbVo.getMemberNo());;break;
-					case "7" : sc.showStoreForMemberManager();break;
-					case "8" : oc.printMyCartList(); break;
-					
-					case "10" : return;
+					case "6" : changeMemberInfo();break;
+					case "7" : logout();return;
+					case "8" : quit();return;
+					case "9" : return;
 
 					default : System.out.println("그런 매뉴 없음");
 					}
@@ -169,8 +167,8 @@ public class MemberController {
 				}
 					
 		}catch(Exception e) {
-			System.out.println("로그인 실패");
-			e.printStackTrace();
+			System.out.println("로그인 실패...");
+			
 		}
 
 	}
@@ -200,7 +198,7 @@ public class MemberController {
 			
 		}catch(Exception e) {
 			System.out.println("-----회원 탈퇴 실패 ...-----");
-			e.printStackTrace();
+			
 		}
 		
 		
@@ -222,6 +220,7 @@ public class MemberController {
 		System.out.println("1.비밀번호 변경하기");
 		System.out.println("2.닉네임 변경하기");
 		System.out.println("3.결제 비밀번호 변경하기");
+		System.out.println("9.뒤로 가기");
 		System.out.print("원하는 번호를 선택하세요:");
 		
 		String num = Main.SC.nextLine();
@@ -240,13 +239,13 @@ public class MemberController {
 	public void changePwd() {
 		try {
 			System.out.println();
-			System.out.println("비밀번호 변경하기");
+			System.out.println("-----비밀번호 변경하기-----");
 			
 			//데이터
-			System.out.println("기존 비번:");
+			System.out.println("기존 비밀번호를 입력하세요:");
 			
 			String oldPwd = Main.SC.nextLine();
-			System.out.println("신규 비번:");
+			System.out.println("신규 비밀번호를 입력하세요:");
 			String newPwd = Main.SC.nextLine();
 			
 			MemberVo vo = new MemberVo();
@@ -260,11 +259,11 @@ public class MemberController {
 			if(result != 1) {
 				throw new Exception();
 			}
-			System.out.println("비밀번호 변경 성공!");
+			System.out.println("비밀번호 변경 성공!!");
 			
 		}catch(Exception e) {
-			System.out.println("비밀번호 변경 실패");
-			e.printStackTrace();
+			System.out.println("비밀번호 변경 실패...");
+			
 		}
 		
 	}
@@ -273,13 +272,13 @@ public class MemberController {
 	public void changeNickName() {
 		try {
 			System.out.println();
-			System.out.println("닉네임 변경하기");
+			System.out.println("-----닉네임 변경하기-----");
 			
 			//데이터
-			System.out.println("기존 닉네임:");
+			System.out.println("기존 닉네임을 입력하세요:");
 			
 			String oldNick = Main.SC.nextLine();
-			System.out.println("신규 닉네임:");
+			System.out.println("신규 닉네임을 입력하세요:");
 			String newNick = Main.SC.nextLine();
 			
 			MemberVo vo = new MemberVo();
@@ -297,7 +296,7 @@ public class MemberController {
 			
 		}catch(Exception e) {
 			System.out.println("닉네임 변경 실패...");
-			e.printStackTrace();
+			
 		}
 	}
 
@@ -305,13 +304,13 @@ public class MemberController {
 	public void changeAmountPwd() {
 		try {
 			System.out.println();
-			System.out.println("결제 비밀번호 변경하기");
+			System.out.println("-----결제 비밀번호 변경하기(6자리)-----");
 			
 			//데이터
-			System.out.print("기존 결제 비밀번호:");
+			System.out.print("기존 결제 비밀번호을 입력하세요:");
 			
 			String oldAmountPwd = Main.SC.nextLine();
-			System.out.print("신규 결제 비밀번호:");
+			System.out.print("신규 결제 비밀번호을 입력하세요:");
 			String newAmountPwd = Main.SC.nextLine();
 			
 			MemberVo vo = new MemberVo();
@@ -329,7 +328,7 @@ public class MemberController {
 			
 		}catch(Exception e) {
 			System.out.println("결제 비밀번호 변경 실패...");
-			e.printStackTrace();
+			
 		}
 		
 	}
