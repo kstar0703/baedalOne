@@ -289,7 +289,6 @@ public class StoreController {
 			
 		}catch (Exception e) {
 			System.out.println("\u001B[31m매장등록 실패\u001B[0m");
-			e.printStackTrace();
 		}
 		
 	}
@@ -323,7 +322,6 @@ public class StoreController {
 	
 		}catch (Exception e) {
 			System.out.println("\u001B[31m카테고리 목록 출력 실패\u001B[0m");
-			e.printStackTrace();
 		}
 		
 		return list;	
@@ -408,8 +406,8 @@ public class StoreController {
 			}else {
 				System.out.println("----------------보유 매장------------------");
 				for(int i =0; i<storeList.size(); i++) {
-					System.out.println(i+1 +". " + storeList.get(i).getStoreName() +" /카테고리(" + storeList.get(i).getCategoryName()  +")" );
-				}
+					System.out.println(i+1  +". 매장명 : " + storeList.get(i).getStoreName() +" / 카테고리 : " + storeList.get(i).getCategoryName() + " / OPEN : " 
+							+storeList.get(i).getOpenTime() + " / CLOSE : " + storeList.get(i).getCloseTime()); };
 				System.out.println("--------------------------------------");	
 			}
 			
@@ -418,7 +416,6 @@ public class StoreController {
 			
 		} catch (Exception e) {
 			System.out.println("\u001B[31m매장 조회 실패\u001B[0m");
-			e.printStackTrace();
 		}
 		return storeList;
 	}
@@ -459,7 +456,6 @@ public class StoreController {
 			
 		} catch (Exception e) {
 			System.out.println("매장 선택 실패");
-			e.printStackTrace();
 		}
 		return storeVo;
 	}
@@ -486,13 +482,12 @@ public class StoreController {
 			System.out.println("\n");
 			System.out.println("--------------- 전체 매장 ---------------");
 			for(int i =0; i<storeList.size(); i++) {
-				System.out.println(i+1 +". " + storeList.get(i).getStoreName() +" /카테고리(" + storeList.get(i).getCategoryName()  +")" );
-			}
+				System.out.println(i+1  +". 매장명 : " + storeList.get(i).getStoreName() +" / 카테고리 : " + storeList.get(i).getCategoryName() + " / OPEN : " 
+						+storeList.get(i).getOpenTime() + " / CLOSE : " + storeList.get(i).getCloseTime()); };
 			System.out.println("--------------------------------------");
 			
 		} catch (Exception e) {
 			System.out.println("매장 조회 실패");
-			e.printStackTrace();
 		}
 		return storeList;
 	}
@@ -517,13 +512,12 @@ public class StoreController {
 			
 			System.out.println("--------------- 전체 매장 ---------------");
 			for(int i =0; i<storeList.size(); i++) {
-				System.out.println(i+1 +". " + storeList.get(i).getStoreName() +" /카테고리(" + storeList.get(i).getCategoryName()  +")" );
-			}
-			System.out.println("--------------------------------------");
+				System.out.println(i+1  +". 매장명 : " + storeList.get(i).getStoreName() +" / 카테고리 : " + storeList.get(i).getCategoryName() + " / OPEN : " 
+						+storeList.get(i).getOpenTime() + " / CLOSE : " + storeList.get(i).getCloseTime()); };
+				System.out.println("--------------------------------------");
 			
 		} catch (Exception e) {
 			System.out.println("매장 조회 실패");
-			e.printStackTrace();
 		}
 		return storeList;
 	}
@@ -586,6 +580,7 @@ public class StoreController {
 		}
 	}
 
+	
 }
 	
 	
