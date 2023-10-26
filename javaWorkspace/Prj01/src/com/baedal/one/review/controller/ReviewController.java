@@ -80,8 +80,7 @@ public class ReviewController {
 		} catch (java.lang.NumberFormatException e) {
 			System.err.println("\n숫자를 입력해주세요.");
 		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("디비 연결 실패...");
+			System.err.println("디비 연결 실패...");
 		} catch (Exception e) {
 			System.err.println("\n1~5점 사이로 입력하세요.");
 		}
@@ -156,7 +155,7 @@ public class ReviewController {
 					// 리뷰번호 반환값 
 					reviewNoMap.put(x+1,r.getReviewNo());
 					
-					System.out.println("\n\u001B[32m-------------------리뷰 조회--------------------");
+					System.out.println("\n\u001B[0m──────────────────────────리뷰조회────────────────────────────");
 					System.out.print(x+1+".");
 					System.out.print(" ꒰⑅•ᴗ•⑅꒱ ");
 					System.out.println(r.getNickName());
@@ -174,8 +173,9 @@ public class ReviewController {
 					if(newReplyVoList.get(x).getContent() == null || newReplyVoList.get(x).getDeleteYn().equals("Y")) {
 						System.out.println("");
 					}else {
-						System.out.println("\n\u001B[35m-------------------답변 조회--------------------");
+						System.out.println("\n\u001B[34m──────────────────────────답변조회─────────────────────────────");
 						System.out.println(x+1+". (̨̡˙ꈊ˙)̧̢ 사장님");
+						System.out.println();
 						System.out.println("작성일자: "+newReplyVoList.get(x).getReplyWriteDate());
 						System.out.println("답변내용: "+newReplyVoList.get(x).getContent()+"\u001B[0m");
 						System.out.println();
@@ -184,7 +184,7 @@ public class ReviewController {
 				}
 				System.out.println("----------------------------------------------");
 			}catch (Exception e) {
-				e.printStackTrace();
+				System.err.println("디비연결실패..");
 			}
 			return reviewNoMap;
 	}
@@ -256,8 +256,8 @@ public class ReviewController {
 				// 오더번호 반환값 
 				orderNoMap.put(x+1,r.getOrderNo());
 				
-				System.out.println("\n\u001B[32m-------------------리뷰 조회--------------------");
-				System.out.println("\t\t  < "+r.getStoreName()+" >\n");
+				System.out.println("\n\u001B[0m──────────────────────────리뷰조회────────────────────────────");
+				System.out.println("\t\t       < "+r.getStoreName()+" >\n");
 				System.out.print(x+1+".");
 				System.out.print(" ꒰⑅•ᴗ•⑅꒱ ");
 				System.out.println(r.getNickName());
@@ -275,8 +275,9 @@ public class ReviewController {
 				if(newReplyVoList.get(x).getContent() == null || newReplyVoList.get(x).getDeleteYn().equals("Y")) {
 					System.out.println("");
 				}else {
-					System.out.println("\n\u001B[35m-------------------답변 조회--------------------");
+					System.out.println("\n\u001B[34m──────────────────────────답변조회─────────────────────────────");
 					System.out.println(x+1+". (̨̡˙ꈊ˙)̧̢"+" 사장님");
+					System.out.println();
 					System.out.println("작성일자: "+newReplyVoList.get(x).getReplyWriteDate());
 					System.out.println("답변내용: "+newReplyVoList.get(x).getContent()+"\u001B[0m");
 					System.out.println();
@@ -298,8 +299,7 @@ public class ReviewController {
 		} catch (java.lang.IndexOutOfBoundsException e) {
 			System.err.println("\n작성된 리뷰가 없습니다.");
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("\n리뷰 조회 실패...");
+			System.err.println("\n리뷰 조회 실패...");
 		}
 	}
 
@@ -342,10 +342,8 @@ public class ReviewController {
 		} catch (java.util.InputMismatchException e) {
 			System.err.println("\n번호를 입력하세요.");
 		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("\n리뷰 데이터 불러오기 실패");
+			System.err.println("\n리뷰 데이터 불러오기 실패");
 		} catch (Exception e) {
-			e.printStackTrace();
 			System.err.println("\n존재하지 않는 리뷰 번호 입니다.");
 		}
 
@@ -385,7 +383,6 @@ public class ReviewController {
 		} catch (java.util.InputMismatchException e) {
 			System.err.println("\n번호를 입력하세요.");
 		} catch (SQLException e) {
-			e.printStackTrace();
 			System.err.println("\n리뷰 데이터 불러오기 실패");
 		} catch (Exception e) {
 			System.err.println("\n존재하지 않는 리뷰 번호 입니다.");
@@ -459,10 +456,9 @@ public class ReviewController {
 		} catch (java.sql.SQLIntegrityConstraintViolationException e) {			
 			System.err.println("\n이미 작성된 답변입니다.");
 		} catch (java.util.InputMismatchException e) {
-			System.out.println("번호를 입력해주세요.");
+			System.err.println("번호를 입력해주세요.");
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("\n답변 작성중 디비 연결 실패..");
+			System.err.println("\n답변 작성중 디비 연결 실패..");
 		}
 
 	}
@@ -502,14 +498,13 @@ public class ReviewController {
 
 			// 결과집합
 			if (result != 1) {
-				System.err.println("해당 답변이 존재하지 않습니다.");
 				throw new Exception();
 			}
 			System.out.println("\n답변 수정완료!");
 		} catch (java.util.InputMismatchException e) {
 			System.out.println("\n번호를 입력해주세요.");
 		} catch (Exception e) {
-			e.getMessage();
+			System.err.println("\n해당 답변이 존재하지 않습니다.");
 		}
 		
 	}
