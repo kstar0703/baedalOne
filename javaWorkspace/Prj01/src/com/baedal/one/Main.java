@@ -15,7 +15,7 @@ public class Main {
 		
 	public static void main(String[] args) {
 		
-		System.out.println("=====원하는 유형을 선택하세요=====");
+		System.out.println("-----원하는 유형을 선택하세요-----");
 		
 		//객체 생성
 		MemberController mc = new MemberController();

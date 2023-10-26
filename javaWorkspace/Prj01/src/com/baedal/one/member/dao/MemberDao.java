@@ -111,5 +111,21 @@ public class MemberDao {
 		
 		return result;
 	}
+
+	public int changeAmountPwd(Connection conn, String newAmountPwd, MemberVo vo) throws Exception {
+		//SQL
+		String sql = "UPDATE MEMBER SET AMOUNTPWD = ?, UPDATE_DATE = SYSDATE  WHERE MEMBER_NO = ? AND AMOUNTPWD = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, newAmountPwd);
+		pstmt.setString(2, vo.getMemberNo());
+		pstmt.setString(3, vo.getAmountPwd());
+		int result = pstmt.executeUpdate();
+		
+		//rs
+		JDBCTemplate.close(pstmt);
+		
+		return result;
+		
+	}
 	
 }

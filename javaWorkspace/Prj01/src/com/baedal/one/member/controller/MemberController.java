@@ -7,6 +7,7 @@ import com.baedal.one.inquiryOrder.controller.InquiryOrderController;
 import com.baedal.one.member.service.MemberService;
 import com.baedal.one.member.vo.MemberVo;
 import com.baedal.one.orders.controller.OrderController;
+import com.baedal.one.owner.vo.OwnerVo;
 import com.baedal.one.pay.controller.PayController;
 import com.baedal.one.review.controller.ReviewController;
 import com.baedal.one.store.controller.StoreController;
@@ -132,7 +133,7 @@ public class MemberController {
 				String num;
 				while(true) {
 					System.out.println();
-					System.out.println("=====회원 메뉴 선택=====");
+					System.out.println("-----회원 메뉴 선택-----");
 					System.out.println("1.회원탈퇴");
 					System.out.println("2.로그아웃");
 					System.out.println("3.회원정보 수정하기");
@@ -141,7 +142,8 @@ public class MemberController {
 					System.out.println("6.주문내역 확인하기");
 					System.out.println("7.원하는 매장 선택");
 					System.out.println("8.장바구니 조회하기");
-					System.out.println("9.뒤로 가기");
+					
+					System.out.println("10.뒤로 가기");
 					System.out.print("원하는 번호를 선택하세요:");
 
 					ReviewController rc= new ReviewController();
@@ -158,7 +160,8 @@ public class MemberController {
 					case "6" : ioc.showOder(dbVo.getMemberNo());;break;
 					case "7" : sc.showStoreForMemberManager();break;
 					case "8" : oc.printMyCartList(); break;
-					case "9" : return;
+					
+					case "10" : return;
 
 					default : System.out.println("그런 매뉴 없음");
 					}
@@ -171,7 +174,6 @@ public class MemberController {
 		}
 
 	}
-			
 
 	//회원탈퇴
 	public void quit() {
@@ -215,24 +217,19 @@ public class MemberController {
 	//회원정보 수정하기
 	public void changeMemberInfo() {
 		System.out.println();
-		System.out.println("-----회원정보 변경하기-----");
+		System.out.println("-----회원정보 수정하기-----");
 		System.out.println("(한번에 변경 불가능. 뒤로 가기 후 하나씩 변경해주세요)");
 		System.out.println("1.비밀번호 변경하기");
 		System.out.println("2.닉네임 변경하기");
-		System.out.println("3.회원주소 변경하기");
-		System.out.println("4.전화번호 변경하기");
-		System.out.println("5.결제 비밀번호 변경하기");
+		System.out.println("3.결제 비밀번호 변경하기");
 		System.out.print("원하는 번호를 선택하세요:");
 		
 		String num = Main.SC.nextLine();
 		switch(num) {
 		case "1" : changePwd();break;
 		case "2" : changeNickName();break;
-		case "3" : changeAdress();break;
-		case "4" : changePhone();break;
-		case "5" : changeAmountPwd();break;
+		case "3" : changeAmountPwd();break;
 		case "9" : return;
-
 		default : System.out.println("그런 매뉴 없음");
 		}
 	}
@@ -253,8 +250,8 @@ public class MemberController {
 			String newPwd = Main.SC.nextLine();
 			
 			MemberVo vo = new MemberVo();
-			vo.setPwd(oldPwd);
 			vo = Main.loginMember ;
+			vo.setPwd(oldPwd);
 			
 			//서비스
 			int result = ms.changePwd(vo,newPwd);
@@ -272,6 +269,7 @@ public class MemberController {
 		
 	}
 	
+	//닉네임 변경하기
 	public void changeNickName() {
 		try {
 			System.out.println();
@@ -285,8 +283,8 @@ public class MemberController {
 			String newNick = Main.SC.nextLine();
 			
 			MemberVo vo = new MemberVo();
+			vo = Main.loginMember;
 			vo.setPwd(oldNick);
-			vo = Main.loginMember ;
 			
 			//서비스
 			int result = ms.changeNickName(vo,newNick);
@@ -298,24 +296,42 @@ public class MemberController {
 			System.out.println("닉네임 변경 성공!!");
 			
 		}catch(Exception e) {
-			System.out.println("비밀번호 변경 실패...");
+			System.out.println("닉네임 변경 실패...");
 			e.printStackTrace();
 		}
 	}
-	
-	public void changeAdress() {
-		
-		
-	}
 
-	public void changePhone() {
-		
-		
-	}
-
+	//결제 비밀번호 변경하기
 	public void changeAmountPwd() {
+		try {
+			System.out.println();
+			System.out.println("결제 비밀번호 변경하기");
+			
+			//데이터
+			System.out.print("기존 결제 비밀번호:");
+			
+			String oldAmountPwd = Main.SC.nextLine();
+			System.out.print("신규 결제 비밀번호:");
+			String newAmountPwd = Main.SC.nextLine();
+			
+			MemberVo vo = new MemberVo();
+			vo = Main.loginMember;
+			vo.setPwd(oldAmountPwd);
+			
+			//서비스
+			int result = ms.changeAmountPwd(vo,newAmountPwd);
+			
+			//결과
+			if(result != 1) {
+				throw new Exception();
+			}
+			System.out.println("결제 비밀번호 변경 성공!!");
+			
+		}catch(Exception e) {
+			System.out.println("결제 비밀번호 변경 실패...");
+			e.printStackTrace();
+		}
 		
 	}
-	
 	
 }//class

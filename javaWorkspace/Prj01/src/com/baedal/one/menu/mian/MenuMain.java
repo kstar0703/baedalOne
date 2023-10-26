@@ -17,7 +17,7 @@ public class MenuMain {
 		
 		//객체
 		MenuController menuController = new MenuController();
-		menuController.findPwd(storeNo);
+//		menuController.findPwd(storeNo);
 			
 	}
 
