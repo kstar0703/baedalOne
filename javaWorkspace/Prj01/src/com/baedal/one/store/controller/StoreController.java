@@ -178,7 +178,6 @@ public class StoreController {
 	 */
 	public void shutDownStore (StoreVo vo) {
 		
-		System.out.println("--------------- 매장 정보 ---------------");
 		
 		
 		try {
