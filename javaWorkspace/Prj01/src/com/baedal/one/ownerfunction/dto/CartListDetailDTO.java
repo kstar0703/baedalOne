@@ -4,9 +4,9 @@ public class CartListDetailDTO {
 	private String storeName; //매장이름
 	private String orderDate; //주문날짜
 	private String menuName; //메뉴이름
-	private String quantity; //
-	private String price;
-	private String totalPrice;
+	private String quantity; //수량
+	private String price;	//메뉴별 가격
+	private String totalPrice;//총 가격
 	
 	public CartListDetailDTO() {
 		super();

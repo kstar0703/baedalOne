@@ -14,7 +14,7 @@ import com.baedal.one.ownerfunction.dto.OwnerOdersVo;
 public class OwnerOdersDao {
 
 	public List<OwnerOdersVo> userOderList(Connection conn, String userNo) throws Exception {
-		String sql = "SELECT * FROM ORDERS WHERE USER_NO =?";
+		String sql = "SELECT * FROM ORDERS WHERE USER_NO =? ORDER BY ORDER_DATE DESC";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, userNo);
 		ResultSet rs = pstmt.executeQuery();

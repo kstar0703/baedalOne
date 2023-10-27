@@ -13,6 +13,7 @@ public class SalesController {
 
 	public SalesController(String storeNo) {
 		service = new OwnerOdersService();
+		//매장 번호를 이용해 매장 이름을 가져옴
 		storeName = new OwnerOdersController().findStoreName(storeNo);
 
 	}
@@ -27,6 +28,7 @@ public class SalesController {
 					System.out.println("등록된 주문이 없습니다. ");
 					throw new NullPointerException();
 				}
+				
 				System.out.println("────────────────<" + storeName + "> 월 매출───────────────────────");
 
 				// inputYear(년도) 입력
@@ -102,15 +104,10 @@ public class SalesController {
 		// 금액 표시 위한 클래스(1,000,000 식으로 ','를 중간에 넣어준다.)
 		DecimalFormat format = new DecimalFormat("###,###");
 
-		// 달마다 다른 마지막 날을 i에 저장
+		// 달마다 다른 최대 마지막 날을 i에 저장
 		int lastDay = 31;
-		if (inputDate.contains("-4") || inputDate.contains("-6") || inputDate.contains("-9")
-				|| inputDate.contains("-11")) {
-			lastDay = 30;
-		} else if (inputDate.contains("-2")) {
-			lastDay = 28;
-		}
-		// 매출이 있었던 날의 수 저장 변수
+		
+		// 매출이 있었던 날의 수 저장 변수(영업일)
 		int salesDay = 0;
 		// 일별로 반복
 		for (int i = 1; i <= lastDay; i++) {
