@@ -249,7 +249,7 @@ public class MemberController {
 			String newPwd = Main.SC.nextLine();
 			
 			MemberVo vo = new MemberVo();
-			vo = Main.loginMember ;
+			vo = Main.loginMember;
 			vo.setPwd(oldPwd);
 			
 			//서비스
@@ -283,7 +283,7 @@ public class MemberController {
 			
 			MemberVo vo = new MemberVo();
 			vo = Main.loginMember;
-			vo.setPwd(oldNick);
+			vo.setNickName(oldNick);
 			
 			//서비스
 			int result = ms.changeNickName(vo,newNick);
@@ -315,7 +315,7 @@ public class MemberController {
 			
 			MemberVo vo = new MemberVo();
 			vo = Main.loginMember;
-			vo.setPwd(oldAmountPwd);
+			vo.setAmountPwd(oldAmountPwd);
 			
 			//서비스
 			int result = ms.changeAmountPwd(vo,newAmountPwd);
