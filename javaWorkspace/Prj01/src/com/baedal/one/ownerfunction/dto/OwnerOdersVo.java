@@ -2,13 +2,13 @@ package com.baedal.one.ownerfunction.dto;
 
 public class OwnerOdersVo {
 
-	private String orderNo;
-	private String userNo;
-	private String cartNo;
-	private String oderDate;
-	private String totalPrice;
-	private String menuName;
-	private String totalQuantity;
+	private String orderNo;		//주문번호
+	private String userNo;		//회원번호
+	private String cartNo;		//장바구니 번호
+	private String oderDate;	//주문 날짜
+	private String totalPrice;	//총 가격
+	private String menuName;	//메뉴이름 하나
+	private String totalQuantity;	//총 개수
 
 	public OwnerOdersVo() {
 		super();
